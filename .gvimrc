@@ -1,13 +1,24 @@
-set guifontwide=Osaka:h11
-set guifont=Osaka-Mono:h13
+" set guifontwide=Osaka:h11
+set guifontwide=Ricty:h12
+" set guifont=Osaka-Mono:h13
+set guifont=Ricty:h14
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 au BufNewFile, BufRead * match ZenkakuSpace /　/
-set showtabline=2
-set columns=94
-set lines=42
-set cmdheight=2
-set transparency=3
+set showtabline=0
+set columns=150
+set lines=38
+set linespace=1
+set cmdheight=1
+set transparency=15
 map  gw :macaction selectNextWindow:
 map  gW :macaction selectPreviousWindow:
 set guioptions-=T
-colorscheme molokai
+set guioptions-=m
+set guioptions-=r
+set guioptions-=R
+set guioptions-=l
+set guioptions-=
+set guioptions-=b
+let g:Powerline_symbols = 'fancy'
+colorscheme werks
+
