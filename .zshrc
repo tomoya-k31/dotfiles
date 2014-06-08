@@ -59,11 +59,11 @@ case ${UID} in
 #        RPROMPT='${RESET}${WHITE}[${BLUE}%(5~,%-2~/.../%2~,%~)% ${WHITE}]${WINDOW:+"[$WINDOW]"} ${RESET}'
         RPROMPT='${RESET}${WHITE}[${CYAN}%(5~,%-2~/.../%2~,%~)% ${WHITE}]${WINDOW:+"[$WINDOW]"} ${RESET}'
 
-		VAR_PROMPT='${RESET}${green}${WINDOW:+"[$WINDOW]"}${RESET}${LIGHT_PURPLE}${USER} ${RESET}${LIGHT_BLUE}✘  ${RESET}${LIGHT_PURPLE}%m ${RESET}${white}$ ${RESET}'
+        VAR_PROMPT='${RESET}${green}${WINDOW:+"[$WINDOW]"}${RESET}${LIGHT_PURPLE}${USER} ${RESET}${LIGHT_BLUE}✘  ${RESET}${LIGHT_PURPLE}%m ${RESET}${white}$ ${RESET}'
         if echo "$ITERM_PROFILE" | grep "EUC" > /dev/null ; then
             VAR_PROMPT='${RESET}${green}${WINDOW:+"[$WINDOW]"}${RESET}${LIGHT_PURPLE}${USER} ${RESET}${LIGHT_BLUE}- ${RESET}${LIGHT_PURPLE}%m ${RESET}${white}$ ${RESET}'
         fi
-		
+
         PROMPT=$VAR_PROMPT
         #
         # Vi入力モードでPROMPTの色を変える
@@ -143,10 +143,8 @@ esac
 
 # 指定したコマンド名がなく、ディレクトリ名と一致した場合 cd する
 setopt auto_cd
-
 # cd でTabを押すとdir list を表示
 setopt auto_pushd
-
 # ディレクトリスタックに同じディレクトリを追加しないようになる
 setopt pushd_ignore_dups
 
@@ -252,10 +250,9 @@ zle reset-prompt
 }
 zle -N cdup
 
-# ctrl-w, ctrl-bキーで単語移動
-bindkey "^W" forward-word
+# ctrl-f, ctrl-bキーで単語移動
+bindkey "^F" forward-word
 bindkey "^B" backward-word
-
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 

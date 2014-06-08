@@ -40,6 +40,31 @@ $ git clone https://github.com/seebi/dircolors-solarized.git
 
 [tmux color theme](https://github.com/seebi/tmux-colors-solarized)
 
+#### How to zsh
+* zcompile（いつか使う） : コンパイルして実行速度高速化
+* Ctrl-A   : 行頭へジャンプ
+* Ctrl-E   : 行末へジャンプ
+* Ctrl-F   : 次の単語に移動する
+* Ctrl-B   : 前の単語に移動する
+* Ctrl-U   : 一行削除
+* Ctrl-P   : ↑キー(履歴を戻る)
+* Ctrl-N   : ↓キー(履歴を進む)
+* Ctrl-D   : Deleteキー
+* Ctrl-H   : BackSpaceキー
+* Ctrl-L   : クリア
+* Ctrl-J   : Enterと同じ
+* Ctrl-M   : Enterと同じ
+* Ctrl-V   : 直後に打った特殊文字を文字として入力
+
+#### How to shell
+* pwd（print working directory） : 現在のディレクトリを表示
+* touch : ファイルを作る
+
+
+#### How to iTerm2
+* Command + D : ウィンドウ分割
+* Command + Shift + D : 上下分割
+* Command + [ または Command + ] : 分割した画面の移動
 
 ## Ricty font
 
