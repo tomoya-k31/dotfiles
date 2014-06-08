@@ -7,8 +7,15 @@ if has('vim_starting')
 endif
 
 NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc.git'
-"cd ~/.vim/bundle/vimproc, make -f your_machines_makefile
+NeoBundle 'Shougo/vimproc', {
+  \ 'build' : {
+    \ 'windows' : 'make -f make_mingw32.mak',
+    \ 'cygwin' : 'make -f make_cygwin.mak',
+    \ 'mac' : 'make -f make_mac.mak',
+    \ 'unix' : 'make -f make_unix.mak',
+  \ },
+\ }
+
 NeoBundle 'Shougo/vimshell.git'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplcache'
@@ -29,7 +36,6 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'vtreeexplorer'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomasr/molokai'
-" NeoBundle 'TwitVim'
 
 NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 " NeoBundle 'git://github.com/tpope/vim-markdown.git'
