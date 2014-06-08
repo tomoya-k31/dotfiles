@@ -19,7 +19,8 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'Shougo/vimshell.git'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'git://github.com/Shougo/neocomplcache-snippets-complete.git'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/vimfiler'
 
 NeoBundle 'scrooloose/nerdcommenter.git'
@@ -36,6 +37,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'vtreeexplorer'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'tomasr/molokai'
+NeoBundle 'altercation/vim-colors-solarized'
 
 NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 " NeoBundle 'git://github.com/tpope/vim-markdown.git'
@@ -47,7 +49,6 @@ NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
 NeoBundle 'git://github.com/ujihisa/unite-colorscheme.git'
 NeoBundle 'git://github.com/tpope/vim-surround.git'
 NeoBundle 'taglist.vim'
-NeoBundle 'errormarker.vim'
 
 " 補完
 NeoBundle 'git://github.com/Shougo/neocomplcache-clang_complete.git'
@@ -100,7 +101,7 @@ set ttymouse=xterm2
 " StatusLine
 set laststatus=2
 set ruler
-" let g:Powerline_symbols = 'fancy'
+let g:Powerline_symbols = 'fancy'
 
 " Indent
 set autoindent
@@ -159,7 +160,9 @@ nmap <ESC><ESC> :nohlsearch<CR><ESC>
 syntax on
 hi PmenuSel cterm=reverse ctermfg=33 ctermbg=222 gui=reverse guifg=#3399ff guibg=#f0e68c
 set background=dark
-colorscheme molokai
+colorscheme solarized
+let g:solarized_termcolor=256
+let g:solarized_termtrans=1
 
 
 " Edit
@@ -345,6 +348,12 @@ let g:clang_complete_auto=1
     " \ '-fms-extensions -fgnu-runtime '.
     " \ '-include malloc.h '"}}}
 
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+
 
 " vimfiler
 let g:vimfiler_as_default_explorer = 1
@@ -362,11 +371,11 @@ let g:vimfiler_execute_file_list['html']  = 'vim'
 let g:vimfiler_execute_file_list['vim']   = 'vim'"}}}
 
 " YankRing
-let g:yankring_history_dir = expand('$HOME')."/.yankring/"
-let g:yankring_history_file = '.yankring_history'"{{{
-nnoremap <silent> <F7> :YRShow<CR>
-let g:yankring_max_history = 10
-let g:yankring_window_height = 13"}}}
+let g:yankring_history_dir = expand('$HOME')."/.vim/.yankring"
+" let g:yankring_history_file = '.yankring_history'"{{{
+" nnoremap <silent> <F7> :YRShow<CR>
+" let g:yankring_max_history = 10
+" let g:yankring_window_height = 13"}}}
 
 " NEEDTree"{{{
 " nnoremap nt :NERDTreeToggle<CR>
@@ -407,20 +416,6 @@ let Tlist_Exit_OnlyWindow = 1 "taglist が最後のウインドウなら vim を
 map <silent> <leader>tl :TlistToggle<CR>
 let g:tlist_php_settings = 'php;c:class;d:constant;f:function'"}}}
 
-
-" errormarker
-let g:errormarker_errortext = '!!'
-let g:errormarker_warningtext = '??'"{{{
-let g:errormarker_errorgroup = 'Error'
-let g:errormarker_warninggroup = 'Todo'
-" if has('win32') || has('win64')
-    " let g:errormarker_erroricon = expand('~/.vim/bundle/errormarker.vim/signs/err.bmp')
-    " let g:errormarker_warningicon = expand('~/.vim/bundle/errormarker.vim/signs/warn.bmp')
-" else
-    " let g:errormarker_erroricon = expand('~/.vim/bundle/errormarker.vim/signs/err.png')
-    " let g:errormarker_erroricon = expand('~/.vim/bundle/errormarker.vim/signs/err.png')
-" endif
-"}}}
 
 " quickrun
 " config all clear
