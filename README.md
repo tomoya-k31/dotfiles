@@ -1,6 +1,14 @@
 Set up
 ========
 
+
+```sh
+$ cd $HOME
+$ git clone https://github.com/tomoya-k31/dotfiles .dotfiles
+
+## シンボリックリンクとかで繋げたい
+```
+
 ## iTerm2
 Preferences -> Profiles -> Report Terminal Type [xterm-256color]
 
