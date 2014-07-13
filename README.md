@@ -4,10 +4,17 @@ Set up
 
 ```sh
 $ cd $HOME
-$ git clone https://github.com/tomoya-k31/dotfiles .dotfiles
-$ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+$ git clone https://github.com/tomoya-k31/dotfiles .dotfiles && cd $HOME/.dotfiles
+$ git clone https://github.com/seebi/dircolors-solarized.git
+$ ln -s ~/.dotfiles/dircolors-solarized/dircolors.256dark ~/.dircolors
+$ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh/zsh-syntax-highlighting
 
 ## シンボリックリンクとかで繋げたい
+
+# vimの設定
+$ mkdir -p $HOME/.vim/bundle; cd $HOME/.vim/bundle
+$ git clone git://github.com/Shougo/neobundle.vim.git
+$ vim +":NeoBundleInstall" +:q
 ```
 
 ## iTerm2
