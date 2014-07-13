@@ -8,6 +8,7 @@ $ git clone https://github.com/tomoya-k31/dotfiles .dotfiles && cd $HOME/.dotfil
 $ git clone https://github.com/seebi/dircolors-solarized.git
 $ ln -s ~/.dotfiles/dircolors-solarized/dircolors.256dark ~/.dircolors
 $ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh/zsh-syntax-highlighting
+$ git clone git://github.com/zsh-users/zsh-completions.git $HOME/.zsh/zsh-completions
 
 ## シンボリックリンクとかで繋げたい
 
