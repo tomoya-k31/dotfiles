@@ -1,12 +1,23 @@
 # users generic .zshrc file
 
+[ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ] && {
+	zcompile ~/.zshrc
+}
+
+# source zsh-syntax-highlighting
+[ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && {
+	source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+}
+
 # LANG
 export LANG=ja_JP.UTF-8
 export LESSCHARSET=utf-8
+export TERM_LANG=UTF-8
 
-if echo "$ITERM_PROFILE" | grep "EUC" > /dev/null ; then
-    export LANG=ja_JP.eucJP
-fi
+[ $ITERM_PROFILE ] && [ $ITERM_PROFILE = "EUC" ] && {
+	TERM_LANG=EUC
+	export LANG=ja_JP.eucJP
+}
 
 ## Backspace key
 bindkey "^?" backward-delete-char
@@ -16,7 +27,6 @@ bindkey "^?" backward-delete-char
 # colors enables us to idenfity color by $fg[red].
 autoload -Uz colors
 colors
-
 case ${UID} in
     0)
         PROMPT="%B%{${fg[red]}%}%/#%{${reset_color}%}%b "
@@ -51,100 +61,101 @@ case ${UID} in
         LIGHT_PURPLE=$'%{\e[1;35m%}'
         LIGHT_CYAN=$'%{\e[1;36m%}'
         DARK_GRAY=$'%{\e[1;30m%}'
-        #
+
         # Prompt
-        #
         setopt prompt_subst
         PROMPT='${RESET}${GREEN}${WINDOW:+"[$WINDOW]"}${RESET}%{$fg_bold[blue]%}${USER}@%m ${RESET}${WHITE}$ ${RESET}'
-#        RPROMPT='${RESET}${WHITE}[${BLUE}%(5~,%-2~/.../%2~,%~)% ${WHITE}]${WINDOW:+"[$WINDOW]"} ${RESET}'
+#       RPROMPT='${RESET}${WHITE}[${BLUE}%(5~,%-2~/.../%2~,%~)% ${WHITE}]${WINDOW:+"[$WINDOW]"} ${RESET}'
         RPROMPT='${RESET}${WHITE}[${CYAN}%(5~,%-2~/.../%2~,%~)% ${WHITE}]${WINDOW:+"[$WINDOW]"} ${RESET}'
 
-        VAR_PROMPT='${RESET}${green}${WINDOW:+"[$WINDOW]"}${RESET}${LIGHT_PURPLE}${USER} ${RESET}${LIGHT_BLUE}✘  ${RESET}${LIGHT_PURPLE}%m ${RESET}${white}$ ${RESET}'
-        if echo "$ITERM_PROFILE" | grep "EUC" > /dev/null ; then
+        VAR_PROMPT='${RESET}${green}${WINDOW:+"[$WINDOW]"}${RESET}${LIGHT_PURPLE}${USER}${RESET}${LIGHT_BLUE}→ ${RESET}${LIGHT_PURPLE}%m ${RESET}${white}$ ${RESET}'
+        [ TERM_LANG = "EUC" ] && {
             VAR_PROMPT='${RESET}${green}${WINDOW:+"[$WINDOW]"}${RESET}${LIGHT_PURPLE}${USER} ${RESET}${LIGHT_BLUE}- ${RESET}${LIGHT_PURPLE}%m ${RESET}${white}$ ${RESET}'
-        fi
+        }
 
         PROMPT=$VAR_PROMPT
+
         #
         # Vi入力モードでPROMPTの色を変える
         # http://memo.officebrook.net/20090226.html
         function zle-line-init zle-keymap-select {
-        case $KEYMAP in
-            vicmd)
-                # PROMPT="${RESET}${GREEN}${WINDOW:+"[$WINDOW]"}${RESET}%{$fg_bold[cyan]%}${USER}@%m ${RESET}${WHITE}$ ${RESET}"
-                PROMPT=$VAR_PROMPT
-                ;;
-            main|viins)
-                # PROMPT="${RESET}${GREEN}${WINDOW:+"[$WINDOW]"}${RESET}%{$fg_bold[blue]%}${USER}@%m ${RESET}${WHITE}$ ${RESET}"
-                PROMPT=$VAR_PROMPT
-                ;;
-        esac
-        zle reset-prompt
+            case $KEYMAP in
+                vicmd)
+                    # PROMPT="${RESET}${GREEN}${WINDOW:+"[$WINDOW]"}${RESET}%{$fg_bold[cyan]%}${USER}@%m ${RESET}${WHITE}$ ${RESET}"
+                    PROMPT=$VAR_PROMPT
+                    ;;
+                main|viins)
+                    # PROMPT="${RESET}${GREEN}${WINDOW:+"[$WINDOW]"}${RESET}%{$fg_bold[blue]%}${USER}@%m ${RESET}${WHITE}$ ${RESET}"
+                    PROMPT=$VAR_PROMPT
+                    ;;
+            esac
+            zle reset-prompt
+        }
+        zle -N zle-line-init
+        zle -N zle-keymap-select
+
+        # 直前のコマンドの終了ステータスが0以外のときは赤くする。
+        # ${MY_MY_PROMPT_COLOR}はprecmdで変化させている数値。
+        local MY_COLOR="$ESCX"'%(0?.${MY_PROMPT_COLOR}.31)'m
+        local NORMAL_COLOR="$ESCX"m
+
+
+        # Show git branch when you are in git repository
+        # http://d.hatena.ne.jp/mollifier/20100906/p1
+
+        autoload -Uz add-zsh-hook
+        autoload -Uz vcs_info
+
+        zstyle ':vcs_info:*' formats '(%s)-[%b]'
+        zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
+        zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
+        zstyle ':vcs_info:bzr:*' use-simple true
+
+        autoload -Uz is-at-least
+        if is-at-least 4.3.10; then
+            # この check-for-changes が今回の設定するところ
+            zstyle ':vcs_info:git:*' check-for-changes true
+            zstyle ':vcs_info:git:*' stagedstr "+"    # 適当な文字列に変更する
+            zstyle ':vcs_info:git:*' unstagedstr "-"  # 適当の文字列に変更する
+            zstyle ':vcs_info:git:*' formats '(%s)-[%c%u%b]'
+            zstyle ':vcs_info:git:*' actionformats '(%s)-[%c%u%b|%a]'
+        fi
+
+        function _update_vcs_info_msg() {
+        psvar=()
+        LANG=en_US.UTF-8 vcs_info
+        psvar[2]=$(_git_not_pushed)
+        [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
     }
-    zle -N zle-line-init
-    zle -N zle-keymap-select
+    add-zsh-hook precmd _update_vcs_info_msg
 
-    # 直前のコマンドの終了ステータスが0以外のときは赤くする。
-    # ${MY_MY_PROMPT_COLOR}はprecmdで変化させている数値。
-    local MY_COLOR="$ESCX"'%(0?.${MY_PROMPT_COLOR}.31)'m
-    local NORMAL_COLOR="$ESCX"m
+    function _git_not_pushed() {
+        if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
+            head="$(git rev-parse HEAD)"
+            for x in $(git rev-parse --remotes)
+            do
+                if [ "$head" = "$x" ]; then
+                    return 0
+                fi
+            done
+            echo "{?}"
+        fi
+        return 0
+    }
 
+    # RPROMPT="%1(v|%F${CYAN}%1v%2v%f|)${vcs_info_git_pushed}${RESET}${WHITE}[${BLUE}%(5~,%-2~/.../%2~,%~)% ${WHITE}]${WINDOW:+"[$WINDOW]"} ${RESET}"
+    RPROMPT="%1(v|%F${CYAN}%1v%2v%f|)${vcs_info_git_pushed}${RESET}${DARK_GRAY}[${RESET}${LIGHT_RED}%(5~,%-2~/.../%2~,%~)% ${DARK_GRAY}]${WINDOW:+"[$WINDOW]"} ${RESET}"
 
-    # Show git branch when you are in git repository
-    # http://d.hatena.ne.jp/mollifier/20100906/p1
-
-    autoload -Uz add-zsh-hook
-    autoload -Uz vcs_info
-
-    zstyle ':vcs_info:*' formats '(%s)-[%b]'
-    zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
-    zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
-    zstyle ':vcs_info:bzr:*' use-simple true
-
-    autoload -Uz is-at-least
-    if is-at-least 4.3.10; then
-        # この check-for-changes が今回の設定するところ
-        zstyle ':vcs_info:git:*' check-for-changes true
-        zstyle ':vcs_info:git:*' stagedstr "+"    # 適当な文字列に変更する
-        zstyle ':vcs_info:git:*' unstagedstr "-"  # 適当の文字列に変更する
-        zstyle ':vcs_info:git:*' formats '(%s)-[%c%u%b]'
-        zstyle ':vcs_info:git:*' actionformats '(%s)-[%c%u%b|%a]'
-    fi
-
-    function _update_vcs_info_msg() {
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-    psvar[2]=$(_git_not_pushed)
-    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
-}
-add-zsh-hook precmd _update_vcs_info_msg
-
-function _git_not_pushed()
-{
-    if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
-        head="$(git rev-parse HEAD)"
-        for x in $(git rev-parse --remotes)
-        do
-            if [ "$head" = "$x" ]; then
-                return 0
-            fi
-        done
-        echo "{?}"
-    fi
-    return 0
-}
-
-# RPROMPT="%1(v|%F${CYAN}%1v%2v%f|)${vcs_info_git_pushed}${RESET}${WHITE}[${BLUE}%(5~,%-2~/.../%2~,%~)% ${WHITE}]${WINDOW:+"[$WINDOW]"} ${RESET}"
-RPROMPT="%1(v|%F${CYAN}%1v%2v%f|)${vcs_info_git_pushed}${RESET}${DARK_GRAY}[${RESET}${LIGHT_RED}%(5~,%-2~/.../%2~,%~)% ${DARK_GRAY}]${WINDOW:+"[$WINDOW]"} ${RESET}"
-
-;;
+    ;;
 esac
 
 
 # 指定したコマンド名がなく、ディレクトリ名と一致した場合 cd する
 setopt auto_cd
+
 # cd でTabを押すとdir list を表示
 setopt auto_pushd
+
 # ディレクトリスタックに同じディレクトリを追加しないようになる
 setopt pushd_ignore_dups
 
@@ -201,11 +212,9 @@ setopt nolistbeep
 setopt extended_glob
 
 ## Keybind configuration
-#
 bindkey -v
 
 # historical backward/forward search with linehead string binded to ^P/^N
-#
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
@@ -250,9 +259,10 @@ zle reset-prompt
 }
 zle -N cdup
 
-# ctrl-f, ctrl-bキーで単語移動
-bindkey "^F" forward-word
+# ctrl-w, ctrl-bキーで単語移動
+bindkey "^W" forward-word
 bindkey "^B" backward-word
+
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 
@@ -284,20 +294,16 @@ LANG=C command ./waf "$@" 2>&1 | sed -e "s@[Ee]rror:.*@$e_RED&$e_normal@g" -e "s
 }
 
 ## Completion configuration
-#
-fpath=(~/.zsh/functions/Completion ${fpath})
+fpath=(.zsh/zsh-completions/src $fpath)
 autoload -U compinit
 #compinit -u
 compinit
 
 
 ## zsh editor
-#
 autoload zed
 
-
 ## Prediction configuration
-#
 autoload predict-on
 #predict-off
 
@@ -306,21 +312,17 @@ bindkey -a 'q' push-line
 
 
 ## Alias configuration
-#
-# expand aliases before completing
-#
 setopt complete_aliases     # aliased ls needs if file/dir completions work
 
 alias where="command -v"
 
 case "${OSTYPE}" in
     freebsd*|darwin*)
-        alias ls="gls --color=auto -alG"
+    	alias ls="gls --color=auto -a"
         zle -N expand-to-home-or-insert
         bindkey "@"  expand-to-home-or-insert
         ;;
     linux*)
-        alias la="ls -al"
         ;;
 esac
 
@@ -328,7 +330,6 @@ esac
 case "${OSTYPE}" in
     # MacOSX
     darwin*)
-    export PATH=$PATH:/opt/local/bin
     export PATH=$PATH:/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/
     ;;
 freebsd*)
@@ -383,14 +384,14 @@ case "${TERM}" in
         export LSCOLORS=ExFxCxDxBxegedabagacad
 
         export LS_COLORS='di=01;32:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30'
-        # https://github.com/seebi/dircolors-solarized
-        if [ -f ~/.zsh/dircolors-solarized/dircolors.ansi-universal ]; then
-            if type dircolors > /dev/null 2>&1; then
-                eval $(dircolors ~/.zsh/dircolors-solarized/dircolors.ansi-universal)
-            elif type gdircolors > /dev/null 2>&1; then
-                eval $(gdircolors ~/.zsh/dircolors-solarized/dircolors.ansi-universal)
-            fi
-        fi
+        local DIR_COLORS=~/.dotfiles/dircolors-solarized/dircolors.256dark
+		[ -f $DIR_COLORS ] && {
+		    if type dircolors > /dev/null 2>&1; then
+		        eval $(dircolors $DIR_COLORS)
+		    elif type gdircolors > /dev/null 2>&1; then
+		        eval $(gdircolors $DIR_COLORS)
+		    fi
+		}
 
         zstyle ':completion:*' list-colors \
             'di=36' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
@@ -420,7 +421,7 @@ expand-to-home-or-insert () {
 
 # autojump
 alias j="autojump"
-[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+[ -s `brew --prefix`/etc/autojump.sh ] && . `brew --prefix`/etc/autojump.sh
 
 
 # zsh の exntended_glob と HEAD^^^ を共存させる。
@@ -475,20 +476,17 @@ do
 done
 }
 
-function __rm_single_file(){
-if ! [ -d ~/.Trash/ ]
-then
+function __rm_single_file() {
+if ! [ -d ~/.Trash/ ]; then
     command /bin/mkdir ~/.Trash
 fi
 
-if ! [ $# -eq 1 ]
-then
+if ! [ $# -eq 1 ]; then
     echo "__rm_single_file: 1 argument required but $# passed."
     exit
 fi
 
-if [ -e $1 ]
-then
+if [ -e $1 ]; then
     BASENAME=`basename $1`
     NAME=$BASENAME
     COUNT=0
@@ -535,43 +533,24 @@ alias tml='tmux list-window'
 
 
 #java
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/
 alias javac='javac -J-Dfile.encoding=UTF-8'
 alias java='java -Dfile.encoding=UTF-8'
 
+#svn
+alias svn='/usr/local/Cellar/subversion/1.8.0/bin/svn'
 
 
 ## Mac(Unix)
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
+
 # vim
 export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-# alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
-
-# source zsh-syntax-highlighting
-#=============================
-if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
-
-function ht {
-    var=`defaults read com.apple.finder AppleShowAllFiles`
-    if test ${var} = "TRUE"
-    then
-        defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder
-    else
-        defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder
-    fi
-}
-
-
-
-# Path etc
-source ~/.zshenv

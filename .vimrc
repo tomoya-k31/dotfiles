@@ -7,71 +7,64 @@ if has('vim_starting')
 endif
 
 NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc', {
-  \ 'build' : {
-    \ 'windows' : 'make -f make_mingw32.mak',
-    \ 'cygwin' : 'make -f make_cygwin.mak',
-    \ 'mac' : 'make -f make_mac.mak',
-    \ 'unix' : 'make -f make_unix.mak',
-  \ },
-\ }
-
+" NeoBundle 'Shougo/vimproc.git'
+NeoBundle 'Shougo/vimproc.vim', {
+      \ 'build' : {
+      \     'windows' : 'tools\\update-dll-mingw',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
 NeoBundle 'Shougo/vimshell.git'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/vimfiler'
 
 NeoBundle 'scrooloose/nerdcommenter.git'
 NeoBundle 'Smooth-Scroll'
 NeoBundle 'smartword'
-" NeoBundle 'SQLUtilities'
+NeoBundle 'SQLUtilities'
 NeoBundle 'taglist.vim'
-" NeoBundle 'haml.zip'
-" NeoBundle 'JavaScript-syntax'
-" NeoBundle 'jQuery'
-" NeoBundle 'nginx.vim'
+NeoBundle 'haml.zip'
+NeoBundle 'JavaScript-syntax'
+NeoBundle 'jQuery'
+NeoBundle 'nginx.vim'
 NeoBundle 'scrooloose/syntastic'
-" NeoBundle 'The-NERD-tree'
 NeoBundle 'vtreeexplorer'
 NeoBundle 'Lokaltog/vim-powerline'
-NeoBundle 'tomasr/molokai'
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'tomasr/molokai'
 
-NeoBundle 'git://github.com/thinca/vim-quickrun.git'
-" NeoBundle 'git://github.com/tpope/vim-markdown.git'
-" open browser - .mdのquickrun時に使用
-" NeoBundle 'git://github.com/tyru/open-browser.vim.git'
-NeoBundle 'git://github.com/tpope/vim-fugitive.git'
+NeoBundle 'thinca/vim-quickrun.git'
+NeoBundle 'tpope/vim-fugitive.git'
 NeoBundle 'YankRing.vim'
-NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
-NeoBundle 'git://github.com/ujihisa/unite-colorscheme.git'
-NeoBundle 'git://github.com/tpope/vim-surround.git'
+NeoBundle 'nathanaelkane/vim-indent-guides.git'
+NeoBundle 'ujihisa/unite-colorscheme.git'
+NeoBundle 'tpope/vim-surround.git'
 NeoBundle 'taglist.vim'
 
 " 補完
-NeoBundle 'git://github.com/Shougo/neocomplcache-clang_complete.git'
-NeoBundle 'git://github.com/teramako/jscomplete-vim.git'
+NeoBundle 'Shougo/neocomplcache-clang_complete.git'
+NeoBundle 'teramako/jscomplete-vim.git'
 NeoBundle 'javacomplete'
 
 " タグHighLevelCmd
-NeoBundle 'git://github.com/abudden/TagHighlight.git'
-
-" C/C++
-NeoBundle 'git://github.com/vim-scripts/CCTree.git'
-NeoBundle 'git://github.com/mattn/quickrunex-vim.git'
-
-" memo
-" NeoBundle 'git://github.com/fuenor/qfixhowm.git'
-" NeoBundle 'git://github.com/glidenote/memolist.vim.git'
+NeoBundle 'abudden/TagHighlight.git'
 
 " Git
-NeoBundle 'git://github.com/gregsexton/gitv.git'
+NeoBundle 'gregsexton/gitv.git'
 
 
 filetype plugin indent on
 filetype plugin on
+
+" Encoding
+set ff=unix
+set encoding=utf-8
+set termencoding=utf-8
+set fileencodings=euc-jp,sjis
 
 " Basics
 let mapleader = ","
@@ -101,7 +94,9 @@ set ttymouse=xterm2
 " StatusLine
 set laststatus=2
 set ruler
-let g:Powerline_symbols = 'fancy'
+
+let g:Powerline_symbols='fancy'
+
 
 " Indent
 set autoindent
@@ -119,6 +114,8 @@ set nowrap
 set list
 set listchars=tab:>.,trail:_,extends:>,precedes:<
 set display=uhex
+" http://www.kaoriya.net/blog/2014/03/30/
+set noundofile
 
 " 全角スペースの表示
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
@@ -159,9 +156,12 @@ nmap <ESC><ESC> :nohlsearch<CR><ESC>
 " syntax enable
 syntax on
 hi PmenuSel cterm=reverse ctermfg=33 ctermbg=222 gui=reverse guifg=#3399ff guibg=#f0e68c
-set background=dark
+" set background=dark
+" colorscheme molokai
+
 colorscheme solarized
-let g:solarized_termcolor=256
+set background=dark
+let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 
 
@@ -180,11 +180,6 @@ autocmd BufWritePre * :%s/\s\+$//ge
 " 保存時にtabをスペースに変換
 autocmd BufWritePre * :%s/\t/    /ge
 
-
-" Encoding
-set ff=unix
-set encoding=utf-8
-set termencoding=utf-8
 
 autocmd FileType cvs :set fileencoding=euc-jp
 autocmd FileType svn :set fileencoding=utf-8
@@ -207,9 +202,10 @@ inoremap OC <Right>
 
 
 
+
 " unite.vim
 " 入力モードで開始する
-" let g:unite_enable_start_insert=1
+let g:unite_enable_start_insert=1
 " バッファ一覧
 nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
 " ファイル一覧
@@ -266,6 +262,7 @@ let g:neocomplcache_enable_camel_case_completion = 0
 let g:neocomplcache_enable_underbar_completion = 0
 
 
+
 let g:neocomplcache_dictionary_filetype_lists = {
     \ 'default' : '',
     \ 'vimshell' : $HOME.'/.vimshell_hist',
@@ -293,6 +290,8 @@ inoremap <expr><C-g>     neocomplcache#undo_completion()
 inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
 
+
+
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
 inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
@@ -309,7 +308,6 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType ctp setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType javascript setlocal omnifunc=jscomplete#CompleteJS
 let g:jscomplete_use = ['dom', 'moz']
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
@@ -322,7 +320,6 @@ if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
@@ -332,32 +329,13 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
 noremap <Leader>nes :<C-u>NeoComplCacheEditSnippets<CR>
 
-" use neocomplcache & clang_complete
-" add neocomplcache option
 let g:neocomplcache_force_overwrite_completefunc=1
-" add clang_complete option
 let g:clang_complete_auto=1
-" NeoComplCache-Clang設定 "{{{
-" let g:neocomplcache_clang_use_library  = 1
-" " libclang.so を置いたディレクトリを指定
-" let g:neocomplcache_clang_library_path = '/usr/share/clang'
-
-" " Include するディレクトリは各自の環境に合わせて設定
-" let g:neocomplcache_clang_user_options =
-    " \ '-I /usr/include/ '.
-    " \ '-fms-extensions -fgnu-runtime '.
-    " \ '-include malloc.h '"}}}
-
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
 
 " vimfiler
 let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_execute_file_list = {}"{{{
+let g:vimfiler_execute_file_list = {}
 let g:vimfiler_execute_file_list['c']     = 'vim'
 let g:vimfiler_execute_file_list['h']     = 'vim'
 let g:vimfiler_execute_file_list['hpp']   = 'vim'
@@ -368,39 +346,19 @@ let g:vimfiler_execute_file_list['php']   = 'vim'
 let g:vimfiler_execute_file_list['js']    = 'vim'
 let g:vimfiler_execute_file_list['css']   = 'vim'
 let g:vimfiler_execute_file_list['html']  = 'vim'
-let g:vimfiler_execute_file_list['vim']   = 'vim'"}}}
+let g:vimfiler_execute_file_list['vim']   = 'vim'
+
+" VimShell
+nnoremap <silent> <Leader>vs :<C-u>VimShellPop -toggle<CR>
+
 
 " YankRing
-let g:yankring_history_dir = expand('$HOME')."/.vim/.yankring"
-" let g:yankring_history_file = '.yankring_history'"{{{
-" nnoremap <silent> <F7> :YRShow<CR>
-" let g:yankring_max_history = 10
-" let g:yankring_window_height = 13"}}}
+let g:yankring_history_dir = $HOME.'/.vim/'
+let g:yankring_history_file = '.yankring_history'
+nnoremap <silent> <F7> :YRShow<CR>
+let g:yankring_max_history = 10
+let g:yankring_window_height = 13
 
-" NEEDTree"{{{
-" nnoremap nt :NERDTreeToggle<CR>
-" 隠しファイルを表示
-" let NERDTreeShowHidden = 1"}}}
-
-
-" memolist
-let g:memolist_path = "./.vim/work"
-
-
-" TwitVim"{{{
-" let twitvim_count = 100
-" nnoremap ,tw :<C-u>PosttoTwitter<CR>
-" nnoremap ,tf :<C-u>FriendsTwitter<CR><C-w>
-" nnoremap ,tu :<C-u>UserTwitter<CR><C-w>
-" nnoremap ,tr :<C-u>RepliesTwitter<CR><C-w>
-" nnoremap ,tl :<C-u>RefreshTwitter<CR><C-w>
-" nnoremap ,tn :<C-u>NextTwitter<CR>
-" nnoremap ,tp :<C-u>PreviousTwitter<CR>
-
-" autocmd FileType twitvim call s:twitvim_my_settings()
-" function! s:twitvim_my_settings()
-    " set nowrap
-" endfunction"}}}
 
 " NERD_commenter
 let NERDSpaceDelims = 1
@@ -409,12 +367,12 @@ let NERDSpaceDelims = 1
 
 " taglist
 set tags=tags
-let Tlist_Ctags_Cmd = "/usr/local/bin/ctags""{{{
+let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 let Tlist_Show_One_File = 1 "現在編集中のソースのタグしか表示しない
 let Tlist_Exit_OnlyWindow = 1 "taglist が最後のウインドウなら vim を閉じる
 "let Tlist_Enable_Fold_Column = 1 " 折り畳み
 map <silent> <leader>tl :TlistToggle<CR>
-let g:tlist_php_settings = 'php;c:class;d:constant;f:function'"}}}
+let g:tlist_php_settings = 'php;c:class;d:constant;f:function'
 
 
 " quickrun
@@ -431,21 +389,4 @@ let g:quickrun_config['java'] = {
 
 " Gitv
 autocmd FileType git :setlocal foldlevel=99
-
-" open browser
-" let g:quickrun_config['markdown'] = {"{{{
-    " \ 'type': 'markdown/pandoc',
-    " \ 'outputter': 'browser',
-    " \ 'cmdopt': '-s'
-    " \ }"}}}
-
-
-" indent-guides
-" let g:indent_guides_enable_on_vim_startup = 1"{{{
-" let g:indent_guides_color_change_percent = 20
-" let g:indent_guides_guide_size = 1
-" let g:indent_guides_auto_colors = 1
-" autocmd VimEnter, Colorscheme * :hi IndentGuidesOdd  guibg=red ctermbg=lightblue
-" autocmd VimEnter, Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=lightgrey"}}}
-
 

@@ -10,7 +10,9 @@ $ ln -s ~/.dotfiles/dircolors-solarized/dircolors.256dark ~/.dircolors
 $ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh/zsh-syntax-highlighting
 $ git clone git://github.com/zsh-users/zsh-completions.git $HOME/.zsh/zsh-completions
 
-## シンボリックリンクとかで繋げたい
+## シンボリックリンクで繋ぐ
+$ cd $HOME/.dotfiles
+$ ./init.sh
 
 # vimの設定
 $ mkdir -p $HOME/.vim/bundle; cd $HOME/.vim/bundle
