@@ -5,6 +5,7 @@ Set up
 ```sh
 $ cd $HOME
 $ git clone https://github.com/tomoya-k31/dotfiles .dotfiles
+$ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
 
 ## シンボリックリンクとかで繋げたい
 ```
