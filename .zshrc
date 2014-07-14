@@ -1,12 +1,12 @@
 # users generic .zshrc file
 
 [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ] && {
-	zcompile ~/.zshrc
+    zcompile ~/.zshrc
 }
 
 # source zsh-syntax-highlighting
 [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && {
-	source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 }
 
 # LANG
@@ -15,8 +15,8 @@ export LESSCHARSET=utf-8
 export TERM_LANG=UTF-8
 
 [ $ITERM_PROFILE ] && [ $ITERM_PROFILE = "EUC" ] && {
-	TERM_LANG=EUC
-	export LANG=ja_JP.eucJP
+    TERM_LANG=EUC
+    export LANG=ja_JP.eucJP
 }
 
 ## Backspace key
@@ -69,7 +69,7 @@ case ${UID} in
         RPROMPT='${RESET}${WHITE}[${CYAN}%(5~,%-2~/.../%2~,%~)% ${WHITE}]${WINDOW:+"[$WINDOW]"} ${RESET}'
 
         VAR_PROMPT='${RESET}${green}${WINDOW:+"[$WINDOW]"}${RESET}${LIGHT_PURPLE}${USER}${RESET}${LIGHT_BLUE}→ ${RESET}${LIGHT_PURPLE}%m ${RESET}${white}$ ${RESET}'
-        [ TERM_LANG = "EUC" ] && {
+        [ $TERM_LANG = "EUC" ] && {
             VAR_PROMPT='${RESET}${green}${WINDOW:+"[$WINDOW]"}${RESET}${LIGHT_PURPLE}${USER} ${RESET}${LIGHT_BLUE}- ${RESET}${LIGHT_PURPLE}%m ${RESET}${white}$ ${RESET}'
         }
 
@@ -318,7 +318,7 @@ alias where="command -v"
 
 case "${OSTYPE}" in
     freebsd*|darwin*)
-    	alias ls="gls --color=auto -a"
+        alias ls="gls --color=auto -a"
         zle -N expand-to-home-or-insert
         bindkey "@"  expand-to-home-or-insert
         ;;
@@ -385,13 +385,13 @@ case "${TERM}" in
 
         export LS_COLORS='di=01;32:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30'
         local DIR_COLORS=~/.dotfiles/dircolors-solarized/dircolors.256dark
-		[ -f $DIR_COLORS ] && {
-		    if type dircolors > /dev/null 2>&1; then
-		        eval $(dircolors $DIR_COLORS)
-		    elif type gdircolors > /dev/null 2>&1; then
-		        eval $(gdircolors $DIR_COLORS)
-		    fi
-		}
+        [ -f $DIR_COLORS ] && {
+            if type dircolors > /dev/null 2>&1; then
+                eval $(dircolors $DIR_COLORS)
+            elif type gdircolors > /dev/null 2>&1; then
+                eval $(gdircolors $DIR_COLORS)
+            fi
+        }
 
         zstyle ':completion:*' list-colors \
             'di=36' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
