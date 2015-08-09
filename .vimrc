@@ -1,13 +1,13 @@
 set nocompatible
-filetype plugin indent off
 filetype off
+
 if has('vim_starting')
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
-    call neobundle#rc(expand('~/.vim/bundle/'))
+  set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 
-NeoBundle 'Shougo/neobundle.vim'
-" NeoBundle 'Shougo/vimproc.git'
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/vimproc.git'
 NeoBundle 'Shougo/vimproc.vim', {
       \ 'build' : {
       \     'windows' : 'tools\\update-dll-mingw',
@@ -18,16 +18,13 @@ NeoBundle 'Shougo/vimproc.vim', {
       \ }
 NeoBundle 'Shougo/vimshell.git'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/vimfiler'
 
 NeoBundle 'scrooloose/nerdcommenter.git'
 NeoBundle 'Smooth-Scroll'
 NeoBundle 'smartword'
-NeoBundle 'SQLUtilities'
 NeoBundle 'taglist.vim'
-NeoBundle 'haml.zip'
 NeoBundle 'JavaScript-syntax'
 NeoBundle 'jQuery'
 NeoBundle 'nginx.vim'
@@ -35,18 +32,14 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'vtreeexplorer'
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'tomasr/molokai'
 
 NeoBundle 'thinca/vim-quickrun.git'
-NeoBundle 'tpope/vim-fugitive.git'
-NeoBundle 'YankRing.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides.git'
 NeoBundle 'ujihisa/unite-colorscheme.git'
 NeoBundle 'tpope/vim-surround.git'
 NeoBundle 'taglist.vim'
 
 " 補完
-NeoBundle 'Shougo/neocomplcache-clang_complete.git'
 NeoBundle 'teramako/jscomplete-vim.git'
 NeoBundle 'javacomplete'
 
@@ -55,6 +48,13 @@ NeoBundle 'abudden/TagHighlight.git'
 
 " Git
 NeoBundle 'gregsexton/gitv.git'
+
+" powerline
+NeoBundle 'alpaca-tc/alpaca_powertabline'
+NeoBundle 'Lokaltog/powerline',  { 'rtp' : 'powerline/bindings/vim'}
+NeoBundle 'Lokaltog/powerline-fontpatcher'
+
+call neobundle#end()
 
 
 filetype plugin indent on
@@ -153,14 +153,13 @@ set hlsearch
 nmap <ESC><ESC> :nohlsearch<CR><ESC>
 
 " Colors
-" syntax enable
-syntax on
-hi PmenuSel cterm=reverse ctermfg=33 ctermbg=222 gui=reverse guifg=#3399ff guibg=#f0e68c
-" set background=dark
-" colorscheme molokai
+syntax enable
+" syntax on
+" hi PmenuSel cterm=reverse ctermfg=33 ctermbg=222 gui=reverse guifg=#3399ff guibg=#f0e68c
 
-colorscheme solarized
 set background=dark
+colorscheme solarized
+
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 
@@ -201,8 +200,6 @@ inoremap OD <Left>
 inoremap OC <Right>
 
 
-
-
 " unite.vim
 " 入力モードで開始する
 let g:unite_enable_start_insert=1
@@ -233,77 +230,6 @@ au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vspli
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 
-" neocomplecache.vim
-" set completeopt = menuone
-" NeoComplCacheを有効にする
-let g:neocomplcache_enable_at_startup = 1
-" 補完が自動で開始される文字数
-let g:neocomplcache_auto_completion_start_length = 3
-" smarrt case有効化。 大文字が入力されるまで大文字小文字の区別を無視する
-let g:neocomplcache_enable_smart_case = 1
-" camle caseを有効化。大文字を区切りとしたワイルドカードのように振る舞う
-let g:neocomplcache_enable_camel_case_completion = 1
-" _(アンダーバー)区切りの補完を有効化
-let g:neocomplcache_enable_underbar_completion = 1
-" シンタックスをキャッシュするときの最小文字長を3に
-let g:neocomplcache_min_syntax_length = 3
-" neocomplcacheを自動的にロックするバッファ名のパターン
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-" -入力による候補番号の表示
-let g:neocomplcache_enable_quick_match = 1
-" 補完候補の一番先頭を選択状態にする(AutoComplPopと似た動作)
-let g:neocomplcache_enable_auto_select = 1
-" ポップアップメニューで表示される候補の数。初期値は100
-let g:neocomplcache_max_list = 50
-
-" DTと入力するとD*T*と解釈され、DateTime等にマッチする。
-let g:neocomplcache_enable_camel_case_completion = 0
-" m_sと入力するとm*_sと解釈され、mb_substr等にマッチする。
-let g:neocomplcache_enable_underbar_completion = 0
-
-
-
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scala' : $HOME.'/.vim/dict/scala.dict',
-    \ 'java' : $HOME.'/.vim/dict/java.dict',
-    \ 'c' : $HOME.'/.vim/dict/c.dict',
-    \ 'javascript' : $HOME.'/.vim/dict/javascript.dict',
-    \ 'perl' : $HOME.'/.vim/dict/perl.dict',
-    \ 'php' : $HOME.'/.vim/dict/php.dict',
-    \ 'scheme' : $HOME.'/.vim/dict/scheme.dict',
-    \ 'vim' : $HOME.'/.vim/dict/vim.dict'
-    \ }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-" 日本語を補完候補として取得しないように
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-
-
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>,  <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
@@ -315,22 +241,6 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 autocmd FileType java setlocal completefunc=javacomplete#CompleteParamsInfo
 
-" Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
-
-" ユーザー定義スニペット保存ディレクトリ
-let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
-noremap <Leader>nes :<C-u>NeoComplCacheEditSnippets<CR>
-
-let g:neocomplcache_force_overwrite_completefunc=1
-let g:clang_complete_auto=1
 
 
 " vimfiler
@@ -351,13 +261,6 @@ let g:vimfiler_execute_file_list['vim']   = 'vim'
 " VimShell
 nnoremap <silent> <Leader>vs :<C-u>VimShellPop -toggle<CR>
 
-
-" YankRing
-let g:yankring_history_dir = $HOME.'/.vim/'
-let g:yankring_history_file = '.yankring_history'
-nnoremap <silent> <F7> :YRShow<CR>
-let g:yankring_max_history = 10
-let g:yankring_window_height = 13
 
 
 " NERD_commenter
