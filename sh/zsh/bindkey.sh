@@ -10,3 +10,7 @@ bindkey '^t^t' toggle-show-all-files
 # ディレクトリ検索
 zle -N peco-find-directory
 bindkey '^f^f' peco-find-directory
+
+# スニペット検索
+zle -N peco-snippets
+bindkey '^x^x' peco-snippets

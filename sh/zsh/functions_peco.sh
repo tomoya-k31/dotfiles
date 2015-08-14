@@ -26,7 +26,7 @@ function peco-find-directory() {
     zle clear-screen
 }
 
-# tmux セッション検索
+# tmux セッション検索(alias用)
 function peco-tmux-attach() {
     local res=$(tmux list-sessions | peco | awk -F':' '{print $1}')
     if [ -n "$res" ]; then
@@ -35,4 +35,8 @@ function peco-tmux-attach() {
 }
 
 
-
+# スニペット検索
+function peco-snippets() {
+    BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER")
+    zle clear-screen
+}
