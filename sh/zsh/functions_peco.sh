@@ -40,3 +40,8 @@ function peco-snippets() {
     BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER")
     zle clear-screen
 }
+
+function peco-snippets-copy() {
+    BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER" | pbcopy)
+    zle clear-screen
+}

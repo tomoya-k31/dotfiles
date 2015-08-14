@@ -13,4 +13,6 @@ bindkey '^f^f' peco-find-directory
 
 # スニペット検索
 zle -N peco-snippets
-bindkey '^x^x' peco-snippets
+bindkey '^x^s' peco-snippets
+zle -N peco-snippets-copy
+bindkey '^x^x' peco-snippets-copy
