@@ -64,7 +64,8 @@ filetype plugin on
 set ff=unix
 set encoding=utf-8
 set termencoding=utf-8
-set fileencodings=euc-jp,sjis
+set fileencoding=utf-8
+set fileencodings=utf-8,euc-jp,sjis
 
 " Basics
 let mapleader = ","
