@@ -1,3 +1,25 @@
 
 # PATH一覧
 echo $PATH | sed 's/:/\n/g'
+
+
+# Tmux multi-ssh
+multi-ssh point-tweb1 point-tweb2
+multi-ssh point-tweb1 point-tweb2 point-twebap01 point-twebap02
+multi-ssh point-tap1 point-tap2
+multi-ssh point-tap1 point-tap2 point-twebap01 point-twebap02
+
+multi-ssh pc-rweb point-rwebap01 point-rwebap02
+multi-ssh pc-rap point-rwebap01 point-rwebap02
+
+
+# git
+# プルリク作成用、空コミット
+git commit --allow-empty -m "make pull request"
+
+
+# 15日以上前に作成されたバックアップ("*.tar.gz")を検索
+find . -mtime +15 -name "*.tar.gz"
+# ↑の条件にマッチするファイルを削除
+find . -mtime +15 -name "*.tar.gz" | xargs rm
+

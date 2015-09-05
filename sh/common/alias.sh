@@ -10,6 +10,10 @@ alias sed='gsed'
 # Mac標準のawkは使いにくいのでGNU版を使用 'brew install gawk'
 alias awk='gawk'
 
+# Mac標準のfind/xargsは使いにくいのでGNU版を使用 'brew install findutils'
+alias find='gfind'
+alias xargs='gxargs'
+
 # Mac標準のdateは使いにくいのでGNU版を使用 'brew install coreutils'
 alias date='gdate'
 alias readlink='greadlink'
