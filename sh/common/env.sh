@@ -36,8 +36,9 @@ export PATH=${PATH}:$HOME/development/Android-SDK/platform-tools
 alias skysea_stop="/Applications/SKYSEAClientView.app/Contents/MacOS/SkyDaemon -stop"
 alias skysea_start="/Applications/SKYSEAClientView.app/Contents/MacOS/SkyDaemon -start &"
 
-# Gradle
-[[ -s ~/.gvm/bin/gvm-init.sh ]] && source ~/.gvm/bin/gvm-init.sh
+# SDKMAN
+export SDKMAN_DIR="${HOME}/.sdkman" && source "${HOME}/.sdkman/bin/sdkman-init.sh"
+
 # デーモンの常駐
 export GRADLE_OPTS="-Dorg.gradle.daemon=true"
 
