@@ -32,6 +32,9 @@ export SBT_OPTS="-Xmx2G -XX:MaxPermSize=2G -Xss2M"
 export PATH=${PATH}:$HOME/development/Android-SDK/tools
 export PATH=${PATH}:$HOME/development/Android-SDK/platform-tools
 
+export PATH=${PATH}:$HOME/Library/Android/sdk/tools
+export PATH=${PATH}:$HOME/Library/Android/sdk/platform-tools
+
 # SEADeamon
 alias skysea_stop="/Applications/SKYSEAClientView.app/Contents/MacOS/SkyDaemon -stop"
 alias skysea_start="/Applications/SKYSEAClientView.app/Contents/MacOS/SkyDaemon -start &"
