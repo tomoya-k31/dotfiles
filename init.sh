@@ -9,5 +9,3 @@ do
     ln -s $HOME/.dotfiles/$file $HOME/$file
 done
 
-# 共通のシェルは別途管理
-ln -s $HOME/.dotfiles/sh $HOME/.sh
