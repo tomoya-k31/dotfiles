@@ -1,7 +1,7 @@
 " set guifontwide=Osaka:h11
-set guifontwide=Ricty\ for\ Powerline:h12
+"set guifontwide=Ricty\ for\ Powerline:h12
 " set guifont=Osaka-Mono:h13
-set guifont=Ricty\ for\ Powerline:h14
+"set guifont=Ricty\ for\ Powerline:h14
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 au BufNewFile, BufRead * match ZenkakuSpace /　/
 set showtabline=0
@@ -19,6 +19,5 @@ set guioptions-=R
 set guioptions-=l
 set guioptions-=
 set guioptions-=b
-let g:Powerline_symbols = 'fancy'
-colorscheme molokai
 
+let g:Powerline_symbols = 'fancy'

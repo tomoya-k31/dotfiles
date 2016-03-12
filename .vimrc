@@ -7,13 +7,12 @@ endif
 
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc.git'
 NeoBundle 'Shougo/vimproc.vim', {
       \ 'build' : {
       \     'windows' : 'tools\\update-dll-mingw',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
+      \     'cygwin' : 'make',
+      \     'mac' : 'make',
+      \     'unix' : 'make',
       \    },
       \ }
 NeoBundle 'Shougo/vimshell.git'
@@ -24,13 +23,11 @@ NeoBundle 'Shougo/vimfiler'
 NeoBundle 'scrooloose/nerdcommenter.git'
 NeoBundle 'Smooth-Scroll'
 NeoBundle 'smartword'
-NeoBundle 'taglist.vim'
 NeoBundle 'JavaScript-syntax'
 NeoBundle 'jQuery'
 NeoBundle 'nginx.vim'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'vtreeexplorer'
-NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'altercation/vim-colors-solarized'
 
 NeoBundle 'thinca/vim-quickrun.git'
@@ -45,14 +42,10 @@ NeoBundle 'javacomplete'
 
 " タグHighLevelCmd
 NeoBundle 'abudden/TagHighlight.git'
-
 " Git
 NeoBundle 'gregsexton/gitv.git'
-
 " powerline
-NeoBundle 'alpaca-tc/alpaca_powertabline'
-NeoBundle 'Lokaltog/powerline',  { 'rtp' : 'powerline/bindings/vim'}
-NeoBundle 'Lokaltog/powerline-fontpatcher'
+NeoBundle 'powerline/powerline.git',  { 'rtp' : 'powerline/bindings/vim'}
 
 call neobundle#end()
 
@@ -94,9 +87,12 @@ set ttymouse=xterm2
 
 " StatusLine
 set laststatus=2
+set showtabline=2
+set noshowmode
 set ruler
 
 let g:Powerline_symbols='fancy'
+" let g:Powerline_symbols='compatible'
 
 
 " Indent
