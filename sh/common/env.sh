@@ -6,7 +6,6 @@ export JAVA_OPTS=-Dfile.encoding=UTF-8
 # jetty
 export JETTY_HOME=/usr/local/jetty9.0
 
-
 # Python
 #export PATH=${PATH}:/usr/local/Cellar/python/2.7.5/bin
 export PYENV_ROOT="${HOME}/.pyenv"
@@ -15,12 +14,15 @@ export PYENV_ROOT="${HOME}/.pyenv"
     eval "$(pyenv init -)"
 }
 
+# Python powerline用
+PYTHON_HOME_DIR=~/Library/Python/2.7
+export PATH=$PYTHON_HOME_DIR/bin:$PATH
+
 # Config File
 export TOMCAT_CNF=/usr/local/apache-tomcat-7.0.35/conf
 export NGINX_CNF=/usr/local/etc/nginx/nginx.conf
 export REDIS_CNF=/usr/local/etc/redis.conf
 export MYSQL_CNF=/usr/local/var/mysql/my.cnf
-
 
 # Play Framework
 export PATH=${PATH}:/usr/local/play
