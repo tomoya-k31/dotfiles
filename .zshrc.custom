@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-source $HOME/.dotfiles/config.sh
-
 # ↓OS関係なくZshでのみ適応される設定をずらずら書く
 # LANG
 export LANG=ja_JP.UTF-8
@@ -18,15 +16,13 @@ export TERM_LANG=UTF-8
 [[ -e $HOME/.dotfiles/sh/zsh/ ]] && [[ ! -z "`ls -f $HOME/.dotfiles/sh/zsh/`" ]] && for f ($HOME/.dotfiles/sh/zsh/*) source "${f}"
 
 # OS別の設定ファイル読み込み
-case "$(OS_TYPE)" in
-    mac)
-      [ -f $HOME/.dotfiles/sh/common.mac ] && source "$HOME/.dotfile/sh/common.mac"
-      [ -f $HOME/.dotfiles/sh/zsh.mac ] && source $HOME/.dotfile/sh/zsh.mac"
-      ;;
-    linux)
-      [ -f $HOME/.dotfiles/sh/common.linux ] && source "$HOME/.dotfiles/sh/common.linux"
-      [ -f $HOME/.dotfiles/sh/zsh.linux ] && source "$HOME/.dotfiles/sh/zsh.linux"
-      ;;
-    *)
-      exit 1 ;;
-esac
+if [[ `uname` == 'Darwin' ]]; then
+    [ -f $HOME/.dotfiles/sh/common.mac ] && source "$HOME/.dotfiles/sh/common.mac"
+    [ -f $HOME/.dotfiles/sh/zsh.mac ] && source "$HOME/.dotfiles/sh/zsh.mac"
+elif [[ `uname` == 'Linux' ]]; then
+    [ -f $HOME/.dotfiles/sh/common.linux ] && source "$HOME/.dotfiles/sh/common.linux"
+    [ -f $HOME/.dotfiles/sh/zsh.linux ] && source "$HOME/.dotfiles/sh/zsh.linux"
+else
+    echo "Your platform ($(uname -a)) is not supported."
+    exit 1
+fi
