@@ -1,0 +1,116 @@
+#!/usr/bin/env zsh
+
+
+########################### Env ###########################
+
+# Powerline
+powerline-daemon -q
+#. $PYTHON_HOME_DIR/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+
+########################### Alias ###########################
+
+# 独自function
+alias tma='peco-tmux-attach'
+
+########################### Key Bindings ###########################
+
+# 履歴からコマンド選択
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+
+# 隠しファイルの表示切り替え
+zle -N toggle-show-all-files
+bindkey '^t^t' toggle-show-all-files
+
+# ディレクトリ検索
+zle -N peco-find-directory
+bindkey '^f^f' peco-find-directory
+
+# スニペット検索
+zle -N peco-snippets
+bindkey '^x^s' peco-snippets
+zle -N peco-snippets-copy
+bindkey '^x^x' peco-snippets-copy
+
+
+
+########################### Function ###########################
+
+
+# コマンド履歴のpeco検索
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    BUFFER=$(history -n 1 | eval $tac | awk '!a[$0]++' | peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    # zle clear-screen
+}
+
+# ディレクトリ検索
+# http://qiita.com/ymorired/items/4b0d8e95786efc1378b4
+function peco-find-directory() {
+    local current_buffer=$BUFFER
+    # .git系など不可視フォルダは除外
+    local selected_dir="$(find . -maxdepth 3 -type d ! -path "*/.*"| peco)"
+    if [ -d "$selected_dir" ]; then
+        BUFFER="${current_buffer} ${selected_dir}"
+        CURSOR=$#BUFFER
+    fi
+    zle clear-screen
+}
+
+# tmux セッション検索(alias用)
+function peco-tmux-attach() {
+    local res=$(tmux list-sessions | peco | awk -F':' '{print $1}')
+    if [ -n "$res" ]; then
+        tmux attach -t ${res}
+    fi
+}
+
+
+# スニペット検索
+function peco-snippets() {
+    BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER")
+    zle clear-screen
+}
+
+function peco-snippets-copy() {
+    BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER" | pbcopy)
+    zle clear-screen
+}
+
+# tmuxで複数サーバの同時オペレーション
+# http://tech.naviplus.co.jp/2014/01/09/tmux%E3%81%A7%E8%A4%87%E6%95%B0%E3%82%B5%E3%83%BC%E3%83%90%E3%81%AE%E5%90%8C%E6%99%82%E3%82%AA%E3%83%9A%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/
+function multi-ssh() {
+    if [ -n "$SESSION_NAME" ];then
+      session=$SESSION_NAME
+    else
+      session=multi-ssh-`date +%s`
+    fi
+    window=multi-ssh
+
+    ### tmuxのセッションを作成
+    tmux new-session -d -n $window -s $session
+
+    ### 各ホストにsshログイン
+    # 最初の1台はsshするだけ
+    tmux send-keys "ssh $1" C-m
+    shift
+
+    # 残りはpaneを作成してからssh
+    for i in $*;do
+      tmux split-window
+      tmux select-layout tiled
+      tmux send-keys "ssh $i" C-m
+    done
+
+    ### 最初のpaneを選択状態にする
+    tmux select-pane -t 0
+
+    ### セッションにアタッチ
+    tmux attach-session -t $session
+}

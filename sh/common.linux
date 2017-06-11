@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# Java
+export JAVA_HOME=/usr/java/lastest
