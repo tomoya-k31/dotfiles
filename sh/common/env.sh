@@ -45,7 +45,7 @@ alias skysea_start="/Applications/SKYSEAClientView.app/Contents/MacOS/SkyDaemon 
 export SDKMAN_DIR="${HOME}/.sdkman" && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 
 # デーモンの常駐
-export GRADLE_OPTS="-Dorg.gradle.daemon=true"
+export GRADLE_OPTS="-Dorg.gradle.daemon=true -Dorg.gradle.jvmargs='-Xmx1024m -XX:CICompilerCount=2 -XX:ParallelGCThreads=2'"
 
 # nvm
 [[ -s ~/.nvm/nvm.sh ]] && {
