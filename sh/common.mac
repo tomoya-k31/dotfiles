@@ -73,12 +73,6 @@ export SDKMAN_DIR="${HOME}/.sdkman" && source "${HOME}/.sdkman/bin/sdkman-init.s
 # デーモンの常駐
 export GRADLE_OPTS="-Dorg.gradle.daemon=true -Dorg.gradle.jvmargs='-Xmx1024m -XX:CICompilerCount=2 -XX:ParallelGCThreads=2'"
 
-# nvm
-[[ -s ~/.nvm/nvm.sh ]] && {
-  source ~/.nvm/nvm.sh
-  export NODE_PATH=${NVM_PATH}_modules
-}
-
 
 ########################### Function ###########################
 
