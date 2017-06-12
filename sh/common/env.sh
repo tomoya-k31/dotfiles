@@ -1,4 +1,7 @@
 
+# rbenv
+export PATH="$HOME/.rbenv/bin:$PATH"
+
 # Java
 export JAVA_OPTS=-Dfile.encoding=UTF-8
 
