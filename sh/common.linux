@@ -2,3 +2,5 @@
 
 # Java
 export JAVA_HOME=/usr/java/lastest
+
+alias open=xdg-open
