@@ -10,7 +10,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Smooth-Scroll'
 NeoBundle 'smartword'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'tomasr/molokai'
 NeoBundle 'nathanaelkane/vim-indent-guides.git'
 NeoBundle 'tpope/vim-surround.git'
 NeoBundle 'gregsexton/gitv.git'
@@ -116,15 +116,20 @@ set hlsearch
 nmap <ESC><ESC> :nohlsearch<CR><ESC>
 
 " Colors
-syntax enable
 " syntax on
 " hi PmenuSel cterm=reverse ctermfg=33 ctermbg=222 gui=reverse guifg=#3399ff guibg=#f0e68c
 
 set background=dark
-colorscheme solarized
 
-let g:solarized_termcolors=256
-let g:solarized_termtrans=1
+"----------------------------------------------------------
+" molokaiの設定
+"----------------------------------------------------------
+if neobundle#is_installed('molokai') " molokaiがインストールされていれば
+    colorscheme molokai " カラースキームにmolokaiを設定する
+endif
+
+set t_Co=256 " iTerm2など既に256色環境なら無くても良い
+syntax enable " 構文に色を付ける
 
 " Edit
 set noimdisable
