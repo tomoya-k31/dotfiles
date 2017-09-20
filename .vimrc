@@ -1,11 +1,10 @@
-set nocompatible
-filetype off
-
 if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
+    " 初回起動時のみruntimepathにNeoBundleのパスを指定する
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
 call neobundle#begin(expand('~/.vim/bundle/'))
+
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Smooth-Scroll'
@@ -46,6 +45,8 @@ set showcmd
 set showmode
 set viminfo='50,<1000,s100,\"50
 " set modelines=0                  " モードラインは無効
+set fileformats=unix,dos,mac       " 改行コードの自動判別. 左側が優先される
+set ambiwidth=double               " □や○文字が崩れる問題を解決
 
 " OSのクリップボードを使用する
 set clipboard+=unnamed,autoselect
@@ -63,8 +64,8 @@ set ruler
 let g:Powerline_symbols='fancy'
 
 " Indent
-set autoindent
-set smartindent
+set autoindent    " 改行時に前の行のインデントを継続する
+set smartindent   " 改行時に前の行の構文をチェックし次の行のインデントを増減する
 set cindent
 
 " softtabstopはTabキー押し下げ時の挿入される空白の量，0の場合はtabstopと同じ，BSにも影響する
@@ -131,14 +132,15 @@ set iminsert=0 imsearch=0
 set noimcmdline
 inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
-set expandtab
+set expandtab " タブ入力を複数の空白入力に置き換える
 
-inoremap , ,<Space>
+" ,の後ろにスペース追加
+" inoremap , ,<Space>
 
 " 保存時に行末の空白を除去
 autocmd BufWritePre * :%s/\s\+$//ge
 " 保存時にtabをスペースに変換
-autocmd BufWritePre * :%s/\t/    /ge
+" autocmd BufWritePre * :%s/\t/    /ge
 
 autocmd FileType cvs :set fileencoding=euc-jp
 autocmd FileType svn :set fileencoding=utf-8
@@ -173,3 +175,16 @@ autocmd FileType java setlocal completefunc=javacomplete#CompleteParamsInfo
 " Gitv
 autocmd FileType git :setlocal foldlevel=99
 
+" クリップボードからペーストする時だけインデントしないように
+if &term =~ "xterm"
+    let &t_SI .= "\e[?2004h"
+    let &t_EI .= "\e[?2004l"
+    let &pastetoggle = "\e[201~"
+
+    function XTermPasteBegin(ret)
+        set paste
+        return a:ret
+    endfunction
+
+    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+endif
