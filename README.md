@@ -6,16 +6,13 @@ $ cd $HOME
 $ git clone https://github.com/tomoya-k31/dotfiles .dotfiles && cd $HOME/.dotfiles
 $ git clone https://github.com/seebi/dircolors-solarized.git
 $ ln -s ~/.dotfiles/dircolors-solarized/dircolors.256dark ~/.dircolors
-$ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.zsh/zsh-syntax-highlighting
-$ git clone git://github.com/zsh-users/zsh-completions.git $HOME/.zsh/zsh-completions
 
 ## シンボリックリンクで繋ぐ
 $ cd $HOME/.dotfiles
 $ ./init.sh
 
 # vimの設定
-$ mkdir -p $HOME/.vim/bundle; cd $HOME/.vim/bundle
-$ git clone git://github.com/Shougo/neobundle.vim.git
+$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 $ vim +":NeoBundleInstall" +:q
 ```
 
@@ -43,13 +40,3 @@ $ git clone https://github.com/seebi/dircolors-solarized.git
 
 [tmux color theme](https://github.com/seebi/tmux-colors-solarized)
 
-## Ricty font
-
-[参照](http://blog.forodin.com/2013/02/mac%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E7%94%A8%E3%83%95%E3%82%A9%E3%83%B3%E3%83%88-ricty%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%97/)
-
-
-## Ｐｒｅｚｔｏのzshrcに以下を追記
-
-```
-source $HOME/.dotfiles/.zshrc.custom
-```
