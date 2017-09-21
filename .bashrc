@@ -11,8 +11,8 @@
 
 # OS別の設定ファイル読み込み
 if [ "$(uname)" == 'Darwin' ]; then
-    [ -f $HOME/.dotfiles/sh/common.mac ] && source $HOME/.dotfile/sh/common.mac
-    [ -f $HOME/.dotfiles/sh/bash.mac ] && source $HOME/.dotfile/sh/bash.mac
+    [ -f $HOME/.dotfiles/sh/common.mac ] && source $HOME/.dotfiles/sh/common.mac
+    [ -f $HOME/.dotfiles/sh/bash.mac ] && source $HOME/.dotfiles/sh/bash.mac
 elif [ "$(uname)" == 'Linux' ]; then
     [ -f $HOME/.dotfiles/sh/common.linux ] && source $HOME/.dotfiles/sh/common.linux
     [ -f $HOME/.dotfiles/sh/bash.linux ] && source $HOME/.dotfiles/sh/bash.linux
