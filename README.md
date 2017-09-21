@@ -29,6 +29,19 @@ $ brew install xz
 $ brew install binutils
 $ brew install coreutils
 $ brew install findutils
+
+# etc
+wget
+gawk
+jq
+peco
+toilet
+tmux
+zsh
+direnv
+gnu-sed
+watch
+tree
 ```
 
 [themes for GNU](https://github.com/seebi/dircolors-solarized)
