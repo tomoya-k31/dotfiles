@@ -53,3 +53,7 @@ $ git clone https://github.com/seebi/dircolors-solarized.git
 
 [tmux color theme](https://github.com/seebi/tmux-colors-solarized)
 
+
+```
+source $HOME/.zshrc.custom
+```
