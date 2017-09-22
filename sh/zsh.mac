@@ -4,7 +4,7 @@
 ########################### Env ###########################
 
 # Powerline
-powerline-daemon -q
+#powerline-daemon -q
 #. $PYTHON_HOME_DIR/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
 
 ########################### Alias ###########################
