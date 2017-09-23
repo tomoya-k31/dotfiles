@@ -6,6 +6,8 @@ export LANG=ja_JP.UTF-8
 export LESSCHARSET=utf-8
 export TERM_LANG=UTF-8
 
+setopt clobber  # 上書き禁止解除
+
 [ $ITERM_PROFILE ] && [ $ITERM_PROFILE = "EUC-JP" ] && {
     TERM_LANG=EUC
     export LANG=ja_JP.eucJP
