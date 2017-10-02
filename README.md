@@ -57,3 +57,5 @@ $ git clone https://github.com/seebi/dircolors-solarized.git
 ```
 source $HOME/.zshrc.custom
 ```
+
+
