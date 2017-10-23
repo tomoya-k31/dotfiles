@@ -114,3 +114,6 @@ function multi-ssh() {
     ### セッションにアタッチ
     tmux attach-session -t $session
 }
+
+jvc() { export JAVA_HOME=`/usr/libexec/java_home -X | python -c 'import sys, plistlib; plist = plistlib.readPlist(sys.stdin); print "\n".join(str(dict["JVMVersion"]) for dict in plist)' | peco --prompt "Switch Java Version >" | xargs /usr/libexec/java_home -v` }
+
