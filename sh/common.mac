@@ -26,7 +26,7 @@ alias readlink='greadlink'
 
 
 # Java
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+export JAVA_HOME=`/usr/libexec/java_home -v 9`
 export JAVA_OPTS=-Dfile.encoding=UTF-8
 
 # Python
@@ -49,7 +49,14 @@ export SBT_OPTS="-Xmx2G -XX:MaxPermSize=2G -Xss2M"
 # export PATH=${PATH}:$HOME/Library/Android/sdk/platform-tools
 
 # デーモンの常駐
-export GRADLE_OPTS="-Dorg.gradle.daemon=true -Dorg.gradle.jvmargs='-Xmx1024m -XX:CICompilerCount=2 -XX:ParallelGCThreads=2'"
+export GRADLE_OPTS="-Dorg.gradle.daemon=true \
+  -Dorg.gradle.jvmargs=-Xmx512m \
+  -XX:+UseParallelGC \
+  -XX:ParallelGCThreads=2 \
+  -XX:CICompilerCount=2 \
+  --add-opens=java.base/java.lang=ALL-UNNAMED \
+  --add-opens=java.base/java.lang.invoke=ALL-UNNAMED \
+  "
 
 ########################### Function ###########################
 
