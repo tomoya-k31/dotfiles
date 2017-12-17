@@ -1,7 +1,7 @@
 Set up
 ========
 
-## Prezto
+## install Prezto
 - https://github.com/sorin-ionescu/prezto
 
 ```sh
