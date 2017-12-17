@@ -44,6 +44,15 @@ watch
 tree
 ```
 
+- memo
+
+```sh
+$ brew list
+ansible		binutils	direnv		gdbm		gnu-sed		libevent	mysql		openssl@1.1	pkg-config	rbenv		sqlite		toilet		wget
+autoconf	carthage	findutils	gettext		jq		libyaml		oniguruma	pcre		python		readline	terraform	tree		xz
+awscli		coreutils	gawk		gmp		libcaca		mpfr		openssl		peco		python3		ruby-build	tmux		watch		zsh
+```
+
 [themes for GNU](https://github.com/seebi/dircolors-solarized)
 ```sh
 $ mkdir .zsh
