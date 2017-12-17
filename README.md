@@ -1,11 +1,12 @@
 Set up
 ========
 
+## Prezto
+- https://github.com/sorin-ionescu/prezto
+
 ```sh
 $ cd $HOME
 $ git clone https://github.com/tomoya-k31/dotfiles .dotfiles && cd $HOME/.dotfiles
-$ git clone https://github.com/seebi/dircolors-solarized.git
-$ ln -s ~/.dotfiles/dircolors-solarized/dircolors.256dark ~/.dircolors
 
 ## シンボリックリンクで繋ぐ
 $ cd $HOME/.dotfiles
@@ -14,6 +15,9 @@ $ ./init.sh
 # vimの設定
 $ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 $ vim +":NeoBundleInstall" +:q
+
+# .zshrcに以下を追記
+source $HOME/.zshrc.custom
 ```
 
 ## iTerm2
