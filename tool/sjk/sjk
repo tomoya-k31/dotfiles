@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+# SCRIPT_DIR="`pwd -P`"
+SCRIPT_DIR=$(cd $(dirname $(readlink $0 || echo $0));pwd -P)
+
+JAR_FILE=$SCRIPT_DIR/sjk-plus-0.9.jar
+APP_JAVA_OPS="\
+    -client \
+    -Xms6m \
+    -Xmx60m \
+    -XX:+UseSerialGC
+    "
+
+if [ -n "$JAVA_HOME" ] ; then
+  JAVACMD="$JAVA_HOME/bin/java"
+else
+  echo 'set the JAVA_HOME variable in your environment.'
+  exit 1
+fi
+
+exec "$JAVACMD" $APP_JAVA_OPS -jar "$JAR_FILE" "$@"
