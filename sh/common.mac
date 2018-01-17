@@ -26,7 +26,7 @@ alias readlink='greadlink'
 
 
 # Java
-export JAVA_HOME=`/usr/libexec/java_home -v 9`
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export JAVA_OPTS=-Dfile.encoding=UTF-8
 
 # Python
@@ -40,6 +40,10 @@ export PYENV_ROOT="${HOME}/.pyenv"
 # Python powerline用
 PYTHON_HOME_DIR=~/Library/Python/2.7
 export PATH=$PYTHON_HOME_DIR/bin:$PATH
+
+
+# GoLang
+export PATH=$PATH:/usr/local/go/bin
 
 # sbt options
 export SBT_OPTS="-Xmx2G -XX:MaxPermSize=2G -Xss2M"
