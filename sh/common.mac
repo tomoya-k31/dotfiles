@@ -43,6 +43,7 @@ export PATH=$PYTHON_HOME_DIR/bin:$PATH
 
 
 # GoLang
+export GOPATH=${HOME}/.go
 export PATH=$PATH:/usr/local/go/bin
 
 # sbt options

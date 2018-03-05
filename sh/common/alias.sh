@@ -14,3 +14,7 @@ alias duh="du -h ./ --max-depth=1"
 alias tm='tmux'
 alias tma='tmux attach'
 alias tml='tmux list-window'
+
+
+alias today="date '+%Y%m%d'"
+alias now="date '+%Y%m%d-%H%M%S'"
