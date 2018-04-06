@@ -13,6 +13,9 @@ setopt clobber  # 上書き禁止解除
     export LANG=ja_JP.eucJP
 }
 
+# secure
+[[ -f $HOME/.dotfiles/.env ]] && source $HOME/.dotfiles/.env
+
 # 共通の設定ファイル読み込み
 [[ -e $HOME/.dotfiles/sh/common/ ]] && [[ ! -z "`ls -f $HOME/.dotfiles/sh/common/`" ]] && for f ($HOME/.dotfiles/sh/common/*) source "${f}"
 [[ -e $HOME/.dotfiles/sh/zsh/ ]] && [[ ! -z "`ls -f $HOME/.dotfiles/sh/zsh/`" ]] && for f ($HOME/.dotfiles/sh/zsh/*) source "${f}"
