@@ -42,9 +42,9 @@ PYTHON_HOME_DIR=~/Library/Python/2.7
 export PATH=$PYTHON_HOME_DIR/bin:$PATH
 
 
-# GoLang
+# GoLang(use package installer)
 export GOPATH=${HOME}/.go
-export PATH=$PATH:/usr/local/go/bin
+# export PATH=$PATH:/usr/local/go/bin
 
 # sbt options
 export SBT_OPTS="-Xmx2G -XX:MaxPermSize=2G -Xss2M"
