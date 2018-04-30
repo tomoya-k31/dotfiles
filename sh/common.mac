@@ -31,9 +31,9 @@ export JAVA_OPTS=-Dfile.encoding=UTF-8
 
 # Python
 #export PATH=${PATH}:/usr/local/Cellar/python/2.7.5/bin
-export PYENV_ROOT="${HOME}/.pyenv"
+export PYENV_ROOT="$HOME/.pyenv"
 [ -d "${PYENV_ROOT}" ] && {
-    export PATH=${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}
+    export PATH=$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH
     eval "$(pyenv init -)"
 }
 
@@ -43,7 +43,9 @@ export PATH=$PYTHON_HOME_DIR/bin:$PATH
 
 
 # GoLang(use package installer)
-export GOPATH=${HOME}/.go
+export GOPATH=$HOME/.go:$HOME/Works/Workspace/golang
+export PATH=$HOME/.go/bin:$HOME/Works/Workspace/golang/bin:$PATH
+## デフォルトで以下セットされる
 # export PATH=$PATH:/usr/local/go/bin
 
 # sbt options

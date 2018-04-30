@@ -62,6 +62,7 @@ set noshowmode
 set ruler
 
 let g:Powerline_symbols='fancy'
+let g:powerline_pycmd='py'
 
 " Indent
 set autoindent    " 改行時に前の行のインデントを継続する
