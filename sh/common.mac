@@ -43,8 +43,8 @@ export PATH=$PYTHON_HOME_DIR/bin:$PATH
 
 
 # GoLang(use package installer)
-export GOPATH=$HOME/.go
-export PATH=$HOME/.go/bin:$PATH
+export GOPATH=$HOME/go
+export PATH=$HOME/go/bin:$PATH
 ## デフォルトで以下セットされる
 # export PATH=$PATH:/usr/local/go/bin
 
