@@ -6,5 +6,5 @@ DOT_FILES=(.vimrc .tmux.conf .bashrc .bash_profile .gvimrc .snippets .zshrc.cust
 
 for file in ${DOT_FILES[@]}
 do
-    ln -s $HOME/.dotfiles/$file $HOME/$file
+    ln -nfs $HOME/.dotfiles/$file $HOME/$file
 done
