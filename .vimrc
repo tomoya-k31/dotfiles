@@ -1,196 +1,175 @@
-if has('vim_starting')
-    " 初回起動時のみruntimepathにNeoBundleのパスを指定する
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+""""""""""""""""""""""""""""""
+" プラグインのセットアップ
+""""""""""""""""""""""""""""""
+call plug#begin('~/.vim/plugged')
 
-NeoBundleFetch 'Shougo/neobundle.vim'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/neomru.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-NeoBundle 'Smooth-Scroll'
-NeoBundle 'smartword'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'tomasr/molokai'
-NeoBundle 'nathanaelkane/vim-indent-guides.git'
-NeoBundle 'tpope/vim-surround.git'
-NeoBundle 'gregsexton/gitv.git'
-NeoBundle 'powerline/powerline.git',  { 'rtp' : 'powerline/bindings/vim'}
+call plug#end()
 
-call neobundle#end()
 
-filetype plugin indent on
-filetype plugin on
-
-" Encoding
-set ff=unix
-set encoding=utf-8
-set termencoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8,euc-jp,sjis
-
-" Basics
-let mapleader = ","
-set scrolloff=5
-set textwidth=0
+""""""""""""""""""""""""""""""
+" 各種オプションの設定
+""""""""""""""""""""""""""""""
+" バックアップ使用しない
 set nobackup
-set autoread
+" タグファイルの指定(でもタグジャンプは使ったことがない)
+set tags=~/.vim/tags
+" スワップファイルは使わない(ときどき面倒な警告が出るだけで役に立ったことがない)
 set noswapfile
-set hidden
-set backspace=indent,eol,start
-set formatoptions=lmoq
-set vb t_vb=
-set browsedir=buffer
-set whichwrap=b,s,h,l,<,>,[,]
+" undoファイルは作成しない
+set noundofile
+" カーソルが何行目の何列目に置かれているかを表示する
+set ruler
+" コマンドラインに使われる画面上の行数
+set cmdheight=2
+" エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
+set laststatus=2
+" ウインドウのタイトルバーにファイルのパス情報等を表示する
+set title
+" コマンドラインモードで<Tab>キーによるファイル名補完を有効にする
+set wildmenu
+" 入力中のコマンドを表示する
 set showcmd
-set showmode
-set viminfo='50,<1000,s100,\"50
-" set modelines=0                  " モードラインは無効
-set fileformats=unix,dos,mac       " 改行コードの自動判別. 左側が優先される
-set ambiwidth=double               " □や○文字が崩れる問題を解決
-
+" バッファで開いているファイルのディレクトリでエクスクローラを開始する(でもエクスプローラって使ってない)
+set browsedir=buffer
+" 小文字のみで検索したときに大文字小文字を無視する
+set smartcase
+" 検索結果をハイライト表示する
+set hlsearch
+" 暗い背景色に合わせた配色にする
+set background=dark
+" タブ入力を複数の空白入力に置き換える
+set expandtab
+" 検索ワードの最初の文字を入力した時点で検索を開始する
+set incsearch
+" 保存されていないファイルがあるときでも別のファイルを開けるようにする
+set hidden
+" 不可視文字を表示する
+set list
+" タブと行の続きを可視化する
+set listchars=tab:>\ ,extends:<
+" 行番号を表示する
+set number
+" 対応する括弧やブレースを表示する
+set showmatch
+" 改行時に前の行のインデントを継続する
+set autoindent
+" 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+set smartindent
+" タブ文字の表示幅
+set tabstop=2
+" Vimが挿入するインデントの幅
+set shiftwidth=2
+" 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
+set smarttab
+" カーソルを行頭、行末で止まらないようにする
+set whichwrap=b,s,h,l,<,>,[,]
+" 構文毎に文字色を変化させる
+syntax on
+" カラースキーマの指定
+colorscheme desert
+" 行番号の色
+highlight LineNr ctermfg=darkyellow
+" 勝手に改行するのを防ぐ
+" set textwidth=0
+set formatoptions=q
+" textwidthでフォーマットさせたくない
+set formatoptions=q
 " OSのクリップボードを使用する
 set clipboard+=unnamed,autoselect
-" ターミナルでマウスを使用できるようにする
-set mouse=a
-set guioptions+=a
-set ttymouse=xterm2
+""""""""""""""""""""""""""""""
 
-" StatusLine
-set laststatus=2
-set showtabline=2
-set noshowmode
-set ruler
+""""""""""""""""""""""""""""""
+" 不具合対応
+""""""""""""""""""""""""""""""
+" INSERTモードでバックスペースが効かない
+set backspace=indent,eol,start
+" □や○文字が崩れる問題を解決
+set ambiwidth=double
 
-let g:Powerline_symbols='fancy'
-let g:powerline_pycmd='py'
 
-" Indent
-set autoindent    " 改行時に前の行のインデントを継続する
-set smartindent   " 改行時に前の行の構文をチェックし次の行のインデントを増減する
-set cindent
 
-" softtabstopはTabキー押し下げ時の挿入される空白の量，0の場合はtabstopと同じ，BSにも影響する
-set tabstop=4 shiftwidth=4 softtabstop=0
+" grep検索の実行後にQuickFix Listを表示する
+autocmd QuickFixCmdPost *grep* cwindow
 
-" Apperance
-set showmatch
-set number
-set nowrap
-set list
-set listchars=tab:>.,trail:_,extends:>,precedes:<
-set display=uhex
-" http://www.kaoriya.net/blog/2014/03/30/
-set noundofile
-
-" 全角スペースの表示
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
-match ZenkakuSpace /　/
-
-set cursorline
-" current window only set cursorline
-augroup cch
-    autocmd! cch
-    autocmd WinLeave * set nocursorline
-    autocmd WinEnter,BufRead * set cursorline
-augroup END
-
-hi clear CursorLine
-hi CursorLine gui=underline
-highlight CursorLine ctermbg=black guibg=black
-
-set lazyredraw
-set ttyfast
-
-" Complete
-set wildmenu
-set wildchar=<tab>
-set wildmode=list:full
-set history=1000
-set complete+=k            " 補完に辞書ファイル追加
-
-" Search
-set wrapscan
-set ignorecase
-set smartcase
-set incsearch
-set hlsearch
-nmap <ESC><ESC> :nohlsearch<CR><ESC>
-
-" Colors
-" syntax on
-" hi PmenuSel cterm=reverse ctermfg=33 ctermbg=222 gui=reverse guifg=#3399ff guibg=#f0e68c
-
-set background=dark
-
-"----------------------------------------------------------
-" molokaiの設定
-"----------------------------------------------------------
-if neobundle#is_installed('molokai') " molokaiがインストールされていれば
-    colorscheme molokai " カラースキームにmolokaiを設定する
-endif
-
-set t_Co=256 " iTerm2など既に256色環境なら無くても良い
-syntax enable " 構文に色を付ける
-
-" Edit
-set noimdisable
-set iminsert=0 imsearch=0
-set noimcmdline
-inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
-
-set expandtab " タブ入力を複数の空白入力に置き換える
-
-" ,の後ろにスペース追加
-" inoremap , ,<Space>
-
+" http://blog.remora.cx/2010/12/vim-ref-with-unite.html
+""""""""""""""""""""""""""""""
+" Unite.vimの設定
+""""""""""""""""""""""""""""""
+" 入力モードで開始する
+let g:unite_enable_start_insert=1
+" バッファ一覧
+noremap <C-P> :Unite buffer<CR>
+" ファイル一覧
+noremap <C-N> :Unite -buffer-name=file file<CR>
+" 最近使ったファイルの一覧
+noremap <C-Z> :Unite file_mru<CR>
+" sourcesを「今開いているファイルのディレクトリ」とする
+noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+" ウィンドウを分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+" ウィンドウを縦に分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 " 保存時に行末の空白を除去
 autocmd BufWritePre * :%s/\s\+$//ge
-" 保存時にtabをスペースに変換
-" autocmd BufWritePre * :%s/\t/    /ge
+" ,の後ろにスペース追加
+" inoremap , ,<Space>
+""""""""""""""""""""""""""""""
 
-autocmd FileType cvs :set fileencoding=euc-jp
-autocmd FileType svn :set fileencoding=utf-8
-autocmd FileType js :set fileencoding=utf-8
-autocmd FileType css :set fileencoding=utf-8
-autocmd FileType html :set fileencoding=utf-8
-autocmd FileType xml :set fileencoding=utf-8
-autocmd FileType java :set fileencoding=utf-8
-autocmd FileType scala :set fileencoding=utf-8
+" http://inari.hatenablog.com/entry/2014/05/05/231307
+""""""""""""""""""""""""""""""
+" 全角スペースの表示
+""""""""""""""""""""""""""""""
+function! ZenkakuSpace()
+    highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+endfunction
 
-autocmd FileType vim :setlocal foldmethod=marker
-autocmd FileType c :setlocal foldmethod=syntax
-autocmd FileType cpp :setlocal foldmethod=syntax
-
-" Moving - INSERT MODEで「<C-v>+方向キー」で入力
-inoremap OB <Down>
-inoremap OA <Up>
-inoremap OD <Left>
-inoremap OC <Right>
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType ctp setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=jscomplete#CompleteJS
-let g:jscomplete_use = ['dom', 'moz']
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-autocmd FileType java setlocal completefunc=javacomplete#CompleteParamsInfo
-
-" Gitv
-autocmd FileType git :setlocal foldlevel=99
-
-" クリップボードからペーストする時だけインデントしないように
-if &term =~ "xterm"
-    let &t_SI .= "\e[?2004h"
-    let &t_EI .= "\e[?2004l"
-    let &pastetoggle = "\e[201~"
-
-    function XTermPasteBegin(ret)
-        set paste
-        return a:ret
-    endfunction
-
-    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+if has('syntax')
+    augroup ZenkakuSpace
+        autocmd!
+        autocmd ColorScheme * call ZenkakuSpace()
+        autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
+    augroup END
+    call ZenkakuSpace()
 endif
+""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""
+" vim-airlineの設定
+""""""""""""""""""""""""""""""
+let g:airline_theme='deus'
+let g:airline_powerline_fonts = 1
+""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""
+" 最後のカーソル位置を復元する
+""""""""""""""""""""""""""""""
+if has("autocmd")
+    autocmd BufReadPost *
+    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \   exe "normal! g'\"" |
+    \ endif
+endif
+""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""
+" 自動的に閉じ括弧を入力
+""""""""""""""""""""""""""""""
+imap { {}<LEFT>
+imap [ []<LEFT>
+imap ( ()<LEFT>
+""""""""""""""""""""""""""""""
+
+" filetypeの自動検出(最後の方に書いた方がいいらしい)
+filetype on
