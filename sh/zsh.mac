@@ -83,6 +83,29 @@ function peco-snippets-copy() {
     zle clear-screen
 }
 
+# ↓をセットしたdir内で、tsshを実行する
+# ap_servers=(
+#   "prod-mikasa-media-webap01"
+#   "prod-mikasa-media-webap02"
+#   "prod-mikasa-media-webap03"
+#   "prod-mikasa-media-webap04"
+# )
+# export AP_SERVERS=${ap_servers[@]}
+function tssh() {
+    if [ ! ${AP_SERVERS} ]; then
+        echo "direnv未設定";
+        return 1;
+    fi
+
+    array=(a`echo ${AP_SERVERS[@]}`)
+    if [ ${#array} == 0 ]; then
+        echo "direnv未設定";
+        return 1;
+    fi
+
+    _tssh `echo ${AP_SERVERS[@]}`
+}
+
 # tmuxで複数サーバの同時オペレーション
 # 「tssh `echo ${AP_SERVERS[@]}`」
 # 
@@ -90,7 +113,7 @@ function peco-snippets-copy() {
 #  ap_server=("web01" "web02" "web03" "web04")
 #  export AP_SERVERS=${ap_servers[@]}
 # 
-function tssh() {
+function _tssh() {
     window=tssh
     hosts=("$@")
 
