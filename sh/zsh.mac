@@ -7,6 +7,8 @@
 #powerline-daemon -q
 #. $PYTHON_HOME_DIR/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
 
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+
 ########################### Alias ###########################
 
 # 独自function
