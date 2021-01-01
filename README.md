@@ -1,7 +1,31 @@
-Set up
-========
+# Set up
+
+## install Starship
+
+```
+curl -fsSL https://starship.rs/install.sh | bash
+```
+
+```
+mkdir -p ~/.config && touch ~/.config/starship.toml
+```
+
+## oh my zsh
+
+- https://github.com/ohmyzsh/ohmyzsh
+
+```
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+## plugin
+
+```
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+```
 
 ## install Prezto
+
 - https://github.com/sorin-ionescu/prezto
 
 ```sh
@@ -21,13 +45,16 @@ source $HOME/.zshrc.custom
 ```
 
 ## iTerm2
+
 Preferences -> Profiles -> Report Terminal Type [xterm-256color]
 
 Color theme [参照](https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized)
 
 ## zsh
-Macのlsは色が付かない。coreutilsをインストール。
-その他、GNU版のコマンドツールを使うために以下をインストール。
+
+Mac の ls は色が付かない。coreutils をインストール。
+その他、GNU 版のコマンドツールを使うために以下をインストール。
+
 ```
 $ brew install xz
 $ brew install binutils
@@ -40,24 +67,20 @@ gawk
 jq
 peco
 toilet
-tmux
 zsh
 direnv
 gnu-sed
 watch
 tree
+bat
+tmux
+tmuxinator
 ```
 
 - memo
 
-```sh
-$ brew list
-ansible		binutils	direnv		gdbm		gnu-sed		libevent	mysql		openssl@1.1	pkg-config	rbenv		sqlite		toilet		wget
-autoconf	carthage	findutils	gettext		jq		libyaml		oniguruma	pcre		python		readline	terraform	tree		xz
-awscli		coreutils	gawk		gmp		libcaca		mpfr		openssl		peco		python3		ruby-build	tmux		watch		zsh
-```
-
 [themes for GNU](https://github.com/seebi/dircolors-solarized)
+
 ```sh
 $ mkdir .zsh
 $ cd .zsh/
@@ -66,9 +89,6 @@ $ git clone https://github.com/seebi/dircolors-solarized.git
 
 [tmux color theme](https://github.com/seebi/tmux-colors-solarized)
 
-
 ```
 source $HOME/.zshrc.custom
 ```
-
-

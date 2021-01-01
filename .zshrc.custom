@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
 
-# ↓OS関係なくZshでのみ適応される設定をずらずら書く
 # LANG
 export LANG=ja_JP.UTF-8
 export LESSCHARSET=utf-8
@@ -14,19 +13,33 @@ setopt clobber  # 上書き禁止解除
 }
 
 # secure
-[[ -f $HOME/.dotfiles/.env ]] && source $HOME/.dotfiles/.env
+[[ -f $HOME/.dotfiles/.env ]] && {
+    source $HOME/.dotfiles/.env
+}
 
 # 共通の設定ファイル読み込み
-[[ -e $HOME/.dotfiles/sh/common/ ]] && [[ ! -z "`ls -f $HOME/.dotfiles/sh/common/`" ]] && for f ($HOME/.dotfiles/sh/common/*) source "${f}"
-[[ -e $HOME/.dotfiles/sh/zsh/ ]] && [[ ! -z "`ls -f $HOME/.dotfiles/sh/zsh/`" ]] && for f ($HOME/.dotfiles/sh/zsh/*) source "${f}"
+[[ -e $HOME/.dotfiles/sh/common/ ]] && [[ ! -z "`ls -f $HOME/.dotfiles/sh/common/`" ]] && {
+    for f ($HOME/.dotfiles/sh/common/*) source "${f}"
+}
+[[ -e $HOME/.dotfiles/sh/zsh/ ]] && [[ ! -z "`ls -f $HOME/.dotfiles/sh/zsh/`" ]] && {
+    for f ($HOME/.dotfiles/sh/zsh/*) source "${f}"
+}
 
 # OS別の設定ファイル読み込み
 if [[ `uname` == 'Darwin' ]]; then
-    [ -f $HOME/.dotfiles/sh/common.mac ] && source "$HOME/.dotfiles/sh/common.mac"
-    [ -f $HOME/.dotfiles/sh/zsh.mac ] && source "$HOME/.dotfiles/sh/zsh.mac"
+    [ -f $HOME/.dotfiles/sh/common.mac ] && {
+        source "$HOME/.dotfiles/sh/common.mac"
+    }
+    [ -f $HOME/.dotfiles/sh/zsh.mac ] && {
+        source "$HOME/.dotfiles/sh/zsh.mac"
+    }
 elif [[ `uname` == 'Linux' ]]; then
-    [ -f $HOME/.dotfiles/sh/common.linux ] && source "$HOME/.dotfiles/sh/common.linux"
-    [ -f $HOME/.dotfiles/sh/zsh.linux ] && source "$HOME/.dotfiles/sh/zsh.linux"
+    [ -f $HOME/.dotfiles/sh/common.linux ] && {
+        source "$HOME/.dotfiles/sh/common.linux"
+    }
+    [ -f $HOME/.dotfiles/sh/zsh.linux ] && {
+        source "$HOME/.dotfiles/sh/zsh.linux"
+    }
 else
     echo "Your platform ($(uname -a)) is not supported."
     exit 1

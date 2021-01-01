@@ -7,7 +7,7 @@
 #powerline-daemon -q
 #. $PYTHON_HOME_DIR/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
 
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+# export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
 ########################### Alias ###########################
 
@@ -35,6 +35,10 @@ zle -N peco-snippets-copy
 bindkey '^x^x' peco-snippets-copy
 
 
+
+########################### Kubernetes ###########################
+# https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/
+alias k=kubectl
 
 ########################### Function ###########################
 
@@ -85,68 +89,6 @@ function peco-snippets-copy() {
     zle clear-screen
 }
 
-# ↓をセットしたdir内で、tsshを実行する
-# ap_servers=(
-#   "prod-mikasa-media-webap01"
-#   "prod-mikasa-media-webap02"
-#   "prod-mikasa-media-webap03"
-#   "prod-mikasa-media-webap04"
-# )
-# export AP_SERVERS=${ap_servers[@]}
-function tssh() {
-    if [ ! ${AP_SERVERS} ]; then
-        echo "direnv未設定";
-        return 1;
-    fi
 
-    array=(a`echo ${AP_SERVERS[@]}`)
-    if [ ${#array} == 0 ]; then
-        echo "direnv未設定";
-        return 1;
-    fi
-
-    _tssh `echo ${AP_SERVERS[@]}`
-}
-
-# tmuxで複数サーバの同時オペレーション
-# 「tssh `echo ${AP_SERVERS[@]}`」
-# 
-# (e.g. .dotenv)
-#  ap_server=("web01" "web02" "web03" "web04")
-#  export AP_SERVERS=${ap_servers[@]}
-# 
-function _tssh() {
-    window=tssh
-    hosts=("$@")
-
-    if [ -n "$SESSION_NAME" ];then
-      session=$SESSION_NAME
-    else
-      session="tssh-$$"
-    fi
-
-    tmux start-server
-
-    is_first="true"
-    for host in ${hosts[@]}; do
-        cmd="ssh $host"
-        # cmd="ssh $SSH_OPTION $USER@$host"
-        if [ "${is_first}" == "true" ]; then
-            ### tmuxのセッションを作成
-            tmux new-session -d -n $window -s $session "$cmd"
-            is_first="false"
-        else
-            tmux split-window  -t $session "$cmd"
-            tmux select-layout -t $session tiled 1>/dev/null
-        fi
-    done
-
-    tmux set-window-option -t $session synchronize-panes on
-    ### 最初のpaneを選択状態にする
-    tmux select-pane -t 0
-    ### セッションにアタッチ
-    tmux attach-session -t $session
-}
-
-jvc() { export JAVA_HOME=`/usr/libexec/java_home -X | python -c 'import sys, plistlib; plist = plistlib.readPlist(sys.stdin); print "\n".join(str(dict["JVMVersion"]) for dict in plist)' | peco --prompt "Switch Java Version >" | xargs /usr/libexec/java_home -v` }
+# jvc() { export JAVA_HOME=`/usr/libexec/java_home -X | python -c 'import sys, plistlib; plist = plistlib.readPlist(sys.stdin); print "\n".join(str(dict["JVMVersion"]) for dict in plist)' | peco --prompt "Switch Java Version >" | xargs /usr/libexec/java_home -v` }
 
