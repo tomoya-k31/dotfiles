@@ -5,7 +5,22 @@
 - [brew](https://brew.sh/)
 
 ```sh
-brew install git zsh tmux bat tmuxinator vim neovim
+brew install git zsh tmux bat tmuxinator vim neovim wget
+```
+
+```
+xz
+binutils
+coreutils
+findutils
+gawk
+jq
+peco
+toilet
+direnv
+gnu-sed
+watch
+tree
 ```
 
 - install [Starship](https://starship.rs/)
@@ -51,20 +66,26 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```sh
 # Updated Xcode lastest.
 brew install reattach-to-user-namespace
+
+# tmuxinator completion
+wget https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh -O /usr/local/share/zsh/site-functions/_tmuxinator
 ```
 
 ## setup dotfiles
 
 ```sh
-cd
-git clone git@github.com:tomoya-k31/dotfiles.git .dotfiles && cd $HOME/.dotfiles
-git clone git@github.com:tomoya-k31/dotfiles-private.git .dotfiles-private && cd $HOME/.dotfiles-private
+git clone git@github.com:tomoya-k31/dotfiles-private.git ~/.dotfiles-private
+git clone git@github.com:tomoya-k31/dotfiles.git ~/.dotfiles
 
 # シンボリックリンク
+cd $HOME/.dotfiles
 ./install.sh
 ./alacritty/install.sh
 ./starship/install.sh
 ./tmux/install.sh
+
+cd $HOME/.dotfiles-private
+./tmuxinator/install.sh
 ```
 
 ## install Prezto
@@ -98,23 +119,7 @@ Color theme [参照](https://github.com/altercation/solarized/tree/master/iterm2
 Mac の ls は色が付かない。coreutils をインストール。
 その他、GNU 版のコマンドツールを使うために以下をインストール。
 
-```
-$ brew install xz
-$ brew install binutils
-$ brew install coreutils
-$ brew install findutils
 
-# etc
-wget
-gawk
-jq
-peco
-toilet
-direnv
-gnu-sed
-watch
-tree
-```
 
 - memo
 
@@ -130,4 +135,14 @@ $ git clone https://github.com/seebi/dircolors-solarized.git
 
 ```
 source $HOME/.zshrc.custom
+```
+
+
+## Others
+
+- pokemonsay
+
+```sh
+brew tap possatti/possatti
+brew install pokemonsay
 ```
