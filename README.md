@@ -18,6 +18,9 @@ curl -fsSL https://starship.rs/install.sh | bash
 mkdir -p ~/.config
 ```
 
+- install Hack font (patched nerdfonts)
+  https://www.nerdfonts.com/font-downloads
+
 - install [oh my zsh](https://github.com/ohmyzsh/ohmyzsh)
 
 ```sh
@@ -32,6 +35,9 @@ git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zs
 
 # zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+# zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
 - install [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)

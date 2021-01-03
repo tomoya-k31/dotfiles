@@ -23,6 +23,7 @@ plugins=(
     git
     zsh-completions
     zsh-syntax-highlighting
+    zsh-autosuggestions
 )
 
 autoload -U compinit && compinit
