@@ -53,9 +53,19 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 brew install reattach-to-user-namespace
 ```
 
+## setup dotfiles
 
+```sh
+cd
+git clone git@github.com:tomoya-k31/dotfiles.git .dotfiles && cd $HOME/.dotfiles
+git clone git@github.com:tomoya-k31/dotfiles-private.git .dotfiles-private && cd $HOME/.dotfiles-private
 
-
+# シンボリックリンク
+./install.sh
+./alacritty/install.sh
+./starship/install.sh
+./tmux/install.sh
+```
 
 ## install Prezto
 
@@ -100,14 +110,10 @@ gawk
 jq
 peco
 toilet
-zsh
 direnv
 gnu-sed
 watch
 tree
-bat
-tmux
-tmuxinator
 ```
 
 - memo

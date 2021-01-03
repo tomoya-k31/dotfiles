@@ -13,8 +13,8 @@ setopt clobber  # 上書き禁止解除
 }
 
 # secure
-[[ -f $HOME/.dotfiles/.env ]] && {
-    source $HOME/.dotfiles/.env
+[[ -f $HOME/.env ]] && {
+    source $HOME/.env
 }
 
 # 共通の設定ファイル読み込み
@@ -44,3 +44,8 @@ else
     echo "Your platform ($(uname -a)) is not supported."
     exit 1
 fi
+
+# private shell
+[[ -e $HOME/.dotfiles-private/sh/ ]] && [[ ! -z "`ls -f $HOME/.dotfiles-private/sh/`" ]] && {
+    for f ($HOME/.dotfiles-private/sh/*) source "${f}"
+}

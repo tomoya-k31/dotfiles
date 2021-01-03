@@ -1,2 +1,15 @@
 # プロンプトの先頭に改行を表示しません
 add_newline = false
+
+[battery]
+full_symbol = "🔋"
+charging_symbol = "⚡️"
+discharging_symbol = "💀"
+disabled = false
+
+[kubernetes]
+format = '[⛵ $context\($namespace\)](dimmed green) '
+disabled = false
+
+[docker_context]
+disabled = false

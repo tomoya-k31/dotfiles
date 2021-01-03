@@ -15,6 +15,10 @@ alias tm='tmux'
 alias tma='tmux attach'
 alias tml='tmux list-window'
 
-
+# date
 alias today="date '+%Y%m%d'"
 alias now="date '+%Y%m%d-%H%M%S'"
+
+# kubernetes
+# https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/
+alias k=kubectl
