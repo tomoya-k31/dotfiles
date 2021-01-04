@@ -119,8 +119,6 @@ Color theme [参照](https://github.com/altercation/solarized/tree/master/iterm2
 Mac の ls は色が付かない。coreutils をインストール。
 その他、GNU 版のコマンドツールを使うために以下をインストール。
 
-
-
 - memo
 
 [themes for GNU](https://github.com/seebi/dircolors-solarized)
@@ -137,7 +135,6 @@ $ git clone https://github.com/seebi/dircolors-solarized.git
 source $HOME/.zshrc.custom
 ```
 
-
 ## Others
 
 - pokemonsay
@@ -145,4 +142,12 @@ source $HOME/.zshrc.custom
 ```sh
 brew tap possatti/possatti
 brew install pokemonsay
+```
+
+## Changelog
+
+- [Git 2.27~の git pull 時の warning 抑制](https://qiita.com/tearoom6/items/0237080aaf2ad46b1963)
+
+```sh
+git config --global pull.rebase false
 ```
