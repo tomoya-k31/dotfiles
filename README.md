@@ -151,3 +151,10 @@ brew install pokemonsay
 ```sh
 git config --global pull.rebase false
 ```
+
+- tmux 3.1bから設定ファイルがXDG Base Directory対応のため以下削除
+
+```sh
+rm -f ~/.tmux.conf
+rm -rf ~/.tmux
+```
