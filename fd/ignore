@@ -1,0 +1,13 @@
+/Applications
+/Public
+/Music
+/Movies
+/Pictures
+/go
+/Library
+
+*.bak
+*.log
+*.zip
+*.gz
+*.class

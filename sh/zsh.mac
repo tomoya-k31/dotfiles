@@ -44,7 +44,7 @@ function peco-select-history() {
 function peco-find-directory() {
     local current_buffer=$BUFFER
     # .git系など不可視フォルダは除外
-    local selected_dir="$(find . -maxdepth 3 -type d ! -path "*/.*"| peco)"
+    local selected_dir="$(fd --type d --max-depth 8 | peco --prompt '📁  >')"
     if [ -d "$selected_dir" ]; then
         BUFFER="${current_buffer} ${selected_dir}"
         CURSOR=$#BUFFER

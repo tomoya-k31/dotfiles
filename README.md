@@ -21,6 +21,7 @@ direnv
 gnu-sed
 watch
 tree
+fd
 ```
 
 - install [Starship](https://starship.rs/)
@@ -83,6 +84,7 @@ cd $HOME/.dotfiles
 ./alacritty/install.sh
 ./starship/install.sh
 ./tmux/install.sh
+./fd/install.sh
 
 cd $HOME/.dotfiles-private
 ./tmuxinator/install.sh
@@ -145,6 +147,9 @@ brew install pokemonsay
 ```
 
 ## Changelog
+
+- 21/1/7
+  `fd` コマンド追加
 
 - [Git 2.27~の git pull 時の warning 抑制](https://qiita.com/tearoom6/items/0237080aaf2ad46b1963)
 
