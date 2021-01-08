@@ -85,6 +85,7 @@ cd $HOME/.dotfiles
 ./starship/install.sh
 ./tmux/install.sh
 ./fd/install.sh
+./nvim/install.sh
 
 cd $HOME/.dotfiles-private
 ./tmuxinator/install.sh
@@ -149,7 +150,7 @@ brew install pokemonsay
 ## Changelog
 
 - 21/1/7
-  `fd` コマンド追加
+  `fd` `neovim` の追加
 
 - [Git 2.27~の git pull 時の warning 抑制](https://qiita.com/tearoom6/items/0237080aaf2ad46b1963)
 

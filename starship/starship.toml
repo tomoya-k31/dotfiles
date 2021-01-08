@@ -1,3 +1,5 @@
+# starshipが現在のディレクトリ下のファイルをチェックするまで10ミリ秒待ちます
+scan_timeout = 10
 # プロンプトの先頭に改行を表示しません
 add_newline = false
 
@@ -12,4 +14,34 @@ format = '[⛵ $context\($namespace\)](dimmed green) '
 disabled = false
 
 [docker_context]
-disabled = false
+disabled = true
+
+[golang]
+disabled = true
+
+[julia]
+disabled = true
+
+[nim]
+disabled = true
+
+[openstack]
+disabled = true
+
+[perl]
+disabled = true
+
+[php]
+disabled = true
+
+[purescript]
+disabled = true
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true
+
+[hostname]
+disabled = true

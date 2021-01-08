@@ -4,7 +4,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # Create the tmux config if it doesn't exist
-TMUX_DIR="$HOME/.config/tmux"
+TMUX_DIR="$XDG_CONFIG_HOME/tmux"
 if [ ! -d "${TMUX_DIR}" ]; then
     mkdir -p "${TMUX_DIR}"
 fi

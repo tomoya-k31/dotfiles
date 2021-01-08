@@ -21,3 +21,6 @@ fi
 
 # XDG Base Directory仕様のユーザ設定ファイルディレクトリ
 export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.data"
+export XDG_STATE_HOME="$HOME/.state"

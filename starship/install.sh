@@ -4,7 +4,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # Create the config if it doesn't exist
-CONFIG_DIR="$HOME/.config"
+CONFIG_DIR="$XDG_CONFIG_HOME"
 if [ ! -d "${CONFIG_DIR}" ]; then
     mkdir -p "${CONFIG_DIR}"
 fi

@@ -4,7 +4,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # Create the alacritty config if it doesn't exist
-ALACRITTY_DIR="$HOME/.config/alacritty"
+ALACRITTY_DIR="$XDG_CONFIG_HOME/alacritty"
 if [ ! -d "${ALACRITTY_DIR}" ]; then
     mkdir -p "${ALACRITTY_DIR}"
 fi
