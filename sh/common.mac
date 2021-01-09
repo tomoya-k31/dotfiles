@@ -3,10 +3,9 @@
 ########################### Alias ###########################
 
 # vim
-# export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-# alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-# alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-export EDITOR=/usr/bin/vim
+alias vi='/usr/local/bin/nvim'
+alias vim='/usr/local/bin/nvim'
+export EDITOR='/usr/local/bin/nvim'
 
 # Mac標準のsedは使いにくいのでGNU版を使用 'brew install gnu-sed'
 alias sed='gsed'
