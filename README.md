@@ -89,6 +89,7 @@ cd $HOME/.dotfiles
 
 cd $HOME/.dotfiles-private
 ./tmuxinator/install.sh
+./git/install.sh
 ```
 
 ## install Prezto
