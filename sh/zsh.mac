@@ -56,9 +56,11 @@ function peco-find-directory() {
 
 # tmux セッション検索(alias用)
 function peco-tmux-attach() {
-    local res=$(tmux list-sessions | peco | awk -F':' '{print $1}')
+    local res=$(tmux list-sessions | peco --select-1 | awk -F':' '{print $1}')
     if [ -n "$res" ]; then
-        tmux attach -t ${res}
+        tmux attach-session -t ${res}
+    else
+        tmux new-session
     fi
 }
 

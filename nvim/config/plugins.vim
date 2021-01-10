@@ -19,6 +19,10 @@ if dein#load_state('$CACHE/dein')
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
 
+  " Directory
+  call dein#add('preservim/nerdtree')
+  call dein#add('ryanoasis/vim-devicons')
+
   " Required:
   call dein#end()
   call dein#save_state()
