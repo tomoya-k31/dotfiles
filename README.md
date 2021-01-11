@@ -59,7 +59,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 - install [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm)
 
 ```sh
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ${XDG_CONFIG_HOME}/tmux/plugins/tpm
 ```
 
 - install tmux plugin
@@ -141,6 +141,10 @@ source $HOME/.zshrc.custom
 
 ## Others
 
+- iTerm color theme
+
+https://iterm2colorschemes.com/
+
 - pokemonsay
 
 ```sh
@@ -159,7 +163,7 @@ brew install pokemonsay
 git config --global pull.rebase false
 ```
 
-- tmux 3.1bから設定ファイルがXDG Base Directory対応のため以下削除
+- tmux 3.1b から設定ファイルが XDG Base Directory 対応のため以下削除
 
 ```sh
 rm -f ~/.tmux.conf
