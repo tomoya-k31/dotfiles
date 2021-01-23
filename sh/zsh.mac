@@ -6,8 +6,6 @@
 alias tma='peco-tmux-attach'
 
 ########################### Key Bindings ###########################
-bindkey '[C' forward-word
-bindkey '[D' backward-word
 
 # 履歴からコマンド選択
 zle -N peco-select-history
@@ -15,7 +13,7 @@ bindkey '^r' peco-select-history
 
 # ディレクトリ検索
 zle -N peco-find-directory
-bindkey '^f^f' peco-find-directory
+bindkey 'FF' peco-find-directory
 
 # スニペット検索
 zle -N peco-snippets
