@@ -148,6 +148,14 @@ brew tap possatti/possatti
 brew install pokemonsay
 ```
 
+## Troubleshooting
+
+- [WARN] zsh compinit: insecure directories, run compaudit for list.
+
+```
+compaudit | xargs chmod g-w,o-w
+```
+
 ## Changelog
 
 - 21/1/7
