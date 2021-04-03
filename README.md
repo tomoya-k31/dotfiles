@@ -75,6 +75,8 @@ git clone git@github.com:tomoya-k31/dotfiles.git ~/.dotfiles
 # シンボリックリンク
 cd $HOME/.dotfiles
 ./install.sh
+
+source ~/.zshrc
 ./alacritty/install.sh
 ./starship/install.sh
 ./tmux/install.sh
