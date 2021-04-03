@@ -9,19 +9,13 @@ brew install git zsh tmux bat tmuxinator vim neovim wget
 ```
 
 ```
-xz
-binutils
-coreutils
-findutils
-gawk
-jq
-peco
-toilet
-direnv
-gnu-sed
-watch
-tree
-fd
+xz binutils coreutils findutils gawk jq peco toilet direnv gnu-sed watch tree fd
+```
+
+- Change shell
+
+```sh
+chsh -s /usr/local/bin/zsh
 ```
 
 - install [Starship](https://starship.rs/)
