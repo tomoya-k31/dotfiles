@@ -9,7 +9,7 @@ brew install git zsh tmux bat tmuxinator vim neovim wget
 ```
 
 ```
-xz binutils coreutils findutils gawk jq peco toilet direnv gnu-sed watch tree fd
+xz binutils coreutils findutils gawk jq peco toilet direnv gnu-sed watch tree fd git-secrets
 ```
 
 - Change shell
@@ -75,6 +75,8 @@ git clone git@github.com:tomoya-k31/dotfiles.git ~/.dotfiles
 # シンボリックリンク
 cd $HOME/.dotfiles
 ./install.sh
+
+source ~/.zshrc
 ./alacritty/install.sh
 ./starship/install.sh
 ./tmux/install.sh
@@ -86,52 +88,11 @@ cd $HOME/.dotfiles-private
 ./git/install.sh
 ```
 
-## install Prezto
-
-- https://github.com/sorin-ionescu/prezto
-
-```sh
-$ cd $HOME
-$ git clone https://github.com/tomoya-k31/dotfiles .dotfiles && cd $HOME/.dotfiles
-
-## シンボリックリンクで繋ぐ
-$ cd $HOME/.dotfiles
-$ ./init.sh
-
-# vimの設定
-$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
-$ vim +":NeoBundleInstall" +:q
-
-# .zshrcに以下を追記
-source $HOME/.zshrc.custom
-```
-
 ## iTerm2
 
 Preferences -> Profiles -> Report Terminal Type [xterm-256color]
 
-Color theme [参照](https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized)
-
-## zsh
-
-Mac の ls は色が付かない。coreutils をインストール。
-その他、GNU 版のコマンドツールを使うために以下をインストール。
-
-- memo
-
-[themes for GNU](https://github.com/seebi/dircolors-solarized)
-
-```sh
-$ mkdir .zsh
-$ cd .zsh/
-$ git clone https://github.com/seebi/dircolors-solarized.git
-```
-
-[tmux color theme](https://github.com/seebi/tmux-colors-solarized)
-
-```
-source $HOME/.zshrc.custom
-```
+Color theme [参照](https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Neutron.itermcolors)
 
 ## Others
 
@@ -144,6 +105,14 @@ https://iterm2colorschemes.com/
 ```sh
 brew tap possatti/possatti
 brew install pokemonsay
+```
+
+## Troubleshooting
+
+- [WARN] zsh compinit: insecure directories, run compaudit for list.
+
+```
+compaudit | xargs chmod g-w,o-w
 ```
 
 ## Changelog
