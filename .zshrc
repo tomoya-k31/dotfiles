@@ -14,6 +14,8 @@ setopt hist_expand
 setopt inc_append_history
 setopt nobeep autocd
 
+# https://stackoverflow.com/questions/54061286/setting-zsh-disable-compfix-true-in-zshrc-doesnt-work
+export ZSH_DISABLE_COMPFIX=true
 
 ## ----- oh my zsh ----- ##
 export ZSH=$HOME/.oh-my-zsh
