@@ -1,4 +1,4 @@
-# Private dotfiles
+g Private dotfiles
 
 ## Preparation
 
@@ -9,11 +9,7 @@ brew install git zsh tmux bat tmuxinator vim neovim wget
 ```
 
 ```
-<<<<<<< HEAD
 xz binutils coreutils findutils gawk jq peco toilet direnv gnu-sed watch tree fd git-secrets ansible
-=======
-xz binutils coreutils findutils gawk jq peco toilet direnv gnu-sed watch tree fd git-secrets
->>>>>>> 1aed052 (Update README.md)
 ```
 
 - Change shell

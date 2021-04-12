@@ -1,0 +1,32 @@
+name: integration
+
+on:
+  workflow_dispatch:
+    braches: [main]
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    environment:
+      name: Integration
+    steps:
+      - name: Github grass image
+        id: github_grass
+        uses: tomoya-k31/github-grass-image@dev
+        with:
+          githubAccounts: "tomoya-k31"
+      - name: test
+        run: |
+          ls -la
+          pwd
+          echo "${{ steps.github_grass.outputs.githubGrassOutputImagePath }}"
+      - name: Upload images to slack
+        env:
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        run: |
+          for imgpath in $(echo "${{ steps.github_grass.outputs.githubGrassOutputImagePath }}" | sed "s/,/ /g")
+          do
+              echo "@$imgpath"
+              curl -F "file=@./$imgpath" -F "channels=$SLACK_CHANNEL" -H "Authorization: Bearer $SLACK_TOKEN" https://slack.com/api/files.upload
+          done
