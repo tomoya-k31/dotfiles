@@ -9,7 +9,7 @@ brew install git zsh tmux bat tmuxinator vim neovim wget
 ```
 
 ```
-xz binutils coreutils findutils gawk jq peco toilet direnv gnu-sed watch tree fd git-secrets
+xz binutils coreutils findutils gawk jq peco toilet direnv gnu-sed watch tree fd git-secrets ansible
 ```
 
 - Change shell

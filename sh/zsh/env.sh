@@ -8,6 +8,8 @@ eval "$(direnv hook zsh)"
 
 # perl
 export PATH="$HOME/.plenv/bin:$PATH"
+export PERL_CPANM_OPT="--local-lib=$HOME/.perl5"
+export PERL5LIB=/usr/local/lib/perl5:$PERL5LIB
 eval "$(plenv init - zsh)"
 
 # nvm

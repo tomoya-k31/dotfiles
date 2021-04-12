@@ -1,5 +1,5 @@
 # starshipが現在のディレクトリ下のファイルをチェックするまで10ミリ秒待ちます
-scan_timeout = 10
+scan_timeout = 5
 # プロンプトの先頭に改行を表示しません
 add_newline = false
 
@@ -9,11 +9,32 @@ charging_symbol = "⚡️"
 discharging_symbol = "💀"
 disabled = false
 
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[dart]
+disabled = true
+
+[dotnet]
+disabled = true
+
+[erlang]
+disabled = true
+
+[elm]
+disabled = true
+
 [kubernetes]
 format = '[⛵ $context\($namespace\)](dimmed green) '
 disabled = false
 
 [docker_context]
+disabled = true
+
+[kotlin]
 disabled = true
 
 [golang]
@@ -22,7 +43,16 @@ disabled = true
 [julia]
 disabled = true
 
+[lua]
+disabled = true
+
 [nim]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[ocaml]
 disabled = true
 
 [openstack]
@@ -37,11 +67,26 @@ disabled = true
 [purescript]
 disabled = true
 
+[scala]
+disabled = true
+
 [ruby]
+disabled = true
+
+[swift]
 disabled = true
 
 [rust]
 disabled = true
 
 [hostname]
+disabled = true
+
+[vagrant]
+disabled = true
+
+[zig]
+disabled = true
+
+[package]
 disabled = true
