@@ -26,6 +26,9 @@ alias readlink='greadlink'
 
 # Java
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+[ -d "${SDKMAN_CANDIDATES_DIR}" ] && {
+    export JAVA_HOME="${SDKMAN_CANDIDATES_DIR}/java/current/"
+}
 export JAVA_OPTS=-Dfile.encoding=UTF-8
 
 # Python
@@ -46,3 +49,15 @@ export GOPATH=$HOME/go
 export PATH=$HOME/go/bin:$PATH
 ## デフォルトで以下セットされる
 # export PATH=$PATH:/usr/local/go/bin
+
+
+# For Pyenv
+## brew install readline bzip2 zlib CPPFLAGS
+export PATH="/usr/local/opt/bzip2/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/bzip2/lib"
+export CPPFLAGS="-I/usr/local/opt/bzip2/include"
+
+# gcloud
+[ -d "$HOME/.google-cloud-sdk/bin" ] && {
+    export PATH=$HOME/.google-cloud-sdk/bin:$PATH
+}
