@@ -9,7 +9,7 @@ mkdir -p $HOME/.state
 # Store the current directory of the script
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-DOT_FILES=(.vimrc .bashrc .bash_profile .gvimrc .snippets .zshenv .zprofile .zshrc)
+DOT_FILES=(.vimrc .bashrc .bash_profile .zshenv .zprofile .zshrc)
 
 for dotfile in ${DOT_FILES[@]}
 do

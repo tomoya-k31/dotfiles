@@ -1,6 +1,7 @@
 ## alias設定
 
 # ls
+alias ls="ls --color"
 alias la="ls -a"
 alias lf="ls -F"
 alias ll="ls -l"

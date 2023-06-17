@@ -35,6 +35,6 @@ fi
 ln -s "${SCRIPT_DIR}/settings.json" "${NVIM_DIR}/settings.json"
 
 # Install vim plugin manager
-curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
-sh ./installer.sh $XDG_CACHE_HOME/dein
+curl https://raw.githubusercontent.com/Shougo/dein-installer.vim/master/installer.sh > installer.sh
+sh ./installer.sh
 rm -f installer.sh

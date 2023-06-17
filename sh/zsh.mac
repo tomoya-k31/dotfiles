@@ -7,6 +7,9 @@ alias tma='peco-tmux-attach'
 
 ########################### Key Bindings ###########################
 
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
+
 # 履歴からコマンド選択
 zle -N peco-select-history
 bindkey '^r' peco-select-history
@@ -24,7 +27,6 @@ bindkey '^x^x' peco-snippets-copy
 
 
 ########################### Function ###########################
-
 
 # コマンド履歴のpeco検索
 function peco-select-history() {
@@ -61,19 +63,3 @@ function peco-tmux-attach() {
         tmux new-session
     fi
 }
-
-
-# スニペット検索
-function peco-snippets() {
-    BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER")
-    zle clear-screen
-}
-
-function peco-snippets-copy() {
-    BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER" | pbcopy)
-    zle clear-screen
-}
-
-
-# jvc() { export JAVA_HOME=`/usr/libexec/java_home -X | python -c 'import sys, plistlib; plist = plistlib.readPlist(sys.stdin); print "\n".join(str(dict["JVMVersion"]) for dict in plist)' | peco --prompt "Switch Java Version >" | xargs /usr/libexec/java_home -v` }
-

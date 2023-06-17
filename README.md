@@ -2,10 +2,63 @@ g Private dotfiles
 
 ## Preparation
 
+#### Font
+
+- install Cica font (patched nerdfonts)
+
+```
+git clone https://github.com/miiton/Cica.git
+cd Cica
+docker-compose build ; docker-compose run --rm cica  # ./dist/ に出力される
+```
+
+- install Hack font (patched nerdfonts)
+  https://www.nerdfonts.com/font-downloads
+
+
+#### Version Management
+
+- [SDKMAN](https://sdkman.io/)
+- rbenv
+- pyenv
+- nvm
+
+```sh
+# SDKMAN
+curl -s "https://get.sdkman.io" | bash
+
+# rbenv
+brew install rbenv ruby-build
+
+# pyenv
+brew install pyenv
+brew install readline bzip2 zlib
+
+# nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+```
+
+#### Alacritty (for Apple Silicon)
+
+```sh
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Build Alacritty
+mkdir -p ~/Workspace/app
+cd ~/Workspace/app
+git clone https://github.com/alacritty/alacritty
+cd alacritty
+make app
+cp -r target/release/osx/Alacritty.app /Applications/
+```
+
+#### Terminal
+
 - [brew](https://brew.sh/)
 
 ```sh
-brew install git zsh tmux bat tmuxinator vim neovim wget
+brew install git zsh tmux bat tmuxinator vim neovim wget exa zoxide
 ```
 
 ```
@@ -15,7 +68,13 @@ xz binutils coreutils findutils gawk jq peco toilet direnv gnu-sed watch tree fd
 - Change shell
 
 ```sh
+chsh -s /opt/homebrew/bin/zsh
+
+# old version
 chsh -s /usr/local/bin/zsh
+
+# default
+chsh -s /bin/zsh
 ```
 
 - install [Starship](https://starship.rs/)
@@ -28,9 +87,6 @@ curl -fsSL https://starship.rs/install.sh | bash
 mkdir -p ~/.config
 ```
 
-- install Hack font (patched nerdfonts)
-  https://www.nerdfonts.com/font-downloads
-
 - install [oh my zsh](https://github.com/ohmyzsh/ohmyzsh)
 
 ```sh
@@ -38,6 +94,11 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 ```
 
 - install zsh plugin
+
+```
+# Zinit (https://github.com/zdharma-continuum/zinit#install)
+bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+```
 
 ```sh
 # zsh-completions
@@ -62,9 +123,14 @@ git clone https://github.com/tmux-plugins/tpm ${XDG_CONFIG_HOME}/tmux/plugins/tp
 # Updated Xcode lastest.
 brew install reattach-to-user-namespace
 
-# tmuxinator completion
-wget https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh -O /usr/local/share/zsh/site-functions/_tmuxinator
+# tmuxinator completion(brewでtmuxinatorインストール済みなら不要)
+wget https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh -O $(brew --prefix)/share/zsh/site-functions/_tmuxinator
 ```
+
+#### Installing plugins
+
+1. Add new plugin to `~/.tmux.conf` with `set -g @plugin '...'`
+2. Press `prefix + I` (capital i, as in Install) to fetch the plugin.
 
 ## setup dotfiles
 

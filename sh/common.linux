@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-# Java
-
 alias open=xdg-open
 
 ########################### Alias ###########################
@@ -14,18 +12,6 @@ export EDITOR=/usr/bin/vim
 # Java
 export JAVA_HOME=/usr/java/lastest
 export JAVA_OPTS=-Dfile.encoding=UTF-8
-
-# Python
-export PYENV_ROOT="$HOME/.pyenv"
-[ -d "${PYENV_ROOT}" ] && {
-    export PATH=$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH
-    eval "$(pyenv init -)"
-}
-
-# Python powerline用
-#PYTHON_HOME_DIR=~/Library/Python/2.7
-#export PATH=$PYTHON_HOME_DIR/bin:$PATH
-
 
 # GoLang(use package installer)
 export PATH=$PATH:/usr/local/go/bin

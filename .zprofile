@@ -1,3 +1,6 @@
+# Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Browser
 if [[ "$OSTYPE" == darwin* ]]; then
   export BROWSER='open'
@@ -10,17 +13,22 @@ if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
   export VISUAL='vim'
 else
-  export EDITOR='mvim'
-  export VISUAL='mvim'
+  export EDITOR='vim'
+  export VISUAL='vim'
 fi
 
 # Language
-if [[ -z "$LANG" ]]; then
-  export LANG='ja_JP.UTF-8'
-fi
+export LANG='ja_JP.UTF-8'
+export LESSCHARSET='utf-8'
+export TERM_LANG='UTF-8'
+export LANGUAGE='ja_JP.UTF-8'
+export LC_ALL='ja_JP.UTF-8'
 
 # XDG Base Directory仕様のユーザ設定ファイルディレクトリ
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.data"
 export XDG_STATE_HOME="$HOME/.state"
+
+# Added by Toolbox App
+export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"

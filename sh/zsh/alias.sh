@@ -1,8 +1,6 @@
 
-
 # =========================
-# Docker alias and function
-# - https://github.com/tcnksm/docker-alias
+# Docker alias
 # =========================
 
 # Get latest container ID
@@ -52,3 +50,6 @@ dbash() { docker exec -it $(docker ps -aqf "name=$1") bash; }
 
 # IP
 alias ip="curl inet-ip.info"
+
+# Exa
+alias la="exa -lTHag -L1 --icons"

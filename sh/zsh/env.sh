@@ -6,12 +6,17 @@ eval "$(rbenv init -)"
 # direnv
 eval "$(direnv hook zsh)"
 
-# perl
-export PATH="$HOME/.plenv/bin:$PATH"
-export PERL_CPANM_OPT="--local-lib=$HOME/.perl5"
-export PERL5LIB=/usr/local/lib/perl5:$PERL5LIB
-eval "$(plenv init - zsh)"
+# SDKMAN
+export SDKMAN_DIR="${HOME}/.sdkman" && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 
 # nvm
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+## Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+## Poetry
+export PATH="$HOME/.poetry/bin:$PATH"

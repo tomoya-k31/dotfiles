@@ -1,7 +1,7 @@
 # starshipが現在のディレクトリ下のファイルをチェックするまで10ミリ秒待ちます
-scan_timeout = 5
+scan_timeout = 3
 # プロンプトの先頭に改行を表示しません
-add_newline = false
+add_newline = true
 
 [battery]
 full_symbol = "🔋"
