@@ -9,8 +9,9 @@ if [ ! -d "${ALACRITTY_DIR}" ]; then
     mkdir -p "${ALACRITTY_DIR}"
 fi
 
-# Create a link to ~/.config/alacritty/alacritty.yml
-if [ -L "${ALACRITTY_DIR}/alacritty.yml" ] || [ -e "${ALACRITTY_DIR}/alacritty.yml" ]; then
-    mv "${ALACRITTY_DIR}/alacritty.yml" "${ALACRITTY_DIR}/alacritty.yml.backup"
+# Create a link to ~/.config/alacritty/alacritty.toml
+if [ -L "${ALACRITTY_DIR}/alacritty.toml" ] || [ -e "${ALACRITTY_DIR}/alacritty.toml" ]; then
+    mv "${ALACRITTY_DIR}/alacritty.toml" "${ALACRITTY_DIR}/alacritty.toml.backup"
 fi
-ln -s "${SCRIPT_DIR}/alacritty.yml" "${ALACRITTY_DIR}/alacritty.yml"
+
+ln -s "${SCRIPT_DIR}/alacritty.toml" "${ALACRITTY_DIR}/alacritty.toml"
