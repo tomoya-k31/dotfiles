@@ -21,7 +21,6 @@ docker-compose build ; docker-compose run --rm cica  # ./dist/ に出力され�
 - [SDKMAN](https://sdkman.io/)
 - rbenv
 - pyenv
-- nvm
 
 ```sh
 # SDKMAN
@@ -34,8 +33,10 @@ brew install rbenv ruby-build
 brew install pyenv
 brew install readline bzip2 zlib
 
-# nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+# asdf
+brew install asdf
+## asdf node
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 ```
 
 #### Alacritty (for Apple Silicon)
