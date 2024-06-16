@@ -81,3 +81,5 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# asdf
+. $(brew --prefix asdf)/libexec/asdf.sh
