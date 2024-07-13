@@ -68,3 +68,5 @@ zinit light "zsh-users/zsh-syntax-highlighting"
 
 # asdf
 . $HOME/.asdf/asdf.sh
+# asdf-direnv (`asdf direnv setup --shell zsh --version latest`)
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
