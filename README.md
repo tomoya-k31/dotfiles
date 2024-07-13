@@ -15,30 +15,6 @@ docker-compose build ; docker-compose run --rm cica  # ./dist/ に出力され�
 - install Hack font (patched nerdfonts)
   https://www.nerdfonts.com/font-downloads
 
-
-#### Version Management
-
-- [SDKMAN](https://sdkman.io/)
-- rbenv
-- pyenv
-
-```sh
-# SDKMAN
-curl -s "https://get.sdkman.io" | bash
-
-# rbenv
-brew install rbenv ruby-build
-
-# pyenv
-brew install pyenv
-brew install readline bzip2 zlib
-
-# asdf
-brew install asdf
-## asdf node
-asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-```
-
 #### Alacritty (for Apple Silicon)
 
 ```sh

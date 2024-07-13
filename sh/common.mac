@@ -25,18 +25,7 @@ alias readlink='greadlink'
 
 
 # Java
-[ -d "${SDKMAN_CANDIDATES_DIR}" ] && {
-    export JAVA_HOME="${SDKMAN_CANDIDATES_DIR}/java/current/"
-}
 export JAVA_OPTS=-Dfile.encoding=UTF-8
-
-# Python
-#export PATH=${PATH}:/usr/local/Cellar/python/2.7.5/bin
-export PYENV_ROOT="$HOME/.pyenv"
-[ -d "${PYENV_ROOT}" ] && {
-    export PATH=$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH
-    eval "$(pyenv init -)"
-}
 
 # Python powerline用
 PYTHON_HOME_DIR=~/Library/Python/2.7
@@ -48,7 +37,6 @@ export GOPATH=$HOME/go
 export PATH=$HOME/go/bin:$PATH
 
 
-# For Pyenv
 ## brew install readline bzip2 zlib
 export PATH="/opt/homebrew/opt/bzip2/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/bzip2/lib"

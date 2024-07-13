@@ -30,5 +30,11 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.data"
 export XDG_STATE_HOME="$HOME/.state"
 
+# asdf
+export ASDF_DIR="$HOME/.asdf"
+export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/asdfrc"
+export ASDF_DATA_DIR=$ASDF_DIR
+. "$ASDF_DIR/plugins/java/set-java-home.zsh"
+
 # Added by Toolbox App
 export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
