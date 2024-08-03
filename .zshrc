@@ -67,6 +67,18 @@ zinit light "zsh-users/zsh-syntax-highlighting"
 . $HOME/.dotfiles/.zshrc.custom
 
 # asdf
-. $HOME/.asdf/asdf.sh
+source  $HOME/.asdf/asdf.sh
 # asdf-direnv (`asdf direnv setup --shell zsh --version latest`)
 source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+
+# fzf
+source <(fzf --zsh)
+# fzf (Ctrl+T: ファイル検索)
+export FZF_CTRL_T_COMMAND="fd --type f --max-depth 4"
+export FZF_CTRL_T_OPTS="
+    --select-1 --exit-0
+    --tmux 80%
+    --bind 'ctrl-l:execute(tmux splitw -h -- nvim {})'
+    --bind '>:reload($FZF_ALT_C_COMMAND -H -E .git )'
+    --bind '<:reload($FZF_ALT_C_COMMAND)'
+    --preview 'bat -r :100 --color=always --style=header,grid {}'"
