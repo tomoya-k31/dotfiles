@@ -95,7 +95,15 @@ EOF
 
 function fzf-cd-widget() {
     local current_input="${LBUFFER}"
-    local selected=$(eval "$FZF_ALT_C_COMMAND" | fzf --reverse --select-1 --exit-0 --tmux 80% --preview 'tree -aC -L 1 {} | head -200')
+    local selected=$(eval "$FZF_ALT_C_COMMAND" | \
+        fzf --reverse \
+            --select-1 --exit-0 \
+            --tmux 80% \
+            --bind "tab:replace-query" \
+            --preview 'tree -aC -L 2 {} | head -200'
+    )
+    # --bind "tab:replace-query,tab:reload(fd --type d --max-depth 1 --strip-cwd-prefix {})" \
+    
     selected=$(echo "$selected" | sed -E 's/([() ])/\\\1/g')
     if [ -n "$selected" ]; then
         LBUFFER="$current_input$selected"
