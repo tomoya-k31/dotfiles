@@ -111,3 +111,20 @@ function fzf-cd-widget() {
     fi
 }
 bindkey '^f^f' fzf-cd-widget
+
+
+function gitadd() {
+    local selected
+    selected=$(unbuffer git status -s | fzf --reverse -m --ansi --preview="echo {} | awk '{print \$NF}' | xargs git diff --color" | awk '{print $2}')
+    if [[ -n "$selected" ]]; then
+        selected=$(tr '\n' ' ' <<< "$selected" | sed 's/^ *//; s/ *$//')
+        echo $selected | xargs git add
+        echo "Completed: git add $selected"
+    fi
+}
+
+function gitlog() {
+    git log --graph --color --format='%C(white)%h - %C(green)%cs - %C(blue)%s%C(red)%d' \
+    | fzf --ansi --reverse --no-sort \
+      --preview='echo {} | grep -o "[a-f0-9]\{7\}" && git show --color $(echo {} | grep -o "[a-f0-9]\{7\}")'
+}
