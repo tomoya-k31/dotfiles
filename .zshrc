@@ -16,6 +16,10 @@ setopt nobeep autocd
 # Emacsキーバインディング
 bindkey -e
 
+if [ ${TMUX} ]; then
+    unset zle_bracketed_paste
+fi
+
 # https://stackoverflow.com/questions/54061286/setting-zsh-disable-compfix-true-in-zshrc-doesnt-work
 export ZSH_DISABLE_COMPFIX=true
 
