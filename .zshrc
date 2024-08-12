@@ -16,6 +16,7 @@ setopt nobeep autocd
 # Emacsキーバインディング
 bindkey -e
 
+# https://github.com/tmux/tmux/issues/223
 if [ ${TMUX} ]; then
     unset zle_bracketed_paste
 fi
