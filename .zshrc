@@ -120,7 +120,7 @@ bindkey '^f^f' fzf-cd-widget
 
 function gitadd() {
     local selected
-    selected=$(unbuffer git status -s | fzf --reverse -m --ansi --preview="echo {} | awk '{print \$NF}' | xargs git diff --color" | awk '{print $2}')
+    selected=$(git status -s | grep -E '^\?|^ ' | fzf --reverse -m --ansi --preview="echo {} | awk '{print \$NF}' | xargs git diff --color" | awk '{print $2}')
     if [[ -n "$selected" ]]; then
         selected=$(tr '\n' ' ' <<< "$selected" | sed 's/^ *//; s/ *$//')
         echo $selected | xargs git add
