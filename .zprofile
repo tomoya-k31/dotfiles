@@ -38,3 +38,6 @@ export ASDF_DATA_DIR=$ASDF_DIR
 
 # Added by Toolbox App
 export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+
+# krew (https://krew.sigs.k8s.io/docs/user-guide/setup/install/)
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
