@@ -23,3 +23,7 @@ alias now="date '+%Y%m%d-%H%M%S'"
 # kubernetes
 # https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/
 alias k=kubectl
+
+# https://kubernetes.io/docs/reference/kubectl/generated/kubectl_completion/
+source <(kubectl completion zsh)
+kubectl completion zsh > "${fpath[1]}/_kubectl"
