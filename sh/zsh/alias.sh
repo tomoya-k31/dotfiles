@@ -51,5 +51,5 @@ dbash() { docker exec -it $(docker ps -aqf "name=$1") bash; }
 # IP
 alias ip="curl inet-ip.info"
 
-# Exa
-alias la="exa -lTHag -L1 --icons"
+# Eza
+alias la="eza -lTHag -L1 --icons"

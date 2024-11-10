@@ -46,12 +46,6 @@ xz binutils coreutils findutils gawk jq peco toilet direnv gnu-sed watch tree fd
 
 ```sh
 chsh -s /opt/homebrew/bin/zsh
-
-# old version
-chsh -s /usr/local/bin/zsh
-
-# default
-chsh -s /bin/zsh
 ```
 
 - install [Starship](https://starship.rs/)

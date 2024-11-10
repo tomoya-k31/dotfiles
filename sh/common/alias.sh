@@ -37,3 +37,7 @@ kubectl completion zsh > "${fpath[1]}/_kubectl"
 
 # Kubecolor https://kubecolor.github.io/setup/shells/zsh/
 compdef kubecolor=kubectl
+
+# Sdkman
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

@@ -8,3 +8,4 @@ fi
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "$TMP_HOME/.cargo/env" ]]; then
   . "$TMP_HOME/.cargo/env"
 fi
+. "$HOME/.cargo/env"
