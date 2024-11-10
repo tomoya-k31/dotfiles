@@ -1,9 +1,9 @@
 # 履歴ファイルの保存先
 export HISTFILE=${HOME}/.zhistory
 # メモリに保存される履歴の件数
-export HISTSIZE=1000
+export HISTSIZE=3000
 # 履歴ファイルに保存される履歴の件数
-export SAVEHIST=100000
+export SAVEHIST=300000
 # 重複を記録しない
 setopt hist_ignore_dups
 # 余分な空白は詰めて記録
