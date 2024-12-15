@@ -32,9 +32,9 @@ PYTHON_HOME_DIR=~/Library/Python/2.7
 export PATH=$PYTHON_HOME_DIR/bin:$PATH
 
 
-# GoLang(use package installer)
-export GOPATH=$HOME/go
-export PATH=$HOME/go/bin:$PATH
+# GoLang(asdf)
+source ~/.asdf/plugins/golang/set-env.zsh
+export ASDF_GOLANG_MOD_VERSION_ENABLED=true
 
 
 ## brew install readline bzip2 zlib
@@ -46,3 +46,7 @@ export CPPFLAGS="-I/opt/homebrew/opt/bzip2/include"
 [ -d "$HOME/.google-cloud-sdk/bin" ] && {
     export PATH=$HOME/.google-cloud-sdk/bin:$PATH
 }
+
+# mysql
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
