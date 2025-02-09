@@ -21,6 +21,9 @@ alias xargs='gxargs'
 alias date='gdate'
 alias readlink='greadlink'
 
+# VSCode insiders
+alias code='code-insiders'
+
 ########################### Env ###########################
 
 
