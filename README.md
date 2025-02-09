@@ -119,6 +119,7 @@ source ~/.zshrc
 ./tmux/install.sh
 ./fd/install.sh
 ./nvim/install.sh
+./zed/install.sh
 
 cd $HOME/.dotfiles-private
 ./tmuxinator/install.sh
