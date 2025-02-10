@@ -71,11 +71,6 @@ zinit light "zsh-users/zsh-syntax-highlighting"
 # Customize to your needs...
 . $HOME/.dotfiles/.zshrc.custom
 
-# asdf
-source  $HOME/.asdf/asdf.sh
-# asdf-direnv (`asdf direnv setup --shell zsh --version latest`)
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
-
 # fzf
 source <(fzf --zsh)
 # fzf (Ctrl+T: ファイル検索)

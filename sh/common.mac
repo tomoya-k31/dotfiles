@@ -35,11 +35,6 @@ PYTHON_HOME_DIR=~/Library/Python/2.7
 export PATH=$PYTHON_HOME_DIR/bin:$PATH
 
 
-# GoLang(asdf)
-source ~/.asdf/plugins/golang/set-env.zsh
-export ASDF_GOLANG_MOD_VERSION_ENABLED=true
-
-
 ## brew install readline bzip2 zlib
 export PATH="/opt/homebrew/opt/bzip2/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/bzip2/lib"
