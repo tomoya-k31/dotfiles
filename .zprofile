@@ -35,6 +35,11 @@ if type mise &>/dev/null; then
   eval "$(mise activate zsh --shims)"
 fi
 
+# rye
+if [ -f "$HOME/.rye/env" ]; then
+  source "$HOME/.rye/env"
+fi
+
 # Added by Toolbox App
 export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 
