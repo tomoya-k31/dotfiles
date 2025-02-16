@@ -34,6 +34,8 @@ export JAVA_OPTS=-Dfile.encoding=UTF-8
 PYTHON_HOME_DIR=~/Library/Python/2.7
 export PATH=$PYTHON_HOME_DIR/bin:$PATH
 
+# GoLang(use package installer)
+export PATH=$PATH:$(go env GOPATH)/bin
 
 ## brew install readline bzip2 zlib
 export PATH="/opt/homebrew/opt/bzip2/bin:$PATH"
