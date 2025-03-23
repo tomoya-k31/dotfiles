@@ -1,0 +1,48 @@
+shell = "zsh"
+
+[plugins]
+
+##### defer loading of zsh plugins #####
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+[templates]
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+
+
+##### zsh plugins #####
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+apply = ["defer"]
+
+[plugins.zsh-syntax-highlighting]
+github = 'zsh-users/zsh-syntax-highlighting'
+apply = ['defer']
+
+[plugins.zsh-abbr]
+github = "olets/zsh-abbr"
+
+[plugins.F-Sy-H]
+github = "z-shell/F-Sy-H"
+
+[plugins.zsh-autopair]
+github = "hlissner/zsh-autopair"
+
+[plugins.zoxide]
+github = "ajeetdsouza/zoxide"
+apply = ["defer"]
+
+
+##### zsh themes #####
+[plugins.starship]
+inline = 'eval "$(starship init zsh)"'
+
+
+##### other tools  #####
+[plugins.mise]
+inline = 'eval "$(mise activate zsh --shims)"'
+
+[plugins.sdkman]
+inline = 'export SDKMAN_DIR="$XDG_DATA_HOME/sdkman" && source "$SDKMAN_DIR/bin/sdkman-init.sh"'
+
+[plugins.atuin]
+inline = 'eval "$(atuin init zsh)"'

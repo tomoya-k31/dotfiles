@@ -1,0 +1,40 @@
+show_preview = true
+
+history_filter = [
+  # シェルコマンド自体（誤入力による削除・移動コマンドなど）
+  "^rm\\s",                    # 「rm 」で始まるコマンド
+  "^mv\\s",                    # 「mv 」で始まるコマンド
+
+  # パスワードなどの文字列（大文字小文字を区別しない）
+  "(?i)password",              # "password" を含むもの
+  "(?i)key",                   # "key" を含むもの
+
+  # APIキーやアクセストークン
+  "AKIA[0-9A-Z]{16}",          # AWSアクセスキー（例: AKIA...）
+  "ghp_[A-Za-z0-9]{36}",       # GitHub Personal Access Token（例: ghp_...）
+  "sk_live_[0-9A-Za-z]{24,}",  # Stripeのライブシークレットキー（例: sk_live_...）
+  "AIza[0-9A-Za-z\\-_]{35}",   # Google APIキー（例: AIza...）
+
+  # JWT（JSON Web Token）のパターン（ピリオドで区切られた3部構成）
+  "[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+",
+
+  # 秘密鍵／証明書関連のブロック
+  "-----BEGIN (OPENSSH|RSA|DSA) PRIVATE KEY-----",  # SSH秘密鍵（OpenSSH/RSA/DSA）
+  "-----BEGIN PRIVATE KEY-----",                    # TLS/SSLなどの秘密鍵
+  "-----BEGIN CERTIFICATE-----",                    # 証明書（必要に応じて）
+  "-----BEGIN PGP PRIVATE KEY BLOCK-----",          # PGP秘密鍵
+
+  # データベース接続文字列（例：ユーザー名とパスワードが含まれる）
+  "mysql://[^:]+:[^@]+@[^/]+/\\S+",             # MySQL接続文字列
+
+  # セッションや認証トークン
+  "(?i)sessionid=\\S+",          # sessionid= で始まるトークン
+  "(?i)token=\\S+",              # token= で始まる文字列
+  "(?i)secret_key",              # secret_key（シークレットキーを示唆する文字列）
+
+  # クレジットカード番号（非常にシンプルなパターン）
+  "\\b(?:\\d[ -]*?){13,16}\\b",  # 13～16桁の数字（ハイフンやスペース許容）
+
+  # 米国の社会保障番号（SSN）の例
+  "\\b\\d{3}-\\d{2}-\\d{4}\\b"   # 例: 123-45-6789
+]

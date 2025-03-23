@@ -1,0 +1,186 @@
+# starshipが現在のディレクトリ下のファイルをチェックするまで10ミリ秒待ちます
+scan_timeout = 3
+# プロンプトの先頭に改行を表示しません
+add_newline = true
+
+[battery]
+full_symbol = "🔋"
+charging_symbol = "⚡️"
+discharging_symbol = "💀"
+disabled = false
+
+[aws]
+disabled = true
+
+[buf]
+disabled = true
+
+[bun]
+disabled = true
+
+[c]
+disabled = true
+
+[cmake]
+disabled = true
+
+[cobol]
+disabled = true
+
+[conda]
+disabled = true
+
+[container]
+disabled = true
+
+[crystal]
+disabled = true
+
+[daml]
+disabled = true
+
+[deno]
+disabled = true
+
+[elixir]
+disabled = true
+
+[fill]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[dart]
+disabled = true
+
+[dotnet]
+disabled = true
+
+[erlang]
+disabled = true
+
+[elm]
+disabled = true
+
+[guix_shell]
+disabled = true
+
+[haskell]
+disabled = true
+
+[haxe]
+disabled = true
+
+[kubernetes]
+format = '[⛵ $context\($namespace\)](dimmed green) '
+disabled = false
+
+[docker_context]
+disabled = true
+
+[kotlin]
+disabled = true
+
+[golang]
+disabled = true
+
+[julia]
+disabled = true
+
+[lua]
+disabled = true
+
+[nim]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[ocaml]
+disabled = true
+
+[openstack]
+disabled = true
+
+[perl]
+disabled = true
+
+[php]
+disabled = true
+
+[purescript]
+disabled = true
+
+[scala]
+disabled = true
+
+[ruby]
+disabled = true
+
+[swift]
+disabled = true
+
+[rust]
+disabled = true
+
+[hostname]
+disabled = true
+
+[vagrant]
+disabled = true
+
+[zig]
+disabled = true
+
+[package]
+disabled = true
+
+
+[jobs]
+disabled = true
+
+[meson]
+disabled = true
+
+[odin]
+disabled = true
+
+[opa]
+disabled = true
+
+[pulumi]
+disabled = true
+
+[quarto]
+disabled = true
+
+[raku]
+disabled = true
+
+[red]
+disabled = true
+
+[rlang]
+disabled = true
+
+[shlvl]
+disabled = true
+
+[singularity]
+disabled = true
+
+[solidity]
+disabled = true
+
+[spack]
+disabled = true
+
+[typst]
+disabled = true
+
+[vcsh]
+disabled = true
+
+[vlang]
+disabled = true

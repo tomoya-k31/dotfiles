@@ -1,0 +1,53 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+    "ui_font_size": 14,
+    "buffer_font_size": 12,
+    "indent_guides": {
+      "background_coloring": "indent_aware"
+    },
+    "inlay_hints": {
+      "enabled": true
+    },
+    "project_panel": {
+      // ディレクトリの中に一つしかディレクトリがない場合、ネスト構造にしない
+      "auto_fold_dirs": true
+    },
+    "collaboration_panel": {
+      // collaborationは使用しないので非表示
+      "button": false
+    },
+    "chat_panel": {
+      // chatは使用しないので非表示
+      "button": false
+    },
+    "notification_panel": {
+      // notificationは使用しないので非表示
+      "button": false
+    },
+    // 使用しない機能なので非表示
+    "show_call_status_icon": false,
+    "autosave": "on_focus_change",
+    "terminal": {
+      "copy_on_select": true
+    },
+    "languages": {
+      "Markdown": {
+        "format_on_save": "on"
+      }
+    },
+    "theme": {
+      "mode": "system",
+      "light": "One Dark",
+      "dark": "One Dark"
+    },
+    // keymapをJetBrainsに設定
+    "base_keymap": "JetBrains"
+  }
+  

@@ -1,0 +1,75 @@
+[colors.bright]
+black = "0x636363"
+blue = "0x7eaac7"
+cyan = "0x86d3ce"
+green = "0x909d63"
+magenta = "0xaa6292"
+red = "0xbc5653"
+white = "0xf7f7f7"
+yellow = "0xebc17a"
+
+[colors.cursor]
+cursor = "0xd9d9d9"
+text = "0x2c2c2c"
+
+[colors.dim]
+black = "0x232323"
+blue = "0x556b79"
+cyan = "0x5c8482"
+green = "0x5e6547"
+magenta = "0x6e4962"
+red = "0x74423f"
+white = "0x828282"
+yellow = "0x8b7653"
+
+[colors.normal]
+black = "0x1c1c1c"
+blue = "0x7eaac7"
+cyan = "0x86d3ce"
+green = "0x909d63"
+magenta = "0xaa6292"
+red = "0xbc5653"
+white = "0xcacaca"
+yellow = "0xebc17a"
+
+[colors.primary]
+background = "0x2c2c2c"
+# bright_background = "0x3a3a3a"
+bright_foreground = "0xd9d9d9"
+# exdim_background = "0x202020"
+dim_foreground = "0xdbdbdb"
+foreground = "0xd6d6d6"
+
+[font]
+size = 14.0
+
+[font.bold]
+family = "Cica"
+style = "Bold"
+
+[font.normal]
+family = "Cica"
+style = "Regular"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>"
+
+[terminal.shell]
+args = ["--login", "-c", "/opt/homebrew/bin/tmux a -t 0 || /opt/homebrew/bin/tmux"]
+program = "/opt/homebrew/bin/zsh"
+
+[window]
+opacity = 0.99
+
+[window.dimensions]
+columns = 250
+lines = 80
+
+[window.padding]
+x = 4
+y = 4
