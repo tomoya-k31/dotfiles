@@ -22,7 +22,7 @@ This repository is used to manage my dotfiles using GNU Stow, with support for X
     mkdir -p $HOME/.config/ $HOME/.cache/ $HOME/.local/share/ $HOME/.local/state/
     
     # First stow zsh to get .zshenv in place
-    stow -t ~ zsh bash config
+    stow -t ~ zsh bash config aws
     ```
 
 ### Directory Structure
@@ -34,6 +34,9 @@ dotfiles/
 │   └── .bashrc
 ├── zsh/
 │   ├── .zshenv
+├── aws/
+│   ├── .aws/
+│       └── config
 ├── config/
 │   └── .config/
 │       ├── nvim/
@@ -74,7 +77,7 @@ This dotfile setup enforces the XDG Base Directory specification:
 - `$XDG_STATE_HOME`: `~/.local/state`
 - `$XDG_CACHE_HOME`: `~/.cache`
 
-### Special Notes
+## Special Notes
 
 - `.zshenv` must be placed in your home directory to set `ZDOTDIR` before other zsh config files are loaded.
 - The zsh configuration is split: `.zshenv` in $HOME and other files in `$ZDOTDIR` ($HOME/.config/zsh).

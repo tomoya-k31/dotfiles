@@ -31,6 +31,15 @@ github = "hlissner/zsh-autopair"
 github = "ajeetdsouza/zoxide"
 apply = ["defer"]
 
+[plugins.custom]
+local = "~/.config/zsh/plugins"
+use = [
+    "tools.zsh",
+    "alias.plugin.zsh",
+    "abbr.zsh",
+]
+apply = ["defer"]
+
 
 ##### zsh themes #####
 [plugins.starship]
