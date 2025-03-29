@@ -20,7 +20,6 @@ alias tree='eza --group-directories-first --git --icons --tree'
 export MANPAGER="sh -c 'col -bx | bat --color=always --language=man --plain'"
 export BAT_THEME="Dracula"
 export BAT_STYLE="numbers,changes,header"
-alias cat='bat'
 
 # httpie
 alias https='http --default-scheme=https'

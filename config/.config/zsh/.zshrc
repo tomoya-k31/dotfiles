@@ -1,8 +1,8 @@
 # ~/.zshrc
 
 # History configuration
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=1000000
 HISTFILE=$XDG_DATA_HOME/zsh/history
 
 # Create history file directory if it doesn't exist
@@ -27,19 +27,6 @@ else
   [[ -d $XDG_CACHE_HOME/zsh ]] || mkdir -p $XDG_CACHE_HOME/zsh
   compinit -d $XDG_CACHE_HOME/zsh/zcompdump
 fi
-
-# User specific aliases and functions
-alias ll='ls -la'
-alias gs='git status'
-alias la='ls -A'
-alias l='ls -CF'
-alias vi='vim'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-
-
-
 
 ##### plugins #####
 eval "$(sheldon source)"

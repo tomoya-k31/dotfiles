@@ -24,4 +24,3 @@ alias gs='git status'
 alias la='ls -A'
 alias l='ls -CF'
 alias vi='vim'
-. "$HOME/.cargo/env"
