@@ -24,3 +24,4 @@ alias gs='git status'
 alias la='ls -A'
 alias l='ls -CF'
 alias vi='vim'
+. "/Users/tomoya-k31/.local/share/cargo/env"

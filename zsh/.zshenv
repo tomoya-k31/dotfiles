@@ -15,6 +15,8 @@ export XDG_CONFIG_HOME=$HOME/.config
 export XDG_STATE_HOME=$HOME/.local/state
 export XDG_CACHE_HOME=$HOME/.cache
 
+export PATH="$HOME/.local/bin:$PATH"
+
 ### zsh ###
 # Set ZDOTDIR to the location of the dotfiles repository
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
@@ -45,3 +47,12 @@ source "$RYE_HOME/env"
 
 ### Ansible
 export ANSIBLE_HOME="$XDG_DATA_HOME/ansible"
+
+### MySQL
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/mysql-client/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/mysql-client/include"
+
+### Mise
+export MISE_PYTHON_DEFAULT_PACKAGES_FILE="$XDG_CONFIG_HOME/mise/default-python-packages"
+export MISE_NODE_DEFAULT_PACKAGES_FILE="$XDG_CONFIG_HOME/mise/default-npm-packages"
