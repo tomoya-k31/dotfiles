@@ -7,3 +7,7 @@ ruby = "3"
 gcloud = "latest"
 uv = "latest"
 pnpm = "latest"
+
+[settings]
+experimental = true
+pipx_uvx = true
