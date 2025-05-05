@@ -182,7 +182,7 @@ secrets_filter = true
 
 ## Defaults to true. If enabled, upon hitting enter Atuin will immediately execute the command. Press tab to return to the shell and edit.
 # This applies for new installs. Old installs will keep the old behaviour unless configured otherwise.
-enter_accept = true
+enter_accept = false
 
 ## Defaults to "emacs".  This specifies the keymap on the startup of `atuin
 ## search`.  If this is set to "auto", the startup keymap mode in the Atuin
@@ -212,13 +212,8 @@ enter_accept = true
 
 ## Set commands that will be completely ignored from stats
 ignored_commands = [
-  "cd",
-  "ls",
-  "vi",
-  "vim",
   "export",
   "unset",
-  "echo",
 ]
 
 [keys]

@@ -28,5 +28,10 @@ else
   compinit -d $XDG_CACHE_HOME/zsh/zcompdump
 fi
 
+# Key bindings
+bindkey "^[b" backward-word   # Option + ←
+bindkey "^[f" forward-word    # Option + →
+
 ##### plugins #####
 eval "$(sheldon source)"
+
