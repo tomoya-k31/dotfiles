@@ -8,6 +8,7 @@ export LESSCHARSET='utf-8'
 export TERM_LANG='UTF-8'
 export LANGUAGE='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
+export LC_CTYPE='en_US.UTF-8'
 
 # XDG Base Directory仕様のユーザ設定ファイルディレクトリ
 export XDG_DATA_HOME=$HOME/.local/share
