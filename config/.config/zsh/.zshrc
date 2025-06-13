@@ -35,3 +35,8 @@ bindkey "^[f" forward-word    # Option + →
 ##### plugins #####
 eval "$(sheldon source)"
 
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
+
+# Hishtory Config:
+export PATH="$PATH:/Users/tomoya-k31/.hishtory"
+source /Users/tomoya-k31/.hishtory/config.zsh
