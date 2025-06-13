@@ -37,6 +37,7 @@ use = [
     "tools.zsh",
     "alias.plugin.zsh",
     "abbr.zsh",
+    "functions.zsh",
 ]
 apply = ["defer"]
 

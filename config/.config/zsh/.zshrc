@@ -32,9 +32,12 @@ fi
 bindkey "^[b" backward-word   # Option + ←
 bindkey "^[f" forward-word    # Option + →
 
-##### plugins #####
-eval "$(sheldon source)"
-
 # Hishtory Config:
 export PATH="$PATH:/Users/$(whoami)/.hishtory"
 source /Users/$(whoami)/.hishtory/config.zsh
+
+# fzf:
+source <(fzf --zsh)
+
+##### plugins #####
+eval "$(sheldon source)"
