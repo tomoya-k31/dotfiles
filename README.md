@@ -45,29 +45,6 @@ dotfiles/
 └── README.md
 ```
 
-## Other Tools Configuration
-
-### Atuin Configuration
-
-Atuin is a modern shell history manager that syncs your command history across multiple machines. Follow these steps to install and configure Atuin:
-
-#### Installation
-
-```sh
-brew install atuin
-```
-
-#### Starting and Syncing
-Once configured, simply start your shell. Atuin will capture and sync your command history automatically.
-
-To enable cloud sync, log in to your Atuin server:
-
-```sh
-atuin login
-atuin import auto
-atuin sync
-```
-
 ## XDG Base Directory Support
 
 This dotfile setup enforces the XDG Base Directory specification:
