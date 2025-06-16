@@ -1,0 +1,2 @@
+# Tools
+abbr lg='lazygit'
