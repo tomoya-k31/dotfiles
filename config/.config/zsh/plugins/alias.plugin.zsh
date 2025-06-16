@@ -23,3 +23,6 @@ export BAT_STYLE="numbers,changes,header"
 
 # httpie
 alias https='http --default-scheme=https'
+
+# claude
+alias claude-yolo='claude --dangerously-skip-permissions'
