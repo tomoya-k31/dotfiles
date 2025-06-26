@@ -29,8 +29,8 @@ else
 fi
 
 # Key bindings
-bindkey "^[b" backward-word   # Option + ←
-bindkey "^[f" forward-word    # Option + →
+bindkey "^[[1;3D" backward-word # Option + ←
+bindkey "^[[1;3C" forward-word  # Option + →
 
 # Hishtory Config:
 export PATH="$PATH:/Users/$(whoami)/.hishtory"
