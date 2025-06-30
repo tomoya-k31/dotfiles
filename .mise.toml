@@ -1,0 +1,2 @@
+[env]
+_.source = "./scripts/setup-sops-key.sh"

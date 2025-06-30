@@ -8,5 +8,9 @@
 .Trash-*
 ._*
 
-# tmux plugins directory
+## tmux plugins directory
 config/.config/tmux/plugins/
+
+## Encrypted files - managed by encrypted-files.json ##
+aws/.aws/config
+## End encrypted files ##

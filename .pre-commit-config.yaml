@@ -1,0 +1,10 @@
+repos:
+  - repo: local
+    hooks:
+      - id: auto-encrypt-files
+        name: Auto-encrypt sensitive files
+        entry: ./scripts/pre-commit-encrypt.sh
+        language: script
+        files: ^(aws/\.aws/config)$
+        pass_filenames: true
+        stages: [pre-commit]

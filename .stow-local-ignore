@@ -1,0 +1,13 @@
+\.git
+\.github
+\.gitignore
+\.DS_Store
+
+^/README.*
+^/LICENSE.*
+^/.gitignore.*
+
+# 特定のファイルパターンを除外
+.*\.encrypted$
+.*\.backup$
+.*\.tmp$

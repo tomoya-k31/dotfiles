@@ -22,7 +22,7 @@ This repository is used to manage my dotfiles using GNU Stow, with support for X
     mkdir -p $HOME/.config/ $HOME/.cache/ $HOME/.local/share/ $HOME/.local/state/
     
     # First stow zsh to get .zshenv in place
-    stow -t ~ zsh bash config aws
+    stow -t ~ --no-folding zsh bash config aws
     ```
 
 ### Directory Structure

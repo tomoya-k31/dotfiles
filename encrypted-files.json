@@ -1,0 +1,6 @@
+[
+  {
+    "source": "aws/.aws/config",
+    "encrypted": "aws/.aws/config.encrypted"
+  }
+]

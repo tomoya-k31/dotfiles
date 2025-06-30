@@ -4,8 +4,8 @@
 if [ -f ~/.bashrc ]; then
     . ~/.bashrc
 fi
-. "/Users/tomoya-k31/.local/share/cargo/env"
+. ~/.local/share/cargo/env
 
 # Hishtory Config:
-export PATH="$PATH:/Users/tomoya-k31/.hishtory"
-source /Users/tomoya-k31/.hishtory/config.sh
+export PATH="$PATH:/Users/$(whoami)/.hishtory"
+source "/Users/$(whoami)/.hishtory/config.sh"
