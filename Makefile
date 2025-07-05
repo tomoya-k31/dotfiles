@@ -24,6 +24,7 @@ decrypt:
 	./scripts/decrypt-files.sh
 
 sync:
-	@echo "=== Syncing files ==="
+	@echo "=== Updating gitignore file ==="
 	./scripts/update-gitignore.sh
+	@echo "=== Syncing files ==="
 	./scripts/sync.sh
