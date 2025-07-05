@@ -65,7 +65,7 @@ if [ ! -f "$PROJECT_ROOT/encrypted-files.json" ]; then
     exit 1
 fi
 
-print_header "Smart Sync with 3-way Merge Logic"
+print_header "Sync with 3-way Merge Logic"
 
 print_phase "1" "Remote Update Detection"
 print_git_fetch
@@ -148,22 +148,6 @@ if echo "$encrypt_output" | grep -q "Updated\|Created\|Recreated"; then
             print_file_updated "$encrypted_path"
         fi
     done
-    
-    print_phase "4" "Git Operations"
-    if ! git diff --cached --quiet; then
-        print_git_commit
-        git commit -m "Update encrypted configuration files
-
-🤖 Generated with [Claude Code](https://claude.ai/code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-        
-        print_git_push
-        git push origin $current_branch
-        print_success "Local updates pushed successfully"
-    else
-        print_info "No changes to commit"
-    fi
 else
     print_info "No local updates detected"
 fi
