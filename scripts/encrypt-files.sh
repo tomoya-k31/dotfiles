@@ -23,13 +23,33 @@ jq -r '.[] | "\(.source)|\(.encrypted)"' "$PROJECT_ROOT/encrypted-files.json" | 
         continue
     fi
     
-    echo "Encrypting: $source_file -> $encrypted_file"
+    echo "Checking: $source_path"
     
-    mkdir -p "$(dirname "$encrypted_file")"
+    # If encrypted file doesn't exist, create it
+    if [ ! -f "$encrypted_file" ]; then
+        echo "Creating encrypted file: $encrypted_file"
+        mkdir -p "$(dirname "$encrypted_file")"
+        sops -e "$source_file" > "$encrypted_file"
+        echo "✓ Created: $encrypted_file"
+        continue
+    fi
     
-    sops -e "$source_file" > "$encrypted_file"
+    # Decrypt existing encrypted file to temp file for comparison
+    temp_decrypted=$(mktemp)
+    trap "rm -f $temp_decrypted" EXIT
     
-    echo "✓ Encrypted: $encrypted_file"
+    if sops -d "$encrypted_file" > "$temp_decrypted" 2>/dev/null; then
+        # Compare source file with decrypted version
+        if ! cmp -s "$source_file" "$temp_decrypted"; then
+            echo "Source file changed, updating encrypted version: $encrypted_file"
+            sops -e "$source_file" > "$encrypted_file"
+            echo "✓ Updated: $encrypted_file"
+        fi
+    else
+        echo "Failed to decrypt $encrypted_file, recreating..."
+        sops -e "$source_file" > "$encrypted_file"
+        echo "✓ Recreated: $encrypted_file"
+    fi
+    
+    rm -f "$temp_decrypted"
 done
-
-echo "All files encrypted successfully!"

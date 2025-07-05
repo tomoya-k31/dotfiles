@@ -9,5 +9,6 @@
 
 # 特定のファイルパターンを除外
 .*\.encrypted$
+.*\.template$
 .*\.backup$
 .*\.tmp$
