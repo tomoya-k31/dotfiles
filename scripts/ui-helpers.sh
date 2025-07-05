@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # UI Helper Functions for better visual output
 # Usage: source this file in your scripts

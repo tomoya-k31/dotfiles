@@ -9,18 +9,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## セットアップコマンド
 
 ```bash
-# 必要なツールのインストール
-brew install stow sheldon
-
 # リポジトリクローン
 git clone https://github.com/tomoya-k31/dotfiles.git
 cd dotfiles
 
-# XDGディレクトリ作成
-mkdir -p $HOME/.config/ $HOME/.cache/ $HOME/.local/share/ $HOME/.local/state/
-
-# Stowでシンボリックリンク作成
-stow -t ~ zsh bash config aws
+# 初期化
+make init
 ```
 
 ## アーキテクチャと構成
@@ -54,7 +48,7 @@ stow -t ~ zsh bash config aws
 ## カスタム機能
 
 ### 略語とエイリアス
-- `cc`: Claude CLI（権限スキップ付き）
+- `claude-yolo`: Claude CLI（権限スキップ付き）
 - 各種lsエイリアス（eza使用）
 - Git関連略語（zsh-abbrプラグイン使用）
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # SOPS Age Private Key (dotfiles)を1Passwordから取得
 if command -v op &> /dev/null; then
