@@ -13,5 +13,4 @@ config/.config/tmux/plugins/
 
 ## Encrypted files - managed by encrypted-files.json ##
 aws/.aws/config
-aws/.aws/credential_script.sh
 ## End encrypted files ##
