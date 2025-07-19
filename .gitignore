@@ -13,5 +13,4 @@ config/.config/tmux/plugins/
 
 ## Encrypted files - managed by encrypted-files.json ##
 config/.config/git/config
-config/.config/sops/age/keys.txt
 ## End encrypted files ##

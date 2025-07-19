@@ -2,9 +2,5 @@
   {
     "source": "config/.config/git/config",
     "encrypted": "config/.config/git/config.encrypted"
-  },
-  {
-    "source": "config/.config/sops/age/keys.txt",
-    "encrypted": "config/.config/sops/age/keys.txt.encrypted"
   }
 ]
