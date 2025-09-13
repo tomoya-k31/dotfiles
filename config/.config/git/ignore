@@ -6,3 +6,5 @@
 .Trashes
 ._*
 .worktrees
+
+**/.claude/settings.local.json
