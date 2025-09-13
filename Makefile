@@ -1,4 +1,4 @@
-.PHONY: install install-deps init encrypt decrypt-secrets clean-decrypted template-to-encrypted encrypted-to-template source-to-template template-to-source check-files detect-local-changes detect-remote-changes check-sync-status update-sync-state sync-local-to-remote sync-remote-to-local auto-sync backup restore cleanup-backups
+.PHONY: install install-deps init install-check encrypt decrypt sync
 
 install-deps:
 	@echo "=== Installing dependencies ==="
