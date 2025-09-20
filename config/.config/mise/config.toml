@@ -1,8 +1,8 @@
 [tools]
-go = "1.23"
+go = "1.25"
 java = "corretto-21"
-node = "23"
-python = "3.12"
+node = "22"
+python = "3.13"
 ruby = "3"
 gcloud = "latest"
 uv = "latest"
