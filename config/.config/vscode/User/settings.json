@@ -1,0 +1,10 @@
+{
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "git.confirmSync": false,
+    "editor.language.brackets": [],
+    "workbench.iconTheme": "vscode-icons",
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "claude-code.selectedModel": "default"
+}
