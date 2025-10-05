@@ -10,6 +10,8 @@
     "editor.guides.bracketPairs": "active",
     // 未使用の変数をハイライト
     "editor.showUnused": true,
+    // 差分エディタの空白トリムを無視
+    "diffEditor.ignoreTrimWhitespace": false,
 
     // 文字エンコーディングの自動推測を有効化
     "files.autoGuessEncoding": true,
@@ -24,7 +26,7 @@
         "**/*.pyc": true,
         "**/__pycache__": true
     },
-    
+
     // デフォルトの改行コード(LF推奨)
     "files.eol": "\n",
 
@@ -38,7 +40,7 @@
     "github.copilot.nextEditSuggestions.enabled": true,
     "claude-code.selectedModel": "default",
     "git.confirmSync": false,
-  
+
     // JSON
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
