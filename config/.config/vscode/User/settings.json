@@ -65,5 +65,6 @@
     // ----------------devcontainers-------------------
     "dotfiles.repository": "git@github.com:tomoya-k31/devcontainers-dotfiles.git",
     "dotfiles.targetPath": "~/dotfiles",
-    "dotfiles.installCommand": "install.sh"
+    "dotfiles.installCommand": "install.sh",
+    "remote.autoForwardPortsSource": "hybrid"
 }
