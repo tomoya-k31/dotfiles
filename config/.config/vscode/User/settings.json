@@ -1,8 +1,7 @@
 {
-  // ファイル保存時に自動フォーマット
-  "editor.formatOnSave": true,
+  "editor.formatOnType": false,
   // ペースト時に自動フォーマット
-  "editor.formatOnPaste": true,
+  "editor.formatOnPaste": false,
   "editor.language.brackets": [],
   // 空白文字の表示設定(行末のスペースやタブのみ表示)
   "editor.renderWhitespace": "boundary",
