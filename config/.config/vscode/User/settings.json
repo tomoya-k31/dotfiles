@@ -1,69 +1,70 @@
 {
-    // ファイル保存時に自動フォーマット
+  // ファイル保存時に自動フォーマット
+  "editor.formatOnSave": true,
+  // ペースト時に自動フォーマット
+  "editor.formatOnPaste": true,
+  "editor.language.brackets": [],
+  // 空白文字の表示設定(行末のスペースやタブのみ表示)
+  "editor.renderWhitespace": "boundary",
+  // 括弧のペアガイドを表示(現在カーソルがある括弧のみ強調)
+  "editor.guides.bracketPairs": "active",
+  // 未使用の変数をハイライト
+  "editor.showUnused": true,
+  // 差分エディタの空白トリムを無視
+  "diffEditor.ignoreTrimWhitespace": false,
+
+  // 文字エンコーディングの自動推測を有効化
+  "files.autoGuessEncoding": true,
+  // ファイル保存時の処理
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  // 除外ファイルの設定
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/*.pyc": true,
+    "**/__pycache__": true
+  },
+
+  // デフォルトの改行コード(LF推奨)
+  "files.eol": "\n",
+
+  // 起動時にウェルカム画面を表示しない
+  "workbench.startupEditor": "none",
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.statusBar.visible": true,
+  // ドラッグ&ドロップ時の確認ダイアログを非表示
+  "explorer.confirmDragAndDrop": false,
+
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "git.confirmSync": false,
+
+  // JSON
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.quickSuggestions": {
+      "strings": true
+    }
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // Markdown用の設定
+  "[markdown]": {
     "editor.formatOnSave": true,
-    // ペースト時に自動フォーマット
-    "editor.formatOnPaste": true,
-    "editor.language.brackets": [],
-    // 空白文字の表示設定(行末のスペースやタブのみ表示)
-    "editor.renderWhitespace": "boundary",
-    // 括弧のペアガイドを表示(現在カーソルがある括弧のみ強調)
-    "editor.guides.bracketPairs": "active",
-    // 未使用の変数をハイライト
-    "editor.showUnused": true,
-    // 差分エディタの空白トリムを無視
-    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.wordWrap": "on",
+    "editor.renderWhitespace": "all",
+    "editor.acceptSuggestionOnEnter": "off"
+  },
 
-    // 文字エンコーディングの自動推測を有効化
-    "files.autoGuessEncoding": true,
-    // ファイル保存時の処理
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
-    // 除外ファイルの設定
-    "files.exclude": {
-        "**/.git": true,
-        "**/.DS_Store": true,
-        "**/*.pyc": true,
-        "**/__pycache__": true
-    },
-
-    // デフォルトの改行コード(LF推奨)
-    "files.eol": "\n",
-
-    // 起動時にウェルカム画面を表示しない
-    "workbench.startupEditor": "none",
-    "workbench.iconTheme": "vscode-icons",
-    "workbench.statusBar.visible": true,
-    // ドラッグ&ドロップ時の確認ダイアログを非表示
-    "explorer.confirmDragAndDrop": false,
-
-    "github.copilot.nextEditSuggestions.enabled": true,
-    "claude-code.selectedModel": "default",
-    "git.confirmSync": false,
-
-    // JSON
-    "[json]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.quickSuggestions": {
-        "strings": true
-        }
-    },
-    "[jsonc]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    // Markdown用の設定
-    "[markdown]": {
-        "editor.formatOnSave": true,
-        "editor.wordWrap": "on",
-        "editor.renderWhitespace": "all",
-        "editor.acceptSuggestionOnEnter": "off"
-    },
-
-    "emmet.variables": {
-        "lang": "ja"
-    },
-    // ----------------devcontainers-------------------
-    "dotfiles.repository": "git@github.com:tomoya-k31/devcontainers-dotfiles.git",
-    "dotfiles.targetPath": "~/dotfiles",
-    "dotfiles.installCommand": "install.sh"
+  "emmet.variables": {
+    "lang": "ja"
+  },
+  // ----------------devcontainers-------------------
+  "dotfiles.repository": "git@github.com:tomoya-k31/devcontainers-dotfiles.git",
+  "dotfiles.targetPath": "~/dotfiles",
+  "dotfiles.installCommand": "install.sh",
+  "remote.autoForwardPortsSource": "hybrid",
+  "claudeCode.selectedModel": "default"
 }
