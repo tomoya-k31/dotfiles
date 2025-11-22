@@ -61,10 +61,11 @@
   "emmet.variables": {
     "lang": "ja"
   },
+  "claudeCode.selectedModel": "default",
+  "claude-code.selectedModel": "default",
   // ----------------devcontainers-------------------
   "dotfiles.repository": "git@github.com:tomoya-k31/devcontainers-dotfiles.git",
   "dotfiles.targetPath": "~/dotfiles",
   "dotfiles.installCommand": "install.sh",
-  "remote.autoForwardPortsSource": "hybrid",
-  "claudeCode.selectedModel": "default"
+  "remote.autoForwardPortsSource": "hybrid"
 }
