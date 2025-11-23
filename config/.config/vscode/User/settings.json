@@ -29,6 +29,9 @@
   // デフォルトの改行コード(LF推奨)
   "files.eol": "\n",
 
+  // Makefile拡張機能の設定
+  "makefile.configureOnOpen": false,
+
   // 起動時にウェルカム画面を表示しない
   "workbench.startupEditor": "none",
   "workbench.iconTheme": "vscode-icons",
@@ -60,8 +63,11 @@
   "emmet.variables": {
     "lang": "ja"
   },
+
+  // ----------------Claude Code-------------------
   "claudeCode.selectedModel": "default",
   "claude-code.selectedModel": "default",
+
   // ----------------devcontainers-------------------
   "dotfiles.repository": "git@github.com:tomoya-k31/devcontainers-dotfiles.git",
   "dotfiles.targetPath": "~/dotfiles",
