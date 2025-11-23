@@ -41,14 +41,14 @@ dim_foreground = "0xdbdbdb"
 foreground = "0xd6d6d6"
 
 [font]
-size = 14.0
+size = 12.0
 
 [font.bold]
-family = "Cica"
-style = "Bold"
+family = "PlemolJP35 Console NF"
+style = "Medium"
 
 [font.normal]
-family = "Cica"
+family = "PlemolJP35 Console NF"
 style = "Regular"
 
 [scrolling]
