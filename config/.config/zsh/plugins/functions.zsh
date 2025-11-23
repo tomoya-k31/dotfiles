@@ -65,7 +65,7 @@ function git-worktree-manager() {
         --cursor.foreground="212" \
         "📂 Open/Switch" \
         "✨ New Worktree" \
-        "🗑️  Delete Worktree" \
+        "🗑️ Delete Worktree" \
         "📋 List All")
 
     if [[ -z "$action" ]]; then
@@ -79,7 +79,7 @@ function git-worktree-manager() {
             local input_method=$(gum choose \
                 --header "How to specify branch?" \
                 "🔍 Search existing branches (local + remote)" \
-                "✏️  Enter new branch name")
+                "✏️ Enter new branch name")
 
             if [[ -z "$input_method" ]]; then
                 zle reset-prompt
@@ -124,7 +124,7 @@ function git-worktree-manager() {
             fi
             ;;
 
-        "📂 Open/Switch"|"🗑️  Delete Worktree")
+        "📂 Open/Switch"|"🗑️ Delete Worktree")
             # worktreeリストを取得（--porcelainで確実にパース可能な形式で取得）
             # 形式: パス\tブランチ名\tステータス
             # master/mainブランチは除外
@@ -134,10 +134,10 @@ function git-worktree-manager() {
                 grep -vE '^(master|main)$')
 
             if [[ -z "$worktree_list" ]]; then
-                if [[ "$action" == "🗑️  Delete Worktree" ]]; then
-                    gum style --foreground 220 "⚠️  No worktrees to delete (master/main branches are protected)"
+                if [[ "$action" == "🗑️ Delete Worktree" ]]; then
+                    gum style --foreground 220 "⚠️ No worktrees to delete (master/main branches are protected)"
                 else
-                    gum style --foreground 220 "⚠️  No worktrees found"
+                    gum style --foreground 220 "⚠️ No worktrees found"
                 fi
                 echo ""
                 gum style --foreground 240 "Press any key to continue..."
@@ -185,7 +185,7 @@ function git-worktree-manager() {
                     # 削除確認
                     if gum confirm "Really delete '$target'?" --affirmative "Delete" --negative "Cancel"; then
                         if git gtr rm "$target" --delete-branch --force; then
-                            gum style --foreground 212 "🗑️  Deleted: $target"
+                            gum style --foreground 212 "🗑️ Deleted: $target"
                         else
                             gum style --foreground 196 "❌ Failed to delete worktree"
                         fi
