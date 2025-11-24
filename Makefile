@@ -1,4 +1,4 @@
-.PHONY: install install-deps init install-check encrypt decrypt sync vscode-setup
+.PHONY: install install-deps init install-check unstow encrypt decrypt sync vscode-setup
 
 install-deps:
 	@echo "=== Installing dependencies ==="
@@ -16,6 +16,10 @@ init: install-deps install vscode-setup
 install-check:
 	@echo "=== Stow simulation ==="
 	stow -t ~ -n --no-folding zsh bash config
+
+unstow:
+	@echo "=== Removing dotfiles symlinks ==="
+	stow -D -t ~ --no-folding zsh bash config
 
 vscode-setup:
 	@echo "Setting up VS Code with XDG..."
