@@ -43,8 +43,10 @@ export KREW_ROOT="$XDG_DATA_HOME/krew"
 export PATH="${KREW_ROOT}/bin:$PATH"
 
 ### Python ###
-export RYE_HOME="$XDG_DATA_HOME/rye"
-source "$RYE_HOME/env"
+if [[ -f "$XDG_DATA_HOME/rye" ]]; then
+  export RYE_HOME="$XDG_DATA_HOME/rye"
+  source "$RYE_HOME/env"
+fi
 
 ### Ansible
 export ANSIBLE_HOME="$XDG_DATA_HOME/ansible"
