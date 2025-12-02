@@ -65,6 +65,8 @@ program = "/opt/homebrew/bin/zsh"
 
 [window]
 opacity = 0.95
+# OptionキーをAlt(Meta)として扱う設定（"Both" は左右両方のOptionキーを対象にします）
+option_as_alt = "Both"
 
 [window.dimensions]
 columns = 250

@@ -207,4 +207,5 @@ function git-worktree-manager() {
 }
 
 zle -N git-worktree-manager
-bindkey '^xw' git-worktree-manager
+# Option+wでGit Worktreeマネージャーを起動
+bindkey '^[w' git-worktree-manager
