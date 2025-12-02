@@ -207,4 +207,4 @@ function git-worktree-manager() {
 }
 
 zle -N git-worktree-manager
-bindkey '^w^w' git-worktree-manager
+bindkey '^xw' git-worktree-manager
