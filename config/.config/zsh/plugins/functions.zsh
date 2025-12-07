@@ -114,8 +114,12 @@ function git-worktree-manager() {
             if [[ -n "$branch_name" ]]; then
                 # 確認ダイアログ
                 if gum confirm "Create worktree '$branch_name'?"; then
-                    # git-gtrコマンド実行
-                    if git gtr new "$branch_name"; then
+                    # git-gtrコマンド実行（リモートがない場合は現在のブランチから作成）
+                    local gtr_opts=()
+                    if ! git remote | grep -q .; then
+                        gtr_opts=(--from-current --no-fetch)
+                    fi
+                    if git gtr new "$branch_name" "${gtr_opts[@]}"; then
                         gum style --foreground 212 "✅ Created worktree: $branch_name"
                     else
                         gum style --foreground 196 "❌ Failed to create worktree"
