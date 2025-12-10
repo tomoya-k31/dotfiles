@@ -69,11 +69,12 @@
   // ----------------Claude Code-------------------
   "claudeCode.selectedModel": "default",
   "claude-code.selectedModel": "default",
+  "claudeCode.preferredLocation": "panel",
+  "claudeCode.useTerminal": true,
 
   // ----------------devcontainers-------------------
   "dotfiles.repository": "git@github.com:tomoya-k31/devcontainers-dotfiles.git",
   "dotfiles.targetPath": "~/dotfiles",
   "dotfiles.installCommand": "install.sh",
-  "remote.autoForwardPortsSource": "hybrid",
-  "claudeCode.preferredLocation": "panel"
+  "remote.autoForwardPortsSource": "hybrid"
 }
