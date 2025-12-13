@@ -144,6 +144,27 @@ function git-worktree-manager() {
                     fi
                     if git gtr new "$branch_name" "${gtr_opts[@]}"; then
                         gum style --foreground 212 "✅ Created worktree: $branch_name"
+
+                        # 開き方を選択
+                        local open_method=$(gum choose \
+                            --header "How to open '$branch_name'?" \
+                            "📝 Open in editor" \
+                            "🤖 Start AI tool" \
+                            "⏭️  Skip")
+
+                        case "$open_method" in
+                            "📝 Open in editor")
+                                gum spin --spinner dot --title "Opening $branch_name in editor..." -- \
+                                    git gtr editor "$branch_name"
+                                ;;
+                            "🤖 Start AI tool")
+                                # AIツールは対話的なので、zle環境を抜けて実行
+                                zle push-line
+                                BUFFER="git gtr ai \"$branch_name\""
+                                zle accept-line
+                                return 0
+                                ;;
+                        esac
                     else
                         gum style --foreground 196 "❌ Failed to create worktree"
                     fi
