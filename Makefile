@@ -8,18 +8,18 @@ install-deps:
 
 install:
 	@echo "=== Installing dotfiles ==="
-	stow -t ~ --no-folding zsh bash config
+	stow -t ~ --no-folding zsh bash config claude --adopt
 
 init: install-deps install vscode-setup
 	@echo "=== Full installation completed ==="
 
 install-check:
 	@echo "=== Stow simulation ==="
-	stow -t ~ -n --no-folding zsh bash config
+	stow -t ~ -n --no-folding zsh bash config claude
 
 unstow:
 	@echo "=== Removing dotfiles symlinks ==="
-	stow -D -t ~ --no-folding zsh bash config
+	stow -D -t ~ --no-folding zsh bash config claude
 
 vscode-setup:
 	@echo "Setting up VS Code with XDG..."
