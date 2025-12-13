@@ -1,8 +1,22 @@
 {
   "alwaysThinkingEnabled": false,
   "enableAllProjectMcpServers": true,
+  "includeCoAuthoredBy": false,
   "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Edit",
+      "Read",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(brew install:*)"
+    ],
     "deny": [
+      "Bash(env)",
       "Edit(.env)",
       "Edit(.env.local)",
       "Read(~/.ssh)",
@@ -15,6 +29,10 @@
     ]
   },
   "env": {
-    "CLAUDE_CODE_ENABLE_TELEMETRY": "1"
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_COST_WARNINGS": "1",
+    "ENABLE_BACKGROUND_TASKS": "1",
+    "BASH_DEFAULT_TIMEOUT_MS": "1800000", // 30 minutes
+    "BASH_MAX_TIMEOUT_MS": "7200000"      // 2 hours
   }
 }
