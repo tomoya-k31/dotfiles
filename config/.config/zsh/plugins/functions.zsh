@@ -42,24 +42,9 @@ bindkey '^f^f' fzf-cd-widget
 
 
 # Git Worktree管理ツール (git-gtr + gum + fzf)
-function git-worktree-manager() {
-    # Gitリポジトリチェック
-    if ! git rev-parse --git-dir > /dev/null 2>&1; then
-        echo "❌ Not a git repository"
-        return 1
-    fi
 
-    # 必要なコマンドの存在確認
-    if ! type git-gtr > /dev/null 2>&1; then
-        echo "❌ git-gtr is not installed"
-        return 1
-    fi
-    if ! type gum > /dev/null 2>&1; then
-        echo "❌ gum is not installed"
-        return 1
-    fi
-
-    # デフォルトブランチを取得
+# ヘルパー関数: デフォルトブランチを取得
+function _gwm_get_default_branch() {
     local default_branch=""
     if git remote | grep -q .; then
         # リモートが存在する場合
@@ -79,6 +64,96 @@ function git-worktree-manager() {
             done
         fi
     fi
+    echo "$default_branch"
+}
+
+# ヘルパー関数: メッセージ表示して待機
+function _gwm_show_message_and_wait() {
+    local message="$1"
+    local color="${2:-220}"  # デフォルトは警告色
+
+    gum style --foreground "$color" "$message"
+    echo ""
+    gum style --foreground 240 "Press any key to continue..."
+    read -k1 -s
+}
+
+# ヘルパー関数: 開き方を選択して実行
+function _gwm_select_and_open() {
+    local target="$1"
+
+    local open_method=$(gum choose \
+        --header "How to open '$target'?" \
+        "📝 Open in editor" \
+        "🤖 Start AI tool" \
+        "⏭️  Skip")
+
+    case "$open_method" in
+        "📝 Open in editor")
+            gum spin --spinner dot --title "Opening $target in editor..." -- \
+                git gtr editor "$target"
+            ;;
+        "🤖 Start AI tool")
+            # AIツールは対話的なので、zle環境を抜けて実行
+            zle push-line
+            BUFFER="git gtr ai \"$target\""
+            zle accept-line
+            return 0
+            ;;
+    esac
+}
+
+# ヘルパー関数: worktreeリストから選択
+# 戻り値: 0=成功, 1=worktreeが存在しない, 2=キャンセルされた
+function _gwm_select_worktree() {
+    local default_branch="$1"
+
+    local worktree_list=$(git gtr list --porcelain 2>/dev/null | \
+        grep -v '^\[!\]' | \
+        cut -f2 | \
+        awk '{print $1}' | \
+        grep -v "^${default_branch}$")
+
+    if [[ -z "$worktree_list" ]]; then
+        return 1  # worktreeが存在しない
+    fi
+
+    # fzfで選択
+    local selected=$(echo "$worktree_list" | \
+        fzf --header "Select Worktree" \
+            --reverse \
+            --height 60% \
+            --border rounded \
+            --preview 'git log --oneline --graph --color=always {} 2>/dev/null | head -20' \
+            --preview-window right:60%)
+
+    if [[ -z "$selected" ]]; then
+        return 2  # キャンセルされた
+    fi
+
+    echo "$selected"
+    return 0
+}
+
+function git-worktree-manager() {
+    # Gitリポジトリチェック
+    if ! git rev-parse --git-dir > /dev/null 2>&1; then
+        echo "❌ Not a git repository"
+        return 1
+    fi
+
+    # 必要なコマンドの存在確認
+    if ! type git-gtr > /dev/null 2>&1; then
+        echo "❌ git-gtr is not installed"
+        return 1
+    fi
+    if ! type gum > /dev/null 2>&1; then
+        echo "❌ gum is not installed"
+        return 1
+    fi
+
+    # デフォルトブランチを取得
+    local default_branch=$(_gwm_get_default_branch)
 
     # メインメニュー
     local action=$(gum choose \
@@ -144,27 +219,8 @@ function git-worktree-manager() {
                     fi
                     if git gtr new "$branch_name" "${gtr_opts[@]}"; then
                         gum style --foreground 212 "✅ Created worktree: $branch_name"
-
-                        # 開き方を選択
-                        local open_method=$(gum choose \
-                            --header "How to open '$branch_name'?" \
-                            "📝 Open in editor" \
-                            "🤖 Start AI tool" \
-                            "⏭️  Skip")
-
-                        case "$open_method" in
-                            "📝 Open in editor")
-                                gum spin --spinner dot --title "Opening $branch_name in editor..." -- \
-                                    git gtr editor "$branch_name"
-                                ;;
-                            "🤖 Start AI tool")
-                                # AIツールは対話的なので、zle環境を抜けて実行
-                                zle push-line
-                                BUFFER="git gtr ai \"$branch_name\""
-                                zle accept-line
-                                return 0
-                                ;;
-                        esac
+                        # 開き方を選択して実行
+                        _gwm_select_and_open "$branch_name"
                     else
                         gum style --foreground 196 "❌ Failed to create worktree"
                     fi
@@ -173,70 +229,39 @@ function git-worktree-manager() {
             ;;
 
         "📂 Open/Switch"|"🗑️  Delete Worktree")
-            # worktreeリストを取得（--porcelainで確実にパース可能な形式で取得）
-            # 形式: パス\tブランチ名\tステータス
-            # デフォルトブランチは除外
-            local worktree_list=$(git gtr list --porcelain 2>/dev/null | \
-                grep -v '^\[!\]' | \
-                cut -f2 | \
-                grep -v "^${default_branch}$")
+            # worktreeを選択
+            local selected
+            selected=$(_gwm_select_worktree "$default_branch")
+            local ret=$?
 
-            if [[ -z "$worktree_list" ]]; then
+            if [[ $ret -eq 1 ]]; then
+                # worktreeが存在しない場合のみエラー表示
                 if [[ "$action" == "🗑️ Delete Worktree" ]]; then
-                    gum style --foreground 220 "⚠️  No worktrees to delete (${default_branch} branch is protected)"
+                    _gwm_show_message_and_wait "⚠️  No worktrees to delete (${default_branch} branch is protected)"
                 else
-                    gum style --foreground 220 "⚠️  No worktrees found"
+                    _gwm_show_message_and_wait "⚠️  No worktrees found"
                 fi
-                echo ""
-                gum style --foreground 240 "Press any key to continue..."
-                read -k1 -s
+                zle reset-prompt
+                return 0
+            elif [[ $ret -eq 2 ]]; then
+                # キャンセルされた場合は静かに戻る
                 zle reset-prompt
                 return 0
             fi
 
-            # fzfで選択
-            local selected=$(echo "$worktree_list" | \
-                fzf --header "Select Worktree" \
-                    --reverse \
-                    --height 60% \
-                    --border rounded \
-                    --preview 'git log --oneline --graph --color=always {} 2>/dev/null | head -20' \
-                    --preview-window right:60%)
+            # 選択されたブランチ名をそのまま使用
+            local target="$selected"
 
-            if [[ -n "$selected" ]]; then
-                # 選択されたブランチ名をそのまま使用
-                local target="$selected"
-
-                if [[ "$action" == "📂 Open/Switch" ]]; then
-                    # 開き方を選択
-                    local open_method=$(gum choose \
-                        --header "How to open '$target'?" \
-                        "📝 Open in editor" \
-                        "🤖 Start AI tool")
-
-                    if [[ -z "$open_method" ]]; then
-                        zle reset-prompt
-                        return 0
-                    fi
-
-                    if [[ "$open_method" == "📝 Open in editor" ]]; then
-                        gum spin --spinner dot --title "Opening $target in editor..." -- \
-                            git gtr editor "$target"
+            if [[ "$action" == "📂 Open/Switch" ]]; then
+                # 開き方を選択して実行
+                _gwm_select_and_open "$target"
+            else
+                # 削除確認
+                if gum confirm "Really delete '$target'?" --affirmative "Delete" --negative "Cancel"; then
+                    if git gtr rm "$target" --delete-branch --force --yes; then
+                        gum style --foreground 212 "🗑️  Deleted: $target"
                     else
-                        # AIツールは対話的なので、zle環境を抜けて実行
-                        zle push-line
-                        BUFFER="git gtr ai \"$target\""
-                        zle accept-line
-                        return 0
-                    fi
-                else
-                    # 削除確認
-                    if gum confirm "Really delete '$target'?" --affirmative "Delete" --negative "Cancel"; then
-                        if git gtr rm "$target" --delete-branch --force --yes; then
-                            gum style --foreground 212 "🗑️  Deleted: $target"
-                        else
-                            gum style --foreground 196 "❌ Failed to delete worktree"
-                        fi
+                        gum style --foreground 196 "❌ Failed to delete worktree"
                     fi
                 fi
             fi
