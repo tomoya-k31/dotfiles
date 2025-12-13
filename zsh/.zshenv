@@ -56,6 +56,9 @@ export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/mysql-client/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/mysql-client/include"
 
+### Starship
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
+
 ### GCP
 # - https://cloud.google.com/iap/docs/using-tcp-forwarding?hl=ja#increasing_the_tcp_upload_bandwidth
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
