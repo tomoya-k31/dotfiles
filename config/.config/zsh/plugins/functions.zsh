@@ -59,6 +59,27 @@ function git-worktree-manager() {
         return 1
     fi
 
+    # デフォルトブランチを取得
+    local default_branch=""
+    if git remote | grep -q .; then
+        # リモートが存在する場合
+        default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+    fi
+    # リモートがない、またはHEADが設定されていない場合はローカルで判定
+    if [[ -z "$default_branch" ]]; then
+        # 1. init.defaultBranch設定を確認
+        default_branch=$(git config --get init.defaultBranch 2>/dev/null)
+        # 2. 設定がない、またはそのブランチが存在しない場合は一般的な名前を順にチェック
+        if [[ -z "$default_branch" ]] || ! git rev-parse --verify "$default_branch" >/dev/null 2>&1; then
+            for branch in main master trunk develop; do
+                if git rev-parse --verify "$branch" >/dev/null 2>&1; then
+                    default_branch="$branch"
+                    break
+                fi
+            done
+        fi
+    fi
+
     # メインメニュー
     local action=$(gum choose \
         --header "Git Worktree Manager" \
@@ -89,10 +110,12 @@ function git-worktree-manager() {
             local branch_name=""
 
             if [[ "$input_method" == "🔍 Search existing branches (local + remote)" ]]; then
-                # リモートブランチを含む全ブランチを取得
+                # リモートブランチを含む全ブランチを取得（デフォルトブランチとoriginは除外）
                 local branches=$(git branch -a --format='%(refname:short)' | \
                     sed 's|^origin/||' | \
                     grep -v '^HEAD' | \
+                    grep -v '^origin$' | \
+                    grep -v "^${default_branch}$" | \
                     sort -u)
 
                 # fzfで選択
@@ -131,15 +154,15 @@ function git-worktree-manager() {
         "📂 Open/Switch"|"🗑️  Delete Worktree")
             # worktreeリストを取得（--porcelainで確実にパース可能な形式で取得）
             # 形式: パス\tブランチ名\tステータス
-            # master/mainブランチは除外
+            # デフォルトブランチは除外
             local worktree_list=$(git gtr list --porcelain 2>/dev/null | \
                 grep -v '^\[!\]' | \
                 cut -f2 | \
-                grep -vE '^(master|main)$')
+                grep -v "^${default_branch}$")
 
             if [[ -z "$worktree_list" ]]; then
                 if [[ "$action" == "🗑️ Delete Worktree" ]]; then
-                    gum style --foreground 220 "⚠️  No worktrees to delete (master/main branches are protected)"
+                    gum style --foreground 220 "⚠️  No worktrees to delete (${default_branch} branch is protected)"
                 else
                     gum style --foreground 220 "⚠️  No worktrees found"
                 fi
