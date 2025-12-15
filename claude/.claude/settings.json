@@ -1,6 +1,11 @@
 {
-  "alwaysThinkingEnabled": false,
-  "enableAllProjectMcpServers": true,
+  "env": {
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_COST_WARNINGS": "1",
+    "ENABLE_BACKGROUND_TASKS": "1",
+    "BASH_DEFAULT_TIMEOUT_MS": "1800000",
+    "BASH_MAX_TIMEOUT_MS": "7200000"
+  },
   "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
@@ -37,11 +42,6 @@
       "WebSearch",
       "Write"
     ],
-    "ask": [
-      "Bash(git push:*)",
-      "Bash(brew install:*)",
-      "Bash(git config :*)"
-    ],
     "deny": [
       "Bash(env)",
       "Bash(rm -rf /*)",
@@ -56,13 +56,24 @@
       "Read(./.envrc)",
       "Read(./secrets/**)",
       "Read(./config/credentials.json)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(brew install:*)",
+      "Bash(git config :*)"
     ]
   },
-  "env": {
-    "DISABLE_TELEMETRY": "1",
-    "DISABLE_COST_WARNINGS": "1",
-    "ENABLE_BACKGROUND_TASKS": "1",
-    "BASH_DEFAULT_TIMEOUT_MS": "1800000",
-    "BASH_MAX_TIMEOUT_MS": "7200000"
-  }
+  "enabledPlugins": {
+    "general@cc-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "cc-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "gmo-media/cc-plugins"
+      }
+    }
+  },
+  "enableAllProjectMcpServers": true,
+  "alwaysThinkingEnabled": false
 }
