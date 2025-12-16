@@ -2,5 +2,9 @@
   {
     "source": "config/.config/git/config",
     "encrypted": "config/.config/git/config.encrypted"
+  },
+  {
+    "source": "claude/.claude/settings.json",
+    "encrypted": "claude/.claude/settings.json.encrypted"
   }
 ]
