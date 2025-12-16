@@ -1,3 +1,10 @@
 {
+    "files.associations": {
+        "**/*.env": "dotenv"  // .envファイルを'dotenv'言語として扱う
+    },
+    "github.copilot.enable": {
+        "*": true,
+        "dotenv": false
+    },
     "claudeCode.useTerminal": true
 }
