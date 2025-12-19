@@ -19,18 +19,18 @@ echo "Decrypting files..."
 jq -r '.[] | "\(.source)|\(.encrypted)"' "$PROJECT_ROOT/encrypted-files.json" | while IFS='|' read -r source_path encrypted_path; do
     source_file="$PROJECT_ROOT/$source_path"
     encrypted_file="$PROJECT_ROOT/$encrypted_path"
-    
+
     if [ ! -f "$encrypted_file" ]; then
         echo "Warning: Encrypted file not found: $encrypted_file"
         continue
     fi
-    
+
     echo "Checking: $source_path"
-    
+
     # Decrypt encrypted file to temp file for comparison
     temp_decrypted=$(mktemp)
     trap "rm -f $temp_decrypted" EXIT
-    
+
     # Determine output type based on file extension
     output_type=""
     case "$source_file" in
@@ -43,7 +43,7 @@ jq -r '.[] | "\(.source)|\(.encrypted)"' "$PROJECT_ROOT/encrypted-files.json" | 
         rm -f "$temp_decrypted"
         continue
     fi
-    
+
     # If source file doesn't exist, create it
     if [ ! -f "$source_file" ]; then
         echo "Creating source file: $source_file"
@@ -56,6 +56,6 @@ jq -r '.[] | "\(.source)|\(.encrypted)"' "$PROJECT_ROOT/encrypted-files.json" | 
             cp "$temp_decrypted" "$source_file"
         fi
     fi
-    
+
     rm -f "$temp_decrypted"
 done
