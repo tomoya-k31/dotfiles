@@ -31,7 +31,14 @@ jq -r '.[] | "\(.source)|\(.encrypted)"' "$PROJECT_ROOT/encrypted-files.json" | 
     temp_decrypted=$(mktemp)
     trap "rm -f $temp_decrypted" EXIT
     
-    if ! sops -d "$encrypted_file" > "$temp_decrypted" 2>/dev/null; then
+    # Determine output type based on file extension
+    output_type=""
+    case "$source_file" in
+        *.json) output_type="--output-type json" ;;
+        *.yaml|*.yml) output_type="--output-type yaml" ;;
+    esac
+
+    if ! sops -d $output_type "$encrypted_file" > "$temp_decrypted" 2>/dev/null; then
         echo "Error: Failed to decrypt $encrypted_file"
         rm -f "$temp_decrypted"
         continue
