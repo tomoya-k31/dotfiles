@@ -29,32 +29,25 @@ jq -r '.[] | "\(.source)|\(.encrypted)"' "$PROJECT_ROOT/encrypted-files.json" | 
     if [ ! -f "$encrypted_file" ]; then
         echo "Creating encrypted file: $encrypted_file"
         mkdir -p "$(dirname "$encrypted_file")"
-        sops -e "$source_file" > "$encrypted_file"
+        sops -e --input-type binary --output-type binary "$source_file" > "$encrypted_file"
         echo "✓ Created: $encrypted_file"
         continue
     fi
-    
+
     # Decrypt existing encrypted file to temp file for comparison
     temp_decrypted=$(mktemp)
     trap "rm -f $temp_decrypted" EXIT
 
-    # Determine output type based on file extension
-    output_type=""
-    case "$source_file" in
-        *.json) output_type="--output-type json" ;;
-        *.yaml|*.yml) output_type="--output-type yaml" ;;
-    esac
-
-    if sops -d $output_type "$encrypted_file" > "$temp_decrypted" 2>/dev/null; then
+    if sops -d --input-type binary --output-type binary "$encrypted_file" > "$temp_decrypted" 2>/dev/null; then
         # Compare source file with decrypted version
         if ! cmp -s "$source_file" "$temp_decrypted"; then
             echo "Source file changed, updating encrypted version: $encrypted_file"
-            sops -e "$source_file" > "$encrypted_file"
+            sops -e --input-type binary --output-type binary "$source_file" > "$encrypted_file"
             echo "✓ Updated: $encrypted_file"
         fi
     else
         echo "Failed to decrypt $encrypted_file, recreating..."
-        sops -e "$source_file" > "$encrypted_file"
+        sops -e --input-type binary --output-type binary "$source_file" > "$encrypted_file"
         echo "✓ Recreated: $encrypted_file"
     fi
     
