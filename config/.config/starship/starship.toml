@@ -9,9 +9,6 @@ charging_symbol = "⚡️"
 discharging_symbol = "💀"
 disabled = false
 
-[aws]
-disabled = true
-
 [buf]
 disabled = true
 
@@ -48,9 +45,6 @@ disabled = true
 [fill]
 disabled = true
 
-[gcloud]
-disabled = true
-
 [dart]
 disabled = true
 
@@ -80,9 +74,6 @@ disabled = false
 disabled = true
 
 [kotlin]
-disabled = true
-
-[golang]
 disabled = true
 
 [julia]
@@ -124,9 +115,6 @@ disabled = true
 [rust]
 disabled = true
 
-[hostname]
-disabled = true
-
 [vagrant]
 disabled = true
 
@@ -135,7 +123,6 @@ disabled = true
 
 [package]
 disabled = true
-
 
 [jobs]
 disabled = true
