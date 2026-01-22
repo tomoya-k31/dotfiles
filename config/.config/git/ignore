@@ -7,4 +7,12 @@
 ._*
 /.worktrees/
 
+# ==================================
+# SpecKit & Claude Code
+# ==================================
+**/specs/
+**/.specify/
+**/.claude/commands/speckit.*
 **/.claude/settings.local.json
+**/.claude/*.log
+**/.claude/todos.md
