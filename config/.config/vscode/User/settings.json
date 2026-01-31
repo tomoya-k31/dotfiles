@@ -12,7 +12,7 @@
   // フォント設定
   "editor.fontFamily": "PlemolJP35 Console NF, Monaco, 'Courier New', monospace",
   // 差分エディタの空白トリムを無視
-  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.ignoreTrimWhitespace": true,
 
   // 文字エンコーディングの自動推測を有効化
   "files.autoGuessEncoding": true,
@@ -43,6 +43,7 @@
 
   "github.copilot.nextEditSuggestions.enabled": true,
   "git.confirmSync": false,
+  "git.suggestSmartCommit": true,
 
   // JSON
   "[json]": {
@@ -77,5 +78,7 @@
   "dotfiles.targetPath": "~/dotfiles",
   "dotfiles.installCommand": "install.sh",
   "remote.autoForwardPortsSource": "hybrid",
-  "git.suggestSmartCommit": false
+
+  // ----------------その他-------------------
+  "redhat.telemetry.enabled": false
 }
