@@ -50,14 +50,26 @@ inline = 'eval "$(starship init zsh)"'
 ##### other tools  #####
 [plugins.mise]
 inline = """
-eval "$(mise activate zsh)"
-## Mise
 export MISE_PYTHON_DEFAULT_PACKAGES_FILE="$XDG_CONFIG_HOME/mise/default-python-packages"
 export MISE_NODE_DEFAULT_PACKAGES_FILE="$XDG_CONFIG_HOME/mise/default-npm-packages"
+() {
+  local _cache="$XDG_CACHE_HOME/mise-activate.zsh"
+  [[ ! -f "$_cache" || "$(command -v mise)" -nt "$_cache" ]] && mise activate zsh >"$_cache"
+  source "$_cache"
+}
 """
 
 [plugins.sdkman]
-inline = 'export SDKMAN_DIR="$XDG_DATA_HOME/sdkman" && source "$SDKMAN_DIR/bin/sdkman-init.sh"'
+inline = 'export SDKMAN_DIR="$XDG_DATA_HOME/sdkman" && zsh-defer source "$SDKMAN_DIR/bin/sdkman-init.sh"'
+
+[plugins.fzf]
+inline = """
+() {
+  local _cache="$XDG_CACHE_HOME/fzf-init.zsh"
+  [[ -f "$_cache" ]] || fzf --zsh >"$_cache"
+  zsh-defer source "$_cache"
+}
+"""
 
 # [plugins.atuin]
 # inline = 'eval "$(atuin init zsh --disable-up-arrow)"'
@@ -66,7 +78,7 @@ inline = 'export SDKMAN_DIR="$XDG_DATA_HOME/sdkman" && source "$SDKMAN_DIR/bin/s
 # inline = 'eval "$(rye self completion -s zsh)"'
 
 [plugins.hishtory]
-inline = 'source "/Users/$(whoami)/.hishtory/config.zsh"'
+inline = 'export PATH="$PATH:/Users/$(whoami)/.hishtory" && source "/Users/$(whoami)/.hishtory/config.zsh"'
 
 [plugins.vscode]
 inline = '[[ "$TERM_PROGRAM" == "vscode" ]] && source "$(code --locate-shell-integration-path zsh)"'

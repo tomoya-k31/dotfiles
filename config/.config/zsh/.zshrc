@@ -32,12 +32,5 @@ fi
 bindkey "^[[1;3D" backward-word # Option + ←
 bindkey "^[[1;3C" forward-word  # Option + →
 
-# Hishtory Config:
-export PATH="$PATH:/Users/$(whoami)/.hishtory"
-source /Users/$(whoami)/.hishtory/config.zsh
-
-# fzf:
-source <(fzf --zsh)
-
 ##### plugins #####
 eval "$(sheldon source)"
