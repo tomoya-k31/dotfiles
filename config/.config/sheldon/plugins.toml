@@ -31,6 +31,15 @@ github = "hlissner/zsh-autopair"
 github = "ajeetdsouza/zoxide"
 apply = ["defer"]
 
+[plugins.fzf]
+inline = """
+() {
+  local _cache="$XDG_CACHE_HOME/fzf-init.zsh"
+  [[ -f "$_cache" ]] || fzf --zsh >"$_cache"
+  zsh-defer source "$_cache"
+}
+"""
+
 [plugins.custom]
 local = "~/.config/zsh/plugins"
 use = [
@@ -61,15 +70,6 @@ export MISE_NODE_DEFAULT_PACKAGES_FILE="$XDG_CONFIG_HOME/mise/default-npm-packag
 
 [plugins.sdkman]
 inline = 'export SDKMAN_DIR="$XDG_DATA_HOME/sdkman" && zsh-defer source "$SDKMAN_DIR/bin/sdkman-init.sh"'
-
-[plugins.fzf]
-inline = """
-() {
-  local _cache="$XDG_CACHE_HOME/fzf-init.zsh"
-  [[ -f "$_cache" ]] || fzf --zsh >"$_cache"
-  zsh-defer source "$_cache"
-}
-"""
 
 # [plugins.atuin]
 # inline = 'eval "$(atuin init zsh --disable-up-arrow)"'
