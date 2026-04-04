@@ -31,15 +31,6 @@ github = "hlissner/zsh-autopair"
 github = "ajeetdsouza/zoxide"
 apply = ["defer"]
 
-[plugins.fzf]
-inline = """
-() {
-  local _cache="$XDG_CACHE_HOME/fzf-init.zsh"
-  [[ -f "$_cache" ]] || fzf --zsh >"$_cache"
-  zsh-defer source "$_cache"
-}
-"""
-
 [plugins.custom]
 local = "~/.config/zsh/plugins"
 use = [
@@ -76,6 +67,15 @@ inline = 'export SDKMAN_DIR="$XDG_DATA_HOME/sdkman" && zsh-defer source "$SDKMAN
 
 # [plugins.rye]
 # inline = 'eval "$(rye self completion -s zsh)"'
+
+[plugins.fzf]
+inline = """
+() {
+  local _cache="$XDG_CACHE_HOME/fzf-init.zsh"
+  [[ -f "$_cache" ]] || fzf --zsh >"$_cache"
+  source "$_cache"
+}
+"""
 
 [plugins.hishtory]
 inline = 'export PATH="$PATH:/Users/$(whoami)/.hishtory" && source "/Users/$(whoami)/.hishtory/config.zsh"'
