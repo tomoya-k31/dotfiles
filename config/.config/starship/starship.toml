@@ -1,13 +1,13 @@
 # starshipが現在のディレクトリ下のファイルをチェックするまで10ミリ秒待ちます
-scan_timeout = 3
+scan_timeout = 30
 # プロンプトの先頭に改行を表示しません
 add_newline = true
 
+[username]
+disabled = true
+
 [battery]
-full_symbol = "🔋"
-charging_symbol = "⚡️"
-discharging_symbol = "💀"
-disabled = false
+disabled = true
 
 [buf]
 disabled = true
@@ -66,9 +66,17 @@ disabled = true
 [haxe]
 disabled = true
 
+[git_status]
+ignore_submodules = true
+
+[git_metrics]
+disabled = true
+
 [kubernetes]
 format = '[⛵ $context\($namespace\)](dimmed green) '
 disabled = false
+detect_files = ['helmfile.yaml', 'helmfile.yml', 'kustomization.yaml', 'kustomization.yml']
+detect_folders = ['helm', 'charts', 'k8s', 'kubernetes', 'manifests']
 
 [docker_context]
 disabled = true
