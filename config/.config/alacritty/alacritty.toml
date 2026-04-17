@@ -40,6 +40,14 @@ bright_foreground = "0xd9d9d9"
 dim_foreground = "0xdbdbdb"
 foreground = "0xd6d6d6"
 
+[cursor]
+blink_interval = 200
+blink_timeout = 0
+
+[cursor.style]
+blinking = "Always"
+shape = "Block"
+
 [font]
 size = 12.0
 
