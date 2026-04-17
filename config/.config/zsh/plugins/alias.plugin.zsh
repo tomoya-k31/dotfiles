@@ -25,4 +25,4 @@ export BAT_STYLE="numbers,changes,header"
 alias https='http --default-scheme=https'
 
 # ai tools
-alias claude-yolo='claude --dangerously-skip-permissions'
+alias claude-yolo='claude --enable-auto-mode'
