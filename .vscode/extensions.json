@@ -3,7 +3,6 @@
     "anthropic.claude-code",
     "ms-vscode-remote.remote-containers",
     "github.vscode-github-actions",
-    "github.copilot",
     "github.copilot-chat",
     "ms-azuretools.vscode-containers",
     "tamasfe.even-better-toml",
