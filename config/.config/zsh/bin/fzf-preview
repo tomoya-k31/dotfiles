@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+# fzf preview script
+# Usage: fzf-preview <path>
+#
+# Strategy:
+#   1. Directory -> tree
+#   2. bat --list-languages に含まれる拡張子 -> bat
+#   3. file --mime-type が text/* -> bat
+#   4. アーカイブ/Office/画像/メディア -> 個別ハンドラ
+#   5. それ以外 -> file + ls
+
+set -u
+
+path="${1:-}"
+[ -z "$path" ] && exit 0
+
+if [ -d "$path" ]; then
+    tree -aC -L 2 "$path" 2>/dev/null | head -200
+    exit 0
+fi
+
+if [ ! -e "$path" ]; then
+    echo "Not found: $path"
+    exit 0
+fi
+
+ext_lower=$(printf '%s' "${path##*.}" | tr '[:upper:]' '[:lower:]')
+base=$(basename "$path")
+
+_ensure_bat_cache() {
+    local cache="$1"
+    if [ -f "$cache" ] && [ -z "$(find "$cache" -mtime +7 2>/dev/null)" ]; then
+        return 0
+    fi
+    mkdir -p "$(dirname "$cache")"
+    bat --list-languages 2>/dev/null \
+        | awk -F: 'NR>1 {print $2}' \
+        | tr ',' '\n' \
+        | tr -d ' ' \
+        | awk 'NF' \
+        | sort -u > "$cache"
+}
+
+_bat_preview() {
+    bat --color=always --style=header,grid --line-range=:200 "$1"
+}
+
+# 1. bat が対応する拡張子かどうか (cached)
+if command -v bat >/dev/null 2>&1 && [ -n "$ext_lower" ] && [ "$ext_lower" != "$base" ]; then
+    cache="${XDG_CACHE_HOME:-$HOME/.cache}/fzf-preview/bat-extensions"
+    _ensure_bat_cache "$cache"
+    if [ -s "$cache" ] && grep -iqx "$ext_lower" "$cache"; then
+        _bat_preview "$path"
+        exit 0
+    fi
+fi
+
+# 2. MIME が text 系なら bat
+mime=$(file --mime-type -b "$path" 2>/dev/null || echo "")
+case "$mime" in
+    text/*|application/json|application/javascript|application/xml|application/x-yaml|application/toml|application/x-sh|application/x-shellscript)
+        if command -v bat >/dev/null 2>&1; then
+            _bat_preview "$path"
+        else
+            head -200 "$path"
+        fi
+        exit 0
+        ;;
+esac
+
+# 3. 個別ハンドラ
+case "$ext_lower" in
+    zip|jar|war|apk|ipa|xpi|whl|egg)
+        echo "# Archive: $base"; echo
+        unzip -l "$path" 2>/dev/null | head -200 || file -b "$path"
+        ;;
+    tar)
+        echo "# Archive: $base"; echo
+        tar -tvf "$path" 2>/dev/null | head -200 || file -b "$path"
+        ;;
+    tgz|gz)
+        echo "# Archive: $base"; echo
+        tar -tzvf "$path" 2>/dev/null | head -200 || file -b "$path"
+        ;;
+    bz2|tbz|tbz2)
+        echo "# Archive: $base"; echo
+        tar -tjvf "$path" 2>/dev/null | head -200 || file -b "$path"
+        ;;
+    xz|txz)
+        echo "# Archive: $base"; echo
+        tar -tJvf "$path" 2>/dev/null | head -200 || file -b "$path"
+        ;;
+    7z|rar)
+        echo "# Archive: $base"; echo
+        if command -v 7z >/dev/null 2>&1; then
+            7z l "$path" 2>/dev/null | head -200
+        else
+            file -b "$path"
+        fi
+        ;;
+    pdf|doc|docx|xls|xlsx|ppt|pptx|odt|ods|odp|pages|numbers|key|rtf|epub)
+        echo "# Document: $base"; echo
+        if command -v exiftool >/dev/null 2>&1; then
+            exiftool "$path" 2>/dev/null | head -60
+        else
+            file -b "$path"
+            ls -lh "$path"
+        fi
+        ;;
+    png|jpg|jpeg|gif|bmp|webp|tiff|tif|ico|heic|heif|avif|svg)
+        if command -v chafa >/dev/null 2>&1; then
+            chafa --size=80x40 "$path" 2>/dev/null || file -b "$path"
+        elif command -v viu >/dev/null 2>&1; then
+            viu -w 80 "$path" 2>/dev/null || file -b "$path"
+        else
+            file -b "$path"
+            ls -lh "$path"
+        fi
+        ;;
+    mp3|mp4|wav|flac|ogg|m4a|mov|avi|mkv|webm|aac|opus)
+        echo "# Media: $base"; echo
+        if command -v exiftool >/dev/null 2>&1; then
+            exiftool "$path" 2>/dev/null | head -40
+        else
+            file -b "$path"
+            ls -lh "$path"
+        fi
+        ;;
+    *)
+        echo "# Binary: $base"; echo
+        file -b "$path"
+        echo
+        ls -lh "$path"
+        ;;
+esac

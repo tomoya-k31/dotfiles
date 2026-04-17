@@ -10,13 +10,14 @@ export FZF_CTRL_T_OPTS="
     --bind '<:reload($FZF_ALT_C_COMMAND)'
     --preview 'bat -r :100 --color=always --style=header,grid {}'"
 
-# fzf (Ctrl+F,Ctrl+F: ディレクトリ検索)
+# fzf (Ctrl+F,Ctrl+F: ディレクトリ/ファイル検索 - dotfile含む)
 export FZF_ALT_C_COMMAND=$(cat <<"EOF"
 ( (type fd > /dev/null) &&
-  fd --type d --max-depth 8 \
+  fd --hidden --max-depth 8 \
     --strip-cwd-prefix \
-    --exclude '{node_modules}/**' ) \
-  || $find_ignore d -print 2> /dev/null
+    --exclude '.git' \
+    --exclude 'node_modules' ) \
+  || $find_ignore -print 2> /dev/null
 EOF
 )
 
@@ -27,7 +28,7 @@ function fzf-cd-widget() {
             --select-1 --exit-0 \
             --tmux 80% \
             --bind "tab:replace-query" \
-            --preview 'tree -aC -L 2 {} | head -200'
+            --preview '$ZDOTDIR/bin/fzf-preview {}'
     )
     # --bind "tab:replace-query,tab:reload(fd --type d --max-depth 1 --strip-cwd-prefix {})" \
 
