@@ -10,4 +10,3 @@ pnpm = "latest"
 
 [settings]
 experimental = true
-pipx_uvx = true
