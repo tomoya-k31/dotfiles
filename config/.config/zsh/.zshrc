@@ -21,12 +21,14 @@ setopt hist_ignore_space
 
 # Enable command completion
 autoload -Uz compinit
-if [[ -n $XDG_CACHE_HOME/zsh/zcompdump(#qN.mh+24) ]]; then
-  compinit -d $XDG_CACHE_HOME/zsh/zcompdump
+[[ -d $XDG_CACHE_HOME/zsh ]] || mkdir -p $XDG_CACHE_HOME/zsh
+_zcompdump=$XDG_CACHE_HOME/zsh/zcompdump
+if [[ -n $_zcompdump(#qN.mh+24) ]]; then
+  compinit -d $_zcompdump
 else
-  [[ -d $XDG_CACHE_HOME/zsh ]] || mkdir -p $XDG_CACHE_HOME/zsh
-  compinit -d $XDG_CACHE_HOME/zsh/zcompdump
+  compinit -C -d $_zcompdump
 fi
+unset _zcompdump
 
 # Key bindings
 bindkey "^[[1;3D" backward-word # Option + ←
