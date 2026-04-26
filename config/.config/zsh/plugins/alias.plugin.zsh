@@ -26,3 +26,4 @@ alias https='http --default-scheme=https'
 
 # ai tools
 alias claude-yolo='claude --enable-auto-mode'
+alias claude-discord='claude --channels plugin:discord@claude-plugins-official --dangerously-skip-permissions'
