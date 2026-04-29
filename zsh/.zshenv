@@ -62,3 +62,6 @@ export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
 ### GCP
 # - https://cloud.google.com/iap/docs/using-tcp-forwarding?hl=ja#increasing_the_tcp_upload_bandwidth
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
+
+### opencode
+export PATH="$HOME/.opencode/bin:$PATH"
