@@ -25,5 +25,7 @@ export BAT_STYLE="numbers,changes,header"
 alias https='http --default-scheme=https'
 
 # ai tools
+alias cc='op run --no-masking --env-file=$HOME/.claude/.env.tpl -- claude'
+alias cc-yolo='cc --enable-auto-mode'
 alias claude-yolo='claude --enable-auto-mode'
 alias claude-discord='claude --channels plugin:discord@claude-plugins-official --dangerously-skip-permissions'
