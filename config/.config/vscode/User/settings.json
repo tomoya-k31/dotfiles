@@ -80,5 +80,6 @@
   "remote.autoForwardPortsSource": "hybrid",
 
   // ----------------その他-------------------
-  "redhat.telemetry.enabled": false
+  "redhat.telemetry.enabled": false,
+  "git.autofetch": true
 }
