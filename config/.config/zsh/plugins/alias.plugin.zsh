@@ -35,7 +35,7 @@ cc-go() {
   (
     local started=0
     if [[ "$(oc-go-cc status 2>&1)" == *"not running"* ]]; then
-      oc-go-cc serve -b || exit 1
+      op run --no-masking --env-file=$HOME/.claude/.env.tpl -- oc-go-cc serve -b || exit 1
       started=1
     fi
     trap '(( started )) && oc-go-cc stop >/dev/null 2>&1' EXIT INT TERM
