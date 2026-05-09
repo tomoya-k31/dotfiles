@@ -28,5 +28,18 @@ alias https='http --default-scheme=https'
 alias cc='op run --no-masking --env-file=$HOME/.claude/.env.tpl -- claude'
 alias cc-yolo='cc --enable-auto-mode'
 alias cc-discord='cc --channels plugin:discord@claude-plugins-official --dangerously-skip-permissions'
-
 alias claude-yolo='claude --enable-auto-mode'
+
+# oc-go-cc
+cc-go() {
+  (
+    local started=0
+    if [[ "$(oc-go-cc status 2>&1)" == *"not running"* ]]; then
+      oc-go-cc serve -b || exit 1
+      started=1
+    fi
+    trap '(( started )) && oc-go-cc stop >/dev/null 2>&1' EXIT INT TERM
+    ANTHROPIC_BASE_URL=http://127.0.0.1:3456 ANTHROPIC_AUTH_TOKEN=unused \
+      op run --no-masking --env-file=$HOME/.claude/.env.tpl -- claude
+  )
+}
