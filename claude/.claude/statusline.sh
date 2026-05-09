@@ -279,12 +279,20 @@ if ! $has_stdin_rates; then
         extra_enabled=$(echo "$usage_data" | jq -r '.extra_usage.is_enabled // false')
     fi
 else
+    existing_extra='null'
     if [ -f "$cache_file" ]; then
         usage_data=$(cat "$cache_file" 2>/dev/null)
         if [ -n "$usage_data" ] && echo "$usage_data" | jq -e . >/dev/null 2>&1; then
             extra_enabled=$(echo "$usage_data" | jq -r '.extra_usage.is_enabled // false')
+            existing_extra=$(echo "$usage_data" | jq -c '.extra_usage // null' 2>/dev/null)
+            [ -z "$existing_extra" ] && existing_extra='null'
         fi
     fi
+    echo "$input" | jq --argjson extra "$existing_extra" '{
+      five_hour: {utilization: .rate_limits.five_hour.used_percentage, resets_at: .rate_limits.five_hour.resets_at},
+      seven_day: {utilization: .rate_limits.seven_day.used_percentage, resets_at: .rate_limits.seven_day.resets_at},
+      extra_usage: $extra
+    }' > "$cache_file" 2>/dev/null
 fi
 
 # ── Rate limit lines ────────────────────────────────────
