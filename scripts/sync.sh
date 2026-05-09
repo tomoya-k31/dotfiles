@@ -9,9 +9,14 @@ DIFF_DIR="$PROJECT_ROOT/.diff"
 # Load UI helpers for colored output
 source "$SCRIPT_DIR/ui-helpers.sh"
 
+# Make SOPS_AGE_KEY available for sops -d calls in this script
+# (snapshot_prepull_state and the Phase 3 HEAD-vs-current diff).
+source "$SCRIPT_DIR/setup-sops-key.sh"
+
 BACKUP_DIR=""
 cleanup() {
   [ -n "$BACKUP_DIR" ] && [ -d "$BACKUP_DIR" ] && rm -rf "$BACKUP_DIR"
+  return 0
 }
 trap cleanup EXIT INT TERM
 
@@ -205,12 +210,13 @@ while IFS='|' read -r source_path encrypted_path; do
   if [ -f "$source_file" ]; then
     head_encrypted=$(mktemp)
     head_decrypted=$(mktemp)
-    if git show "HEAD:$encrypted_path" >"$head_encrypted" 2>/dev/null &&
-      sops -d --input-type binary --output-type binary "$head_encrypted" >"$head_decrypted" 2>/dev/null; then
+    if ! git show "HEAD:$encrypted_path" >"$head_encrypted" 2>/dev/null; then
+      print_info "  (new file: no HEAD version to diff against)"
+    elif ! sops -d --input-type binary --output-type binary "$head_encrypted" >"$head_decrypted" 2>/dev/null; then
+      print_warning "  (failed to decrypt HEAD version; skipping diff)"
+    else
       diff -u --label "HEAD/$source_path" --label "current/$source_path" \
         "$head_decrypted" "$source_file" || true
-    else
-      print_info "  (new file: no HEAD version to diff against)"
     fi
     rm -f "$head_encrypted" "$head_decrypted"
   fi
