@@ -17,13 +17,21 @@ cd dotfiles
 make init
 ```
 
+## Makefile の主要ターゲット
+
+- `make init`: 初期化（install-deps → install → vscode-setup）
+- `make sync`: 上流取得 + 3-way merge による衝突検出（scripts/sync.sh）
+- `make encrypt` / `make decrypt`: SOPS による機密ファイルの暗号/復号
+- `make install-check`: 必要ツールの存在確認
+
 ## アーキテクチャと構成
 
 ### ディレクトリ構造
 - `zsh/`: ホームディレクトリ配置用（.zshenv）
 - `bash/`: Bash設定ファイル
 - `config/`: XDG準拠設定ファイル群（.config/以下）
-- `aws/`: AWS CLI設定
+- `claude/`: Claude Code 設定（SOPS暗号化済み settings.json を含む）
+- `scripts/`: 暗号/復号・sync・SOPSキーセットアップ等のヘルパー
 
 ### シェル環境の構成
 - **XDG Base Directory仕様**: すべての設定ファイルが適切なXDGディレクトリに配置
@@ -32,7 +40,7 @@ make init
 - **履歴管理**: hishtoryとfzfの統合、クロスデバイス同期対応
 
 ### 主要ツールの統合
-- **mise**: 言語バージョン管理（Go 1.23, Node.js 23, Python 3.12）
+- **mise**: 言語バージョン管理（実際のバージョンは @config/.config/mise/config.toml 参照）
 - **Starship**: プロンプトカスタマイズ
 - **zoxide**: 高速ディレクトリナビゲーション
 - **eza**: lsの高機能代替
@@ -56,9 +64,21 @@ make init
 - `Ctrl+F,Ctrl+F`: ディレクトリ選択とcd
 - hishtoryとの統合による高度なコマンド履歴検索
 
+## 機密ファイルの取り扱い
+
+- `git/config`, `claude/.claude/settings.json` は **SOPS+age で暗号化済み**（`.sops.yaml` 参照）
+- 復号鍵は `~/.config/sops/age/keys.txt`
+- 暗号/復号は `make encrypt` / `make decrypt`（sops 直叩き禁止）
+- 復号後の平文を絶対にコミットしない（`.stowrc` で `*.encrypted` を除外しているが平文ファイル名は同名のため上書きに注意）
+- 1Password 連携: `claude/.claude/.env.tpl` に `op://` 参照を記述、`op run --env-file=...` で注入
+
 ## メンテナンス時の注意点
 
 1. `.zshenv`は必ずホームディレクトリに配置（ZDOTDIR設定のため）
 2. XDGディレクトリが存在することを確認してからstow実行
 3. 新しいツール追加時はmise設定ファイルの更新を検討
 4. プラグイン追加時はSheldon設定を更新し遅延ロードを活用
+
+## 関連ドキュメント
+
+- @AGENTS.md: コーディングエージェント全般向けのリポジトリ概要（本ファイルと部分的に重複）
