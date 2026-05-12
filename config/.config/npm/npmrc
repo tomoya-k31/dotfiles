@@ -1,3 +1,6 @@
 # npm dependency cooldown: 公開から 7 日以上経過したバージョンのみインストール許可
 # 単位: 日 / 対応: npm v11.10.0+
 min-release-age=7
+
+# プライベートレジストリ
+registry=https://npm.flatt.tech

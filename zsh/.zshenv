@@ -36,9 +36,8 @@ export DENO_INSTALL="$XDG_DATA_HOME/deno"
 export DENO_INSTALL_ROOT="$DENO_INSTALL"
 
 ### Node ecosystem (XDG override) ###
-# npm / Yarn Berry は XDG ネイティブ非対応のため設定ファイルのパスを上書き
+# npm は XDG 非対応のため userconfig パスを env で上書き
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-export YARN_RC_FILENAME="$XDG_CONFIG_HOME/yarn/yarnrc.yml"
 
 ### Java ###
 export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
