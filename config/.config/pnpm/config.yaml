@@ -1,3 +1,0 @@
-# pnpm dependency cooldown: 7 日 = 10080 分
-# 単位: 分 / 対応: pnpm v10.16.0+
-minimumReleaseAge: 10080
