@@ -2,3 +2,5 @@
 # 単位: 秒 / 対応: bun v1.3+
 [install]
 minimumReleaseAge = 604800
+# プライベートレジストリ (bun は ~/.config/npm/npmrc を読まないので bunfig 側に別途記載)
+registry = "https://npm.flatt.tech"
