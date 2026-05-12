@@ -1,0 +1,3 @@
+# Yarn Berry dependency cooldown: 7 日 = 10080 分
+# 単位: 分 / 対応: yarn v4.10.0+
+npmMinimalAgeGate: 10080
