@@ -1,0 +1,4 @@
+# bun dependency cooldown: 7 日 = 604800 秒
+# 単位: 秒 / 対応: bun v1.3+
+[install]
+minimumReleaseAge = 604800
