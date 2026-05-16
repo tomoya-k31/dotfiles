@@ -1,6 +1,6 @@
 ---
 paths:
-  - **/.github/workflows/**/*.{yml,yaml}
+  - "**/.github/workflows/**/*.{yml,yaml}"
 ---
 
 # GitHub Actions Workflow Rules
