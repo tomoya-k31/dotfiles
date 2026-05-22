@@ -1,5 +1,5 @@
 # starshipが現在のディレクトリ下のファイルをチェックするまで10ミリ秒待ちます
-scan_timeout = 30
+scan_timeout = 10
 # プロンプトの先頭に改行を表示しません
 add_newline = true
 

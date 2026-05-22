@@ -21,9 +21,6 @@ apply = ['defer']
 [plugins.zsh-abbr]
 github = "olets/zsh-abbr"
 
-[plugins.F-Sy-H]
-github = "z-shell/F-Sy-H"
-
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"
 
