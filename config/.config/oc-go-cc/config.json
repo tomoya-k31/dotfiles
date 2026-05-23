@@ -8,13 +8,13 @@
     "background": {
       "provider": "opencode-go",
       "model_id": "kimi-k2.6",
-      "temperature": 0.1,
+      "temperature": 0.9,
       "max_tokens": 4096
     },
     "default": {
       "provider": "opencode-go",
       "model_id": "deepseek-v4-pro",
-      "temperature": 0.1,
+      "temperature": 0.9,
       "max_tokens": 8192,
       "reasoning_effort": "max",
       "thinking": {
@@ -24,7 +24,7 @@
     "long_context": {
       "provider": "opencode-go",
       "model_id": "deepseek-v4-pro",
-      "temperature": 0.1,
+      "temperature": 0.9,
       "max_tokens": 16384,
       "context_threshold": 80000,
       "reasoning_effort": "max",
@@ -35,7 +35,7 @@
     "think": {
       "provider": "opencode-go",
       "model_id": "deepseek-v4-pro",
-      "temperature": 0.1,
+      "temperature": 0.9,
       "max_tokens": 16384,
       "reasoning_effort": "max",
       "thinking": {
@@ -45,7 +45,7 @@
     "complex": {
       "provider": "opencode-go",
       "model_id": "deepseek-v4-pro",
-      "temperature": 0.1,
+      "temperature": 0.9,
       "max_tokens": 16384,
       "reasoning_effort": "max",
       "thinking": {
@@ -55,7 +55,7 @@
     "fast": {
       "provider": "opencode-go",
       "model_id": "kimi-k2.6",
-      "temperature": 0.1,
+      "temperature": 0.9,
       "max_tokens": 4096
     }
   },
@@ -68,13 +68,13 @@
       {
         "provider": "opencode-go",
         "model_id": "glm-5.1",
-        "temperature": 0.1,
+        "temperature": 0.9,
         "max_tokens": 8192
       },
       {
         "provider": "opencode-go",
         "model_id": "deepseek-v4-flash",
-        "temperature": 0.1,
+        "temperature": 0.9,
         "max_tokens": 8192,
         "reasoning_effort": "max",
         "thinking": {
@@ -87,7 +87,7 @@
       {
         "provider": "opencode-go",
         "model_id": "deepseek-v4-flash",
-        "temperature": 0.1,
+        "temperature": 0.9,
         "max_tokens": 16384,
         "reasoning_effort": "max",
         "thinking": {
@@ -99,7 +99,7 @@
       {
         "provider": "opencode-go",
         "model_id": "glm-5.1",
-        "temperature": 0.1,
+        "temperature": 0.9,
         "max_tokens": 16384
       },
       { "provider": "opencode-go", "model_id": "glm-5" }
@@ -108,13 +108,13 @@
       {
         "provider": "opencode-go",
         "model_id": "glm-5.1",
-        "temperature": 0.1,
+        "temperature": 0.9,
         "max_tokens": 16384
       },
       {
         "provider": "opencode-go",
         "model_id": "deepseek-v4-flash",
-        "temperature": 0.1,
+        "temperature": 0.9,
         "max_tokens": 16384,
         "reasoning_effort": "max",
         "thinking": {
