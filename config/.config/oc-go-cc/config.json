@@ -54,9 +54,9 @@
     },
     "fast": {
       "provider": "opencode-go",
-      "model_id": "kimi-k2.6",
+      "model_id": "deepseek-v4-flash",
       "temperature": 0.9,
-      "max_tokens": 4096
+      "max_tokens": 8192
     }
   },
   "fallbacks": {
@@ -123,7 +123,7 @@
       }
     ],
     "fast": [
-      { "provider": "opencode-go", "model_id": "kimi-k2.5" },
+      { "provider": "opencode-go", "model_id": "deepseek-v4-flash" },
       { "provider": "opencode-go", "model_id": "qwen3.6-plus" }
     ]
   },
