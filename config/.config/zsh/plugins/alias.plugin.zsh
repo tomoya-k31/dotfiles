@@ -40,6 +40,6 @@ cc-go() {
     fi
     trap '(( started )) && oc-go-cc stop >/dev/null 2>&1' EXIT INT TERM
     ANTHROPIC_BASE_URL=http://127.0.0.1:3456 ANTHROPIC_AUTH_TOKEN=unused \
-      op run --no-masking --env-file=$HOME/.claude/.env.tpl -- claude
+      op run --no-masking --env-file=$HOME/.claude/.env.tpl -- claude "$@"
   )
 }
