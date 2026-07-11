@@ -76,3 +76,8 @@ When presenting the user with a choice (yes/no, A/B, multi-option) — **always*
 - 言語ツールは素のコマンドでよい（`.zshenv` の `mise activate` が cwd で解決）。プロジェクト版は対象ディレクトリで実行。1 コマンド内で `cd` 跨ぎ、または `[env]` 変数が要る場合だけ `mise x -- ...`。
 - dotfile 編集は対象を `readlink -f` で解決してから repo 側の実体を編集。
 - 不可逆操作（`mise trust`、symlink 差し替え、グローバル設定変更等）はユーザー確認を取る。
+
+
+# GitHub Actions ワークフローファイル
+
+**How to apply**: `.github/workflows/` 配下のワークフローファイルを新規作成・変更する際は、作業前に必ず `~/.claude/rules/github-action-sha.md` を読み込み、そこに書かれている SHA ピン留め・フォーマット規約に従うこと（新規作成かどうかに関わらず）。
