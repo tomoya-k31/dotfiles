@@ -1,4 +1,4 @@
-.PHONY: install install-deps init install-check unstow encrypt decrypt sync vscode-setup
+.PHONY: install install-deps init install-check unstow encrypt decrypt sync vscode-setup tmux-plugins
 
 install-deps:
 	@echo "=== Installing dependencies ==="
@@ -10,7 +10,7 @@ install:
 	@echo "=== Installing dotfiles ==="
 	stow -t ~ --no-folding zsh bash config claude --adopt
 
-init: install-deps install vscode-setup
+init: install-deps install vscode-setup tmux-plugins
 	@echo "=== Full installation completed ==="
 
 install-check:
@@ -27,6 +27,11 @@ ifeq ($(shell uname), Darwin)
 	ln -sf ~/.config/vscode/User/settings.json ~/Library/Application\ Support/Code/User/settings.json
 endif
 	@echo "Done!"
+
+# tpm 本体の clone から tmux.conf の @plugin 取得までを一括で行う。
+tmux-plugins:
+	@echo "=== Installing tmux plugins ==="
+	./scripts/install-tmux-plugins.sh
 
 encrypt:
 	./scripts/encrypt-files.sh
