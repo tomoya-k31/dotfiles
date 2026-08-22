@@ -1,0 +1,88 @@
+# Ghostty 設定
+#
+# @config/.config/alacritty/alacritty.toml からの移植。意図的な差分は起動コマンドのみで、
+# Alacritty が tmux に attach するのに対し、こちらは素の zsh を起動する。
+
+#--- 起動 -----------------------------------------------------------------
+# Alacritty は program = /opt/homebrew/bin/zsh で `tmux a -t 0 || tmux` を起動するが、
+# Ghostty では tmux を噛ませず、シェルの指定もしない（意図的な差分）。
+# command を空のままにすると Ghostty が $SHELL → passwd の順で既定シェルを解決する。
+# macOS では /usr/bin/login -flp 経由で起動するのでログインシェルになり、
+# ~/.config/zsh/.zprofile の brew shellenv も走る。
+
+#--- フォント -------------------------------------------------------------
+font-family = PlemolJP Console NF
+font-size = 12
+# Alacritty の [font.normal] style = "Regular" / [font.bold] style = "Medium" に対応
+font-style = Regular
+font-style-bold = Medium
+
+#--- 配色 -----------------------------------------------------------------
+# Alacritty [colors.primary] / [colors.cursor]
+background = #2c2c2c
+foreground = #d6d6d6
+cursor-color = #d9d9d9
+cursor-text = #2c2c2c
+
+# Alacritty [colors.normal] (0-7)
+palette = 0=#1c1c1c
+palette = 1=#bc5653
+palette = 2=#909d63
+palette = 3=#ebc17a
+palette = 4=#7eaac7
+palette = 5=#aa6292
+palette = 6=#86d3ce
+palette = 7=#cacaca
+
+# Alacritty [colors.bright] (8-15)。black と white 以外は normal と同値。
+palette = 8=#636363
+palette = 9=#bc5653
+palette = 10=#909d63
+palette = 11=#ebc17a
+palette = 12=#7eaac7
+palette = 13=#aa6292
+palette = 14=#86d3ce
+palette = 15=#f7f7f7
+
+# 移植できなかった配色（Ghostty に対応キーが無い）:
+#   [colors.dim] の 8 色 …… Ghostty は faint 属性を faint-opacity（既定 0.5）の
+#                            アルファ合成で描画するため、色そのものは指定できない。
+#   dim_foreground / bright_foreground …… 同上。
+
+#--- ウィンドウ -----------------------------------------------------------
+background-opacity = 0.95
+window-padding-x = 4
+window-padding-y = 4
+# Alacritty [window.dimensions] columns = 250 / lines = 80
+window-width = 250
+window-height = 80
+
+#--- カーソル -------------------------------------------------------------
+cursor-style = block
+cursor-style-blink = true
+# Alacritty の blink_interval = 200 / blink_timeout = 0 に相当するキーは Ghostty に無い
+# （点滅の有無のみ指定可能で、周期と停止タイマーは制御できない）。
+#
+# シェル統合は既定でプロンプト位置のカーソルを bar に上書きするため、上の cursor-style が
+# 効かなくなる。Alacritty にはシェル統合が無くブロックのままなので、cursor 機能だけ落とす。
+# 既定値 cursor,no-sudo,title,no-ssh-env,no-ssh-terminfo,path の cursor を no-cursor にしたもの。
+shell-integration-features = no-cursor,no-sudo,title,no-ssh-env,no-ssh-terminfo,path
+
+#--- 選択 / スクロール ----------------------------------------------------
+# 選択したテキストを自動でクリップボードへ入れる（Alacritty の
+# selection.save_to_clipboard = false とは異なる、意図的な差分）。
+# true は selection クリップボード優先で、macOS では中クリック貼り付け用の内部バッファに入る。
+# システムクリップボード（Cmd+V）にも入れたい場合は clipboard を指定する。
+copy-on-select = true
+# Alacritty selection.semantic_escape_chars と同じ集合。
+# Ghostty の既定はこれに加えてタブ・セミコロン・$ を含む。
+selection-word-chars = ,│`|:"' ()[]{}<>
+# scrolling.multiplier = 3 は Ghostty の既定（mouse-scroll-multiplier = precision:1,discrete:3）と同じ。
+# scrolling.history = 10000 は移植不可。Ghostty の scrollback-limit は行数ではなくバイト数
+# （既定 10000000 = 10MB）なので、そのまま既定値を使う。
+
+#--- キーボード -----------------------------------------------------------
+# Alacritty window.option_as_alt = "Both"
+macos-option-as-alt = true
+# Alacritty の [[keyboard.bindings]] key = "Return", mods = "Shift", chars = "\r"
+keybind = shift+enter=text:\x1b\r
