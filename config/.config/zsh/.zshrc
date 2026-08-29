@@ -36,3 +36,10 @@ bindkey "^[[1;3C" forward-word  # Option + →
 
 ##### plugins #####
 eval "$(sheldon source)"
+
+##### totsuka #####
+# sheldon の custom plugins は defer 読み込みなので、そちらには置けない。
+# herdr が prompt 直後に打ち込む起動コマンドは deferred source より先に走りうる
+# （実測: 起動直後に打ったコマンドからは、defer で読む変数がまだ見えない）。
+# hishtory のフック解除も `eval "$(sheldon source)"` の後である必要がある。
+source $ZDOTDIR/plugins/totsuka.zsh
