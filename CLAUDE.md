@@ -19,10 +19,11 @@ make init
 
 ## Makefile の主要ターゲット
 
-- `make init`: 初期化（install-deps → install → vscode-setup）
+- `make init`: 初期化（install-deps → install → vscode-setup → tmux-plugins）
 - `make sync`: 上流取得 + 3-way merge による衝突検出（scripts/sync.sh）
 - `make encrypt` / `make decrypt`: SOPS による機密ファイルの暗号/復号
 - `make install-check`: 必要ツールの存在確認
+- `make tmux-plugins`: tpm 本体の clone と tmux.conf の `@plugin` 取得（`~/.config/tmux/plugins/` 配下、stow 対象外）
 
 ## アーキテクチャと構成
 

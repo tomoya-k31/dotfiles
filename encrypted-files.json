@@ -4,6 +4,10 @@
     "encrypted": "config/.config/git/config.encrypted"
   },
   {
+    "source": "config/.config/git/allowed_signers",
+    "encrypted": "config/.config/git/allowed_signers.encrypted"
+  },
+  {
     "source": "claude/.claude/settings.json",
     "encrypted": "claude/.claude/settings.json.encrypted"
   }

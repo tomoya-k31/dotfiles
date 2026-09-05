@@ -12,12 +12,18 @@
 #   $ ~/.config/tmux/prompt-history.sh
 # or from a tmux popup (see tmux.conf bind-key H).
 #
+# Pass "search" as the first arg to skip the cwd/session drill-down and
+# instead fuzzy-search every user_prompt across all cwd/session at once
+# (see tmux.conf bind-key K):
+#   $ ~/.config/tmux/prompt-history.sh search
+#
 # Requirements: duckdb, fzf, jq, pbcopy (all available on the user's mac).
 #
 # Internal subcommands (used by fzf --preview):
 #   __preview_cwd <cwd>
 #   __preview_session <session_id>
-#   __preview_prompt <ts>          (reads PHIST_SEL_SESSION from env)
+#   __preview_prompt <ts>                       (reads PHIST_SEL_SESSION from env)
+#   __preview_prompt_global <session_id> <ts>   (used by the "search" mode)
 set -euo pipefail
 
 LOG_DIR="${HOME}/.claude/logs"
@@ -37,6 +43,35 @@ duck_json() {
 md_highlight() {
   bat --language=md --theme='Catppuccin Mocha' \
     --color=always --style=plain --paging=never
+}
+
+# Fetch the full prompt text for (session_id, ts), copy it to the clipboard,
+# and show a brief confirmation. Shared by the 3-stage flow and search mode.
+copy_prompt_by_session_ts() {
+  local session="$1" ts="$2"
+  local session_esc ts_esc sql full bytes
+  session_esc=$(sql_esc "$session")
+  ts_esc=$(sql_esc "$ts")
+  sql=$(
+    cat <<SQL
+SELECT prompt FROM events
+WHERE session_id = '${session_esc}'
+  AND ts = '${ts_esc}'
+  AND event = 'user_prompt'
+LIMIT 1;
+SQL
+  )
+  full=$(printf '%s\n' "$sql" | duck_json | jq -r '.[0].prompt // ""')
+  if [[ -z "$full" ]]; then
+    printf 'prompt-history:failed to fetch full prompt for ts=%s\n' "$ts" >&2
+    exit 1
+  fi
+  printf '%s' "$full" | pbcopy
+  bytes=$(printf '%s' "$full" | wc -c | tr -d ' ')
+  printf '\n✓ copied to clipboard (%s bytes)  ts=%s\n' "$bytes" "$ts"
+  # Brief pause so the user sees the confirmation when launched in a tmux popup
+  # (popup auto-closes when the script exits).
+  read -r -t 1.2 -n 1 _ || true
 }
 
 # fzf 共通オプション (Catppuccin Mocha)。各 stage は --border-label / --header /
@@ -156,6 +191,21 @@ SQL
   printf '%s\n' "$sql" | duck_json | jq -r '.[0].prompt // "_(not found)_"' | md_highlight
   exit 0
   ;;
+__preview_prompt_global)
+  session_esc=$(sql_esc "${2:-}")
+  ts_esc=$(sql_esc "${3:-}")
+  sql=$(
+    cat <<SQL
+SELECT prompt FROM events
+WHERE session_id = '${session_esc}'
+  AND ts = '${ts_esc}'
+  AND event = 'user_prompt'
+LIMIT 1;
+SQL
+  )
+  printf '%s\n' "$sql" | duck_json | jq -r '.[0].prompt // "_(not found)_"' | md_highlight
+  exit 0
+  ;;
 esac
 
 # ────────────────────────────────────────────────────────────
@@ -205,6 +255,52 @@ SQL
 printf '%s\n' "$build_sql" | duckdb "$PHIST_DB" >/dev/null
 
 TAB=$'\t'
+
+# ────── Search mode: keyword search across all cwd/session ──────
+# `prompt-history.sh search` skips the cwd/session drill-down entirely and
+# lists every user_prompt at once (newest first). fzf's fuzzy filter matches
+# against the whole delimited line, so it searches the full untruncated
+# prompt text (hidden column) even though only a 200-char preview is shown.
+if [[ "${1:-}" == "search" ]]; then
+  search_sql=$(
+    cat <<'SQL'
+SELECT
+    ts,
+    cwd,
+    session_id,
+    LEFT(regexp_replace(prompt, chr(10) || '|' || chr(13), ' ⏎ ', 'g'), 200) AS preview,
+    regexp_replace(prompt, chr(10) || '|' || chr(13), ' ⏎ ', 'g') AS full_line
+FROM events
+WHERE event = 'user_prompt'
+ORDER BY ts DESC;
+SQL
+  )
+  search_lines=$(printf '%s\n' "$search_sql" | duck_json | jq -r --arg home "$HOME" '
+    def abbrev_cwd:
+      (if ($home | length) > 0 and (. == $home or startswith($home + "/"))
+         then "~" + .[$home | length :]
+         else . end) as $h
+      | ($h | split("/")) as $parts
+      | (if ($parts[0] // "") == "~" then "~" else "" end) as $prefix
+      | ($parts[1:]) as $segs
+      | if ($segs | length) <= 2 then $h
+        else $prefix + "/.../" + ($segs[-2:] | join("/"))
+        end;
+    .[] | [.ts, ((.cwd // "") | abbrev_cwd), (.session_id[0:8]), .preview, .full_line, .session_id] | @tsv
+  ')
+  sel=$(printf '%s\n' "$search_lines" | fzf \
+    "${fzf_common_opts[@]}" \
+    --border-label=' ✨ Prompt History · keyword search (all cwd / session) ' \
+    --delimiter="$TAB" \
+    --with-nth=1,2,3,4 \
+    --header='started │ cwd │ session │ preview — fuzzy-matches full prompt text · Enter = copy' \
+    --preview="\"$PHIST_SCRIPT\" __preview_prompt_global {6} {1}" || true)
+  [[ -z "$sel" ]] && exit 0
+  TS=$(printf '%s' "$sel" | awk -F"$TAB" '{print $1}')
+  SESSION=$(printf '%s' "$sel" | awk -F"$TAB" '{print $6}')
+  copy_prompt_by_session_ts "$SESSION" "$TS"
+  exit 0
+fi
 
 # ────── Stage 1: cwd ──────
 stage1_sql=$(
@@ -319,28 +415,4 @@ sel=$(printf '%s\n' "$stage3_lines" | fzf \
   --preview="\"$PHIST_SCRIPT\" __preview_prompt {1}" || true)
 [[ -z "$sel" ]] && exit 0
 TS=$(printf '%s' "$sel" | awk -F"$TAB" '{print $1}')
-ts_esc=$(sql_esc "$TS")
-
-fetch_sql=$(
-  cat <<SQL
-SELECT prompt FROM events
-WHERE session_id = '${session_esc}'
-  AND ts = '${ts_esc}'
-  AND event = 'user_prompt'
-LIMIT 1;
-SQL
-)
-FULL=$(printf '%s\n' "$fetch_sql" | duck_json | jq -r '.[0].prompt // ""')
-
-if [[ -z "$FULL" ]]; then
-  printf 'prompt-history:failed to fetch full prompt for ts=%s\n' "$TS" >&2
-  exit 1
-fi
-
-printf '%s' "$FULL" | pbcopy
-bytes=$(printf '%s' "$FULL" | wc -c | tr -d ' ')
-printf '\n✓ copied to clipboard (%s bytes)  ts=%s\n' "$bytes" "$TS"
-
-# Brief pause so the user sees the confirmation when launched in a tmux popup
-# (popup auto-closes when the script exits).
-read -r -t 1.2 -n 1 _ || true
+copy_prompt_by_session_ts "$SESSION" "$TS"

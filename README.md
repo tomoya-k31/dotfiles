@@ -19,6 +19,7 @@ make init
 | `make install` | Install dotfiles only (requires dependencies) |
 | `make install-deps` | Install required dependencies (stow, sheldon) |
 | `make install-check` | Dry-run to preview stow operations |
+| `make tmux-plugins` | Install tpm and the tmux plugins declared in `tmux.conf` |
 | `make encrypt` | Encrypt sensitive files |
 | `make decrypt` | Decrypt sensitive files |
 | `make sync` | Sync configuration files |

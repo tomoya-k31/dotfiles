@@ -17,6 +17,7 @@ export XDG_STATE_HOME=$HOME/.local/state
 export XDG_CACHE_HOME=$HOME/.cache
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 ### zsh ###
 # Set ZDOTDIR to the location of the dotfiles repository
