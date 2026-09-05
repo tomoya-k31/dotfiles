@@ -1,5 +1,3 @@
-@RTK.md
-
 # Interaction logging
 
 When presenting the user with a choice (yes/no, A/B, multi-option) — **always** use the `AskUserQuestion` tool instead of writing options as plain markdown text (e.g. "1. ... / 2. ...").

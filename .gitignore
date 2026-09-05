@@ -13,5 +13,6 @@ config/.config/tmux/plugins/
 
 ## Encrypted files - managed by encrypted-files.json ##
 config/.config/git/config
+config/.config/git/allowed_signers
 claude/.claude/settings.json
 ## End encrypted files ##
