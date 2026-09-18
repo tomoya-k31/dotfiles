@@ -43,3 +43,9 @@ eval "$(sheldon source)"
 # （実測: 起動直後に打ったコマンドからは、defer で読む変数がまだ見えない）。
 # hishtory のフック解除も `eval "$(sheldon source)"` の後である必要がある。
 source $ZDOTDIR/plugins/totsuka.zsh
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=($HOME/.docker/completions $fpath)
+autoload -Uz compinit
+(( ${+_comps[docker]} )) || compinit
+# End of Docker CLI completions
