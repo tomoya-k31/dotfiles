@@ -20,6 +20,11 @@ setopt hist_ignore_all_dups
 setopt hist_ignore_space
 
 # Enable command completion
+# 補完関数の追加は compinit より前に fpath へ入れる必要がある
+# （Docker Desktop は .zshrc 末尾に追記してくるが、そこでは間に合わないため手動でここへ移動）
+[[ -d $HOME/.docker/completions ]] && fpath=($HOME/.docker/completions $fpath)
+typeset -U fpath
+
 autoload -Uz compinit
 [[ -d $XDG_CACHE_HOME/zsh ]] || mkdir -p $XDG_CACHE_HOME/zsh
 _zcompdump=$XDG_CACHE_HOME/zsh/zcompdump
@@ -43,9 +48,3 @@ eval "$(sheldon source)"
 # （実測: 起動直後に打ったコマンドからは、defer で読む変数がまだ見えない）。
 # hishtory のフック解除も `eval "$(sheldon source)"` の後である必要がある。
 source $ZDOTDIR/plugins/totsuka.zsh
-
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=($HOME/.docker/completions $fpath)
-autoload -Uz compinit
-(( ${+_comps[docker]} )) || compinit
-# End of Docker CLI completions
