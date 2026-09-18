@@ -25,7 +25,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias vi='vim'
 
-source "/Users/$(whoami)/.local/share/cargo/env'
+source "$HOME/.local/share/cargo/env"
 
 # Hishtory Config:
 export PATH="$PATH:/Users/$(whoami)/.hishtory"

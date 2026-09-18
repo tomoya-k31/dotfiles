@@ -10,6 +10,6 @@ fi
 export PATH="$PATH:/Users/$(whoami)/.hishtory"
 source "/Users/$(whoami)/.hishtory/config.sh"
 
-# The following lines were added by Docker Desktop to add commands to your PATH.
-export PATH="$PATH:/Users/$(whoami)/.docker/bin"
-# End of Docker Desktop section.
+# Docker Desktop CLI
+# （Docker Desktop が末尾に追記してくるが、$(whoami) のサブシェルとガード無しを避けて手動で整理）
+[ -d "$HOME/.docker/bin" ] && export PATH="$PATH:$HOME/.docker/bin"

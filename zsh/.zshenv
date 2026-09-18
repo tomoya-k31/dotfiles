@@ -47,6 +47,11 @@ export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
 export KREW_ROOT="$XDG_DATA_HOME/krew"
 export PATH="${KREW_ROOT}/bin:$PATH"
 
+### Docker ###
+# Docker Desktop は PATH を .bash_profile にしか追記しないため zsh 側はここで補う。
+# kubectl の symlink も含むので、mise / krew を優先させるため末尾に append する。
+[[ -d "$HOME/.docker/bin" ]] && export PATH="$PATH:$HOME/.docker/bin"
+
 ### Python ###
 if [[ -f "$XDG_DATA_HOME/rye" ]]; then
   export RYE_HOME="$XDG_DATA_HOME/rye"
