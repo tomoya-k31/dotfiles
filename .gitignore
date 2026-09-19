@@ -19,3 +19,8 @@ claude/.claude/settings.json
 
 ## Claude skill dev artifacts (skill-creator eval runs) ##
 claude/.claude/skills/*-workspace/
+
+## x-issue-add: 仕事用の宛先定義はその PC だけ（dotfiles は public） ##
+claude/.claude/skills/x-issue-add/references/*
+!claude/.claude/skills/x-issue-add/references/private.md
+!claude/.claude/skills/x-issue-add/references/_template.md
