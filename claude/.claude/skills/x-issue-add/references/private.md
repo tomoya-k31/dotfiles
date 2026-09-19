@@ -6,7 +6,7 @@ GitHub、アカウントは `tomoya-k31`。board は user project **6**。
 
 | 内容 | Status | label | assignee |
 |---|---|---|---|
-| 思いつき・新機能 | `📥 Inbox` | `enhancement` | |
+| アイデア・新機能 | `📥 Inbox` | `enhancement` | |
 | 不具合 | `📥 Inbox` | `bug` | |
 | もう決まっている作業 | `🤖 Building` | | |
 | 既存の PR | `📋 Ready` | | `@me` |
