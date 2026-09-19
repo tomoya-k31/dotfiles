@@ -1,0 +1,33 @@
+# <宛先名> — <用途>
+
+<!-- このファイルを references/<宛先名>.md に写して埋める。private.md が記入例。
+     private.md と _template.md 以外は .gitignore 済み（dotfiles は public）。
+     足したら dotfiles で stow を掛け直す（--no-folding なのでファイル単位の symlink が要る）。 -->
+
+## GitHub Project の場合
+
+- アカウント: `<gh の login>`（`gh auth status` で確認）
+- board: `<owner>` の `<user|org>` project **<番号>**
+- 起票先 repo: `<owner>/<repo>`（複数なら選び方も書く）
+- issue template: `.github/ISSUE_TEMPLATE/` の有無と、あれば踏襲する見出し
+
+| 内容 | Status | label |
+|---|---|---|
+| 思いつき・新機能 | `<選択肢名>` | `<label>` |
+| 不具合 | `<選択肢名>` | `<label>` |
+| もう決まっている作業 | `<選択肢名>` | |
+
+```bash
+url=$(gh issue create --repo <owner>/<repo> --title "<title>" --label <label> --body-file <file>)
+~/.claude/skills/x-issue-add/scripts/add-to-project.sh <owner> <番号> "$url" "<Status>" [<Status 欄の名前>]
+```
+
+Status 欄の名前が `Status` でなければ 5 つ目の引数で渡す。選択肢名は emoji と空白まで一致させる
+（一覧: `gh project field-list <番号> --owner <owner>`）。
+
+## Notion の場合
+
+- データベース ID: `<id>`
+- ステータスのプロパティ名: `<名前>` と選択肢: `<Inbox 相当>` / `<着手可 相当>`
+- トークン: `ntn auth token --plain`（`ntn auth --help` が一次資料）
+- 作成後に読み返してステータスを確認する手順
