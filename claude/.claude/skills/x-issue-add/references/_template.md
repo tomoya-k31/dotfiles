@@ -11,14 +11,15 @@
 - 起票先 repo: `<owner>/<repo>`（複数なら選び方も書く）
 - issue template: `.github/ISSUE_TEMPLATE/` の有無と、あれば踏襲する見出し
 
-| 内容 | Status | label |
-|---|---|---|
-| 思いつき・新機能 | `<選択肢名>` | `<label>` |
-| 不具合 | `<選択肢名>` | `<label>` |
-| もう決まっている作業 | `<選択肢名>` | |
+| 内容 | Status | label | assignee |
+|---|---|---|---|
+| 思いつき・新機能 | `<選択肢名>` | `<label>` | |
+| 不具合 | `<選択肢名>` | `<label>` | |
+| もう決まっている作業 | `<選択肢名>` | | |
+| 既存の PR | `<選択肢名>` | | `@me` |
 
 ```bash
-url=$(gh issue create --repo <owner>/<repo> --title "<title>" --label <label> --body-file <file>)
+url=$(gh issue create --repo <owner>/<repo> --title "<title>" [--label <label>] [--assignee @me] --body-file <file>)
 ~/.claude/skills/x-issue-add/scripts/add-to-project.sh <owner> <番号> "$url" "<Status>" [<Status 欄の名前>]
 ```
 
