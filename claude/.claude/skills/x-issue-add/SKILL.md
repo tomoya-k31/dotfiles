@@ -1,6 +1,6 @@
 ---
 name: x-issue-add
-description: "思いつき・不具合・やるべき作業、または既にある PR（renovate など）を、GitHub Project か Notion のタスクとして書き留める。/x-issue-add <宛先> <内容 or PR URL>。宛先は private / personal / mikasa / gesoten / light。"
+description: "アイデア・不具合・やるべき作業、または既にある PR（renovate など）を、GitHub Project か Notion のタスクとして書き留める。/x-issue-add <宛先> <内容 or PR URL>。宛先は private / personal / light / etc。"
 disable-model-invocation: true
 arguments: [project]
 ---
@@ -12,40 +12,55 @@ arguments: [project]
 
 宛先は `$project`（最初の引数）。残りが内容。内容が空なら直前の会話から拾う。
 
-宛先の定義（GitHub か Notion か、board、起票先 repo、Status と label）は
+宛先の定義（GitHub か Notion か、board / データベース、起票先 repo、Status と label）は
 `~/.claude/skills/x-issue-add/references/$project.md` にある。宛先が無い、またはファイルが無い
 ときは `references/` のファイル名を見せて聞く。**勝手に別の宛先へ起票しない** — 他チームの
 ボードに入った issue は、消す手間も気まずさも大きい。
 
-宛先の候補: `private`（個人用）、`personal`（仕事用・個人）、`mikasa` / `gesoten`
-（仕事用・チーム、GitHub）、`light`（仕事用・チーム、Notion）。ファイルが無い宛先はこの PC では未設定。
+宛先の候補: `private`（個人用、GitHub）、`personal`（仕事用・個人）、`light`（仕事用・チーム、Notion）
+など。ファイルが無い宛先はこの PC では未設定。
 
 ## 気軽さを守る
 
-目的は「ネタを増やす」こと。1 行の思いつきを長文にしない。書いていない背景を想像で埋めず、
+目的は「ネタを増やす」こと。1 行のアイデアを長文にしない。書いていない背景を想像で埋めず、
 分からないことは「未確定」と一言残して先へ進む。調査や設計は起票後の工程の仕事で、ここで
 時間をかけると次のネタが書かれなくなる。PR を渡されたときも同じで、追加対応が要るかの調査は
 ここではしない。
 
-目安: 思いつきは 3 行。不具合は再現手順と期待した動き。
+目安: アイデアは 3 行。不具合は再現手順と期待した動き。
 
 ## 手順
 
-1. **`references/$project.md` を読む。**
-2. **内容がどれか見分ける。** Status と label は定義ファイルの表から引く。
-   - 思いつき・新機能 — まだ何も決まっていない
+1. **`references/$project.md` を読む。** GitHub か Notion か、Status などはそこから引く。
+2. **内容がどれか見分ける。** 定義ファイルの表のどの行に当たるかを決める。
+   - アイデア・新機能 — まだ何も決まっていない
    - 不具合 — 再現手順と期待した動き
    - もう決まっている作業 — 手順が書け、エージェントがそのまま着手できる
    - **既存の PR**（内容が `https://github.com/<owner>/<repo>/pull/<n>`） — renovate のように
-     issue より先に PR ができたもの。起票先はその PR の repo。`gh pr view <url>` でタイトルと
-     変更の要点だけ拾い、本文は PR へのリンクと 1〜2 行にする
-3. **起票先 repo を決め、issue template を見る**（下の「issue template」）。
-4. **起票する。** タイトルは `type(scope): 説明`（Conventional Commits。PR なら PR のタイトルを
-   そのまま使ってよい）。repo に `.claude/rules/` があれば本文の書き方はそれに従う。
-5. **ボードに載せて Status を入れる。** `~/.claude/skills/x-issue-add/scripts/add-to-project.sh`
-   が item-add・Status 設定・読み返しをまとめてやる。載っただけで Status が空、という失敗が
-   実際に起きるので、スクリプトが非 0 で終わったら直してから終える。
-6. 作った issue の URL を返す。
+     タスクより先に PR ができたもの。`gh pr view <url>` でタイトルと変更の要点だけ拾い、
+     本文は PR へのリンクと 1〜2 行にする
+3. **宛先の種類に応じて起票する**（下の「GitHub Project」「Notion」）。タイトルは
+   `type(scope): 説明`（Conventional Commits。PR なら PR のタイトルをそのまま使ってよい）。
+4. **Status を読み返す。** 作っただけで Status が空・選択肢名が 1 文字違って入らない、という
+   失敗が実際に起きる。期待した値でなければ直してから終える。
+5. 作った issue / ページの URL を返す。
+
+## GitHub Project
+
+1. 起票先 repo を決め（PR ならその PR の repo）、issue template を見る（下の「issue template」）。
+   repo に `.claude/rules/` があれば本文の書き方はそれに従う。
+2. `gh issue create` で起票する。
+3. `~/.claude/skills/x-issue-add/scripts/add-to-project.sh` でボードに載せる。item-add・Status
+   設定・読み返しをまとめてやり、期待した Status が読めなければ非 0 で終わる。
+
+## Notion
+
+Notion MCP を使う（スクリプトは GitHub 専用）。
+
+1. 定義ファイルのデータベースに、MCP のページ作成でページを作る。プロパティ名と選択肢名は
+   定義ファイルのとおりに渡す。PR ならページ本文か URL プロパティに PR のリンクを入れる。
+2. 作ったページを MCP で取得し直し、Status プロパティが期待した値か確かめる（手順 4）。
+   プロパティ名や選択肢名が分からなくなったら、データベースを MCP で取得してスキーマを見る。
 
 ## issue template
 
