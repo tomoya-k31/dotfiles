@@ -30,11 +30,11 @@ arguments: [project]
    - 思いつき・新機能 — まだ何も決まっていない
    - 不具合 — 再現手順と期待した動きを書く
    - もう決まっている作業 — 手順が書ける。エージェントがそのまま着手できる
-2. **`references/$project.md` を読む。** 起票先・label・初期ステータスがそこにある（下の「宛先の定義」）
+2. **`~/.claude/skills/x-issue-add/references/$project.md` を読む。** 起票先・label・初期ステータスがそこにある（下の「宛先の定義」）
 3. **起票先 repo の issue template を見る**（下の「issue template」）
 4. **起票する。** タイトルは `type(scope): 説明`（Conventional Commits）。repo に `.claude/rules/`
    があれば、本文の書き方はそれに従う
-5. **ボードに載せて初期ステータスを入れ、読み返す。** `scripts/add-to-project.sh` がまとめてやる。
+5. **ボードに載せて初期ステータスを入れ、読み返す。** `~/.claude/skills/x-issue-add/scripts/add-to-project.sh` がまとめてやる。
    載っただけでステータスが入っていない、という失敗が実際に起きるので、読み返しを飛ばさない
 
 ## issue template
@@ -53,13 +53,13 @@ repo では、その形を本文側で再現する。
 ## 宛先の定義
 
 宛先ごとの定義（GitHub か Notion か、board の番号、起票先 repo、Status と label の対応）は
-**`references/$project.md`** にある。宛先ごとにファイルを分けているのは、個人 PC と会社 PC で
+**`~/.claude/skills/x-issue-add/references/$project.md`** にある。宛先ごとにファイルを分けているのは、個人 PC と会社 PC で
 定義が違うから — 同じ SKILL.md を使いながら、その PC にあるファイルだけが有効になる。
 
 - **ファイルが無ければ、その宛先はこの PC では未設定。** `references/` にあるファイル名を
   一覧で見せて聞く。勝手に別の宛先へ起票しない
 - 宛先の候補: `private`（個人用）、`personal`（仕事用・個人）、`mikasa` / `gesoten`
   （仕事用・チーム、GitHub）、`light`（仕事用・チーム、Notion）
-- 新しい宛先を足すときは `references/_template.md` を写して埋める。`private.md` と
+- 新しい宛先を足すときは `~/.claude/skills/x-issue-add/references/_template.md` を写して埋める。`private.md` と
   `_template.md` 以外は `.gitignore` 済みなので、仕事用の定義は dotfiles（public）に載らない。
   足したら dotfiles で stow を掛け直す（`--no-folding` なのでファイル単位の symlink が要る）
