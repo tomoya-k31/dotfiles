@@ -1,11 +1,14 @@
 ---
 name: x-issue-add
-description: 思いついたこと・不具合・やるべき作業を GitHub Project か Notion のタスクとして書き留める。/x-issue-add に続けて宛先（private / personal / mikasa / gesoten / light）と内容を渡す。トリガー: 「issue にして」「起票して」「タスクにして」「メモっておいて」「アイデアがある」「あとでやる」、および会話の中で「これはやったほうがいい」と決まったとき。totsuka はタスクが無いと動かないので、迷ったらこのスキルで書き留めておく。
+description: "思いついたこと・不具合・やるべき作業を GitHub Project か Notion のタスクとして書き留める。/x-issue-add に続けて宛先（private / personal / mikasa / gesoten / light）と内容を渡す。トリガー: 「issue にして」「起票して」「タスクにして」「メモっておいて」「アイデアがある」「あとでやる」、および会話の中で「これはやったほうがいい」と決まったとき。totsuka はタスクが無いと動かないので、迷ったらこのスキルで書き留めておく。"
+disable-model-invocation: true
+argument-hint: "[private|personal|mikasa|gesoten|light] [内容]"
+arguments: [destination]
 ---
 
 # タスクを書き留める
 
-`$ARGUMENTS` の最初の語が宛先、残りが内容。
+宛先は `$destination`（最初の引数）。内容は `$ARGUMENTS` から最初の語を除いた残り。
 
     /x-issue-add private  <内容>
     /x-issue-add mikasa   <内容>
