@@ -29,16 +29,36 @@ arguments: [board]
 
 目安: アイデアは 3 行。不具合は再現手順と期待した動き。
 
+## Type
+
+内容を 1 つの Type に分ける。Type ごとの Status・label・assignee は `references/$board.md` にある。
+
+| Group | Type | Examples | Title type |
+|---|---|---|---|
+| Development | `feature` | New feature, UX improvement, idea | `feat` |
+| | `bug` | Wrong behavior (write repro steps and expected behavior) | `fix` |
+| | `refactor` | No behavior change: restructuring, performance, tests | `refactor` / `perf` / `test` |
+| | `docs` | README, design notes, runbooks | `docs` |
+| | `investigation` | Deliverable is a conclusion, not code (write the question and done-criteria) | `chore` |
+| Operations | `ops` | Data fix, permission grant, config change, user inquiry | `chore` |
+| | `incident` | Recurrence prevention after an outage, postmortem | `fix` / `docs` |
+| Maintenance | `deps` | Dependency / runtime / EOL update | `chore(deps)` / `build` |
+| | `security` | CVE, Dependabot alert, secret / certificate rotation | `fix` / `chore` |
+| | `ci` | CI breakage, workflow fix, infra cost review | `ci` / `chore` |
+
+## Case
+
+Type とは別に、状況が `references/$board.md` の Case 表に当てはまれば、Status と assignee は
+Case 表を優先する（label は Type のまま）。例: renovate の PR が既にあるなら Type `deps`、
+Case `existing-pr`。
+
+PR の URL（`https://github.com/<owner or organization>/<repo>/pull/<n>`）を渡されたときは
+`gh pr view <url>` でタイトルと変更の要点だけ拾い、本文は PR へのリンクと 1〜2 行にする。
+
 ## 手順
 
-1. **`references/$board.md` を読む。** GitHub か Notion か、Status などはそこから引く。
-2. **内容がどれか見分ける。** 定義ファイルの表のどの行に当たるかを決める。
-   - アイデア・新機能 — まだ何も決まっていない
-   - 不具合 — 再現手順と期待した動き
-   - もう決まっている作業 — 手順が書け、エージェントがそのまま着手できる
-   - **既存の PR**（内容が `https://github.com/<owner or organization>/<repo>/pull/<n>`） — renovate のように
-     タスクより先に PR ができたもの。`gh pr view <url>` でタイトルと変更の要点だけ拾い、
-     本文は PR へのリンクと 1〜2 行にする
+1. **`references/$board.md` を読む。** GitHub か Notion か、Type / Case 表はそこにある。
+2. **Type と Case を決め、Status・label・assignee を表から引く。**
 3. **ボードの種類に応じて起票する**（下の「GitHub Project」「Notion」）。タイトルは
    `type(scope): 説明`（Conventional Commits。PR なら PR のタイトルをそのまま使ってよい）。
 4. **Status を読み返す。** 作っただけで Status が空・選択肢名が 1 文字違って入らない、という
@@ -49,8 +69,8 @@ arguments: [board]
 
 1. 起票先 repo を決め（PR ならその PR の repo）、issue template を見る（下の「issue template」）。
    repo に `.claude/rules/` があれば本文の書き方はそれに従う。
-2. `gh issue create` で起票する。
-3. `~/.claude/skills/x-issue-add/scripts/add-to-project.sh` でボードに載せる。item-add・Status
+2. `gh issue create` で起票する。表の label がその repo に無ければ付けずに起票する（label は作らない）。
+3. `~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh` でボードに載せる。item-add・Status
    設定・読み返しをまとめてやり、期待した Status が読めなければ非 0 で終わる。
 
 ## Notion

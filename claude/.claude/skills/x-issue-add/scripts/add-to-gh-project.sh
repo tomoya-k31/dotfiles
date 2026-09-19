@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # issue（または PR）を GitHub Project に載せ、ステータスを入れ、読み返して確認する。
 #
-#   add-to-project.sh <owner> <project-number> <issue-url> <status> [status-field]
+#   add-to-gh-project.sh <owner> <project-number> <issue-url> <status> [status-field]
 #
 # 読み返しがこのスクリプトの本体。item-add が成功してもステータスは別の書き込みで、
 # 「載っただけでステータスが空」「選択肢名が 1 文字違って入らない」が実際に起きる。
