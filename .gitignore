@@ -16,3 +16,6 @@ config/.config/git/config
 config/.config/git/allowed_signers
 claude/.claude/settings.json
 ## End encrypted files ##
+
+## Claude skill dev artifacts (skill-creator eval runs) ##
+claude/.claude/skills/*-workspace/
