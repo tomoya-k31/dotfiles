@@ -11,16 +11,34 @@
 - 起票先 repo: `<owner>/<repo>`（複数なら選び方も書く）
 - issue template: `.github/ISSUE_TEMPLATE/` の有無と、あれば踏襲する見出し
 
-| 内容 | Status | label | assignee |
+### Type
+
+SKILL.md の Type ごとに埋める。label は GitHub 既定の `bug` / `enhancement` / `documentation` から。
+
+| Type | Status | label | assignee |
 |---|---|---|---|
-| アイデア・新機能 | `<選択肢名>` | `<label>` | |
-| 不具合 | `<選択肢名>` | `<label>` | |
-| もう決まっている作業 | `<選択肢名>` | | |
-| 既存の PR | `<選択肢名>` | | `@me` |
+| `feature` | `<option>` | `<label>` | |
+| `bug` | `<option>` | `<label>` | |
+| `refactor` | `<option>` |  | |
+| `docs` | `<option>` | `<label>` | |
+| `investigation` | `<option>` |  | |
+| `ops` | `<option>` |  | |
+| `incident` | `<option>` | `<label>` | |
+| `deps` | `<option>` |  | |
+| `security` | `<option>` |  | |
+| `ci` | `<option>` |  | |
+
+### Case
+
+Type 表より優先する。
+
+| Case | When | Status | assignee |
+|---|---|---|---|
+| `existing-pr` | A PR already exists but no issue / task (e.g. renovate) | `<option>` | `@me` |
 
 ```bash
 url=$(gh issue create --repo <owner>/<repo> --title "<title>" [--label <label>] [--assignee @me] --body-file <file>)
-~/.claude/skills/x-issue-add/scripts/add-to-project.sh <owner> <番号> "$url" "<Status>" [<Status 欄の名前>]
+~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh <owner> <番号> "$url" "<Status>" [<Status 欄の名前>]
 ```
 
 Status 欄の名前が `Status` でなければ 5 つ目の引数で渡す。選択肢名は emoji と空白まで一致させる
@@ -34,11 +52,25 @@ Notion MCP で読み書きする。
 - タイトルのプロパティ名: `<名前>`
 - ステータスのプロパティ名: `<名前>`（種類: status / select）
 
-| 内容 | ステータス | その他のプロパティ |
+### Type
+
+| Type | Status | Other properties |
 |---|---|---|
-| アイデア・新機能 | `<選択肢名>` | |
-| 不具合 | `<選択肢名>` | |
-| もう決まっている作業 | `<選択肢名>` | |
-| 既存の PR | `<選択肢名>` | `<PR リンクを入れるプロパティ。無ければ本文に書く>` |
+| `feature` | `<option>` | |
+| `bug` | `<option>` | |
+| `refactor` | `<option>` | |
+| `docs` | `<option>` | |
+| `investigation` | `<option>` | |
+| `ops` | `<option>` | |
+| `incident` | `<option>` | |
+| `deps` | `<option>` | |
+| `security` | `<option>` | |
+| `ci` | `<option>` | |
+
+### Case
+
+| Case | When | Status | Other properties |
+|---|---|---|---|
+| `existing-pr` | A PR already exists but no task (e.g. renovate) | `<option>` | `<property for the PR link; otherwise put it in the body>` |
 
 選択肢名は emoji と空白まで一致させる（データベースを MCP で取得するとスキーマが見られる）。
