@@ -1,6 +1,6 @@
 # private — 個人用
 
-GitHub、アカウントは `tomoya-k31`。board は user project **6**。
+GitHub、アカウントは `tomoya-k31`。GitHub Project は user project **6**。
 
 起票先は `tomoya-k31` の repo。内容から選び、決められなければ聞く（PR なら PR の repo）。
 
