@@ -1,13 +1,13 @@
-# <宛先名> — <用途>
+# <ボード名> — <用途>
 
-<!-- このファイルを references/<宛先名>.md に写して埋める。private.md が記入例。
+<!-- このファイルを references/<ボード名>.md に写して埋める。private.md が記入例。
      private.md と _template.md 以外は .gitignore 済み（dotfiles は public）。
      足したら dotfiles で stow を掛け直す（--no-folding なのでファイル単位の symlink が要る）。 -->
 
 ## GitHub Project の場合
 
 - アカウント: `<gh の login>`（`gh auth status` で確認）
-- board: `<owner>` の `<user|org>` project **<番号>**
+- GitHub Project: `<owner>` の `<user|org>` project **<番号>**
 - 起票先 repo: `<owner>/<repo>`（複数なら選び方も書く）
 - issue template: `.github/ISSUE_TEMPLATE/` の有無と、あれば踏襲する見出し
 
