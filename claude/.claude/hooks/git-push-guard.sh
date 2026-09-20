@@ -14,6 +14,13 @@ esac
 
 cd "$(printf '%s' "$input" | jq -r '.cwd // "."')" 2>/dev/null || exit 0
 
+# `git -C <dir> push` / `cd <dir> && ... git push` は cwd ではなくそちらを見る
+dir=$(printf '%s' "$cmd" | sed -n 's|.*git[[:space:]][[:space:]]*-C[[:space:]][[:space:]]*\([^[:space:]]*\).*|\1|p' | head -1)
+[ -n "$dir" ] || dir=$(printf '%s' "$cmd" | sed -n 's|^[[:space:]]*cd[[:space:]][[:space:]]*\([^&;|]*\).*|\1|p' | head -1)
+dir=$(printf '%s' "$dir" | sed 's|[[:space:]]*$||; s|^"\(.*\)"$|\1|; s|^'"'"'\(.*\)'"'"'$|\1|')
+case "$dir" in "~"*) dir="$HOME${dir#\~}" ;; esac
+[ -z "$dir" ] || cd "$dir" 2>/dev/null || exit 0
+
 decide() { # <allow|deny|ask> <reason>
 	[ "$1" = allow ] && exit 0
 	printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"%s","permissionDecisionReason":"%s"}}\n' "$1" "$2"
