@@ -21,8 +21,16 @@ field=${5:-Status}
 gh project item-add "$number" --owner "$owner" --url "$url" >/dev/null
 gh project item-edit "$number" --owner "$owner" --url "$url" --field "$field" --value "$status" >/dev/null
 
-actual=$(gh project item-list "$number" --owner "$owner" --limit 500 --format json \
-  --jq ".items[] | select(.content.url == \"${url}\") | .status // \"\"")
+# 書き込み直後は item-list に反映されていないことがあるので、3 秒おきに最大 3 回読み直す。
+max_retries=3
+for ((retry = 0; ; retry++)); do
+  actual=$(gh project item-list "$number" --owner "$owner" --limit 500 --format json \
+    --jq ".items[] | select(.content.url == \"${url}\") | .status // \"\"")
+  if [ "$actual" = "$status" ] || [ "$retry" -ge "$max_retries" ]; then
+    break
+  fi
+  sleep 3
+done
 
 if [ "$actual" != "$status" ]; then
   echo "error: ${url} のステータスが期待と違う: expected=[${status}] actual=[${actual}]" >&2
