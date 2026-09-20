@@ -8,16 +8,16 @@ GitHub、アカウントは `tomoya-k31`。GitHub Project は user project **6**
 
 | Type | Status | label | assignee |
 |---|---|---|---|
-| `feature` | `📥 Inbox` | `enhancement` | |
-| `bug` | `📥 Inbox` | `bug` | |
-| `refactor` | `📥 Inbox` |  | |
-| `docs` | `📥 Inbox` | `documentation` | |
-| `investigation` | `📥 Inbox` |  | |
-| `ops` | `📥 Inbox` |  | |
-| `incident` | `📥 Inbox` | `bug` | |
-| `deps` | `📥 Inbox` |  | |
-| `security` | `📥 Inbox` |  | |
-| `ci` | `📥 Inbox` |  | |
+| `feature` | `📋 Ready` | `enhancement` | @me |
+| `bug` | `📋 Ready` | `bug` | @me |
+| `refactor` | `📋 Ready` |  | @me |
+| `docs` | `📋 Ready` | `documentation` | @me |
+| `investigation` | `📋 Ready` |  | @me |
+| `ops` | `📋 Ready` |  | @me |
+| `incident` | `📋 Ready` | `bug` | @me |
+| `deps` | `📋 Ready` |  | @me |
+| `security` | `📋 Ready` |  | @me |
+| `ci` | `📋 Ready` |  | @me |
 
 ## Case
 
