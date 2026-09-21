@@ -6,27 +6,27 @@ GitHub、アカウントは `tomoya-k31`。GitHub Project は user project **6**
 
 ## Type
 
-| Type | Status | label | assignee |
-|---|---|---|---|
-| `feature` | `📋 Ready` | `enhancement` | @me |
-| `bug` | `📋 Ready` | `bug` | @me |
-| `refactor` | `📋 Ready` |  | @me |
-| `docs` | `📋 Ready` | `documentation` | @me |
-| `investigation` | `📋 Ready` |  | @me |
-| `ops` | `📋 Ready` |  | @me |
-| `incident` | `📋 Ready` | `bug` | @me |
-| `deps` | `📋 Ready` |  | @me |
-| `security` | `📋 Ready` |  | @me |
-| `ci` | `📋 Ready` |  | @me |
+| Type            | Status   | label           | assignee |
+| --------------- | -------- | --------------- | -------- |
+| `feature`       | `🤖 Spec` | `enhancement`   | @me      |
+| `bug`           | `🤖 Spec` | `bug`           | @me      |
+| `refactor`      | `🤖 Spec` |                 | @me      |
+| `docs`          | `🤖 Spec` | `documentation` | @me      |
+| `investigation` | `🤖 Spec` |                 | @me      |
+| `ops`           | `🤖 Spec` |                 | @me      |
+| `incident`      | `🤖 Spec` | `bug`           | @me      |
+| `deps`          | `🤖 Spec` |                 | @me      |
+| `security`      | `🤖 Spec` |                 | @me      |
+| `ci`            | `🤖 Spec` |                 | @me      |
 
 ## Case
 
 Type 表より優先する。
 
-| Case | When | Status | assignee |
-|---|---|---|---|
-| `existing-pr` | A PR already exists but no issue / task (e.g. renovate) | `📋 Ready` | `@me` |
-| `planned` | Steps are already written; an agent can start right away | `🤖 Building` | |
+| Case          | When                                                     | Status       | assignee |
+| ------------- | -------------------------------------------------------- | ------------ | -------- |
+| `existing-pr` | A PR already exists but no issue / task (e.g. renovate)  | `🤖 Spec`     | `@me`    |
+| `planned`     | Steps are already written; an agent can start right away | `🤖 Building` |          |
 
 ```bash
 url=$(gh issue create --repo tomoya-k31/<repo> --title "<title>" [--label <label>] [--assignee @me] --body-file <file>)
