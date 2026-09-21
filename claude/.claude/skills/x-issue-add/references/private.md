@@ -25,12 +25,15 @@ Type 表より優先する。
 
 | Case          | When                                                     | Status       | assignee |
 | ------------- | -------------------------------------------------------- | ------------ | -------- |
-| `existing-pr` | A PR already exists but no issue / task (e.g. renovate)  | `🤖 Spec`     | `@me`    |
+| `existing-pr` | A PR already exists (e.g. renovate); add the PR itself, no issue  | `🤖 Spec`     | `@me`    |
 | `planned`     | Steps are already written; an agent can start right away | `🤖 Building` |          |
 
 ```bash
 url=$(gh issue create --repo tomoya-k31/<repo> --title "<title>" [--label <label>] [--assignee @me] --body-file <file>)
 ~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh tomoya-k31 6 "$url" "<Status>"
+
+# existing-pr: issue は作らず PR を直接載せる
+~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh tomoya-k31 6 "<PR URL>" "🤖 Spec"
 ```
 
 Status は emoji と半角スペースまで一致させる（一覧: `gh project field-list 6 --owner tomoya-k31`）。

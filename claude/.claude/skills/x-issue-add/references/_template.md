@@ -34,11 +34,12 @@ Type 表より優先する。
 
 | Case | When | Status | assignee |
 |---|---|---|---|
-| `existing-pr` | A PR already exists but no issue / task (e.g. renovate) | `<option>` | `@me` |
+| `existing-pr` | A PR already exists (e.g. renovate); add the PR itself, no issue | `<option>` | `@me` |
 
 ```bash
 url=$(gh issue create --repo <owner>/<repo> --title "<title>" [--label <label>] [--assignee @me] --body-file <file>)
 ~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh <owner> <番号> "$url" "<Status>" [<Status 欄の名前>]
+# existing-pr は issue を作らず "<PR URL>" をそのまま渡す
 ```
 
 Status 欄の名前が `Status` でなければ 5 つ目の引数で渡す。選択肢名は emoji と空白まで一致させる

@@ -53,7 +53,8 @@ Case 表を優先する（label は Type のまま）。例: renovate の PR が
 Case `existing-pr`。
 
 PR の URL（`https://github.com/<owner or organization>/<repo>/pull/<n>`）を渡されたときは
-`gh pr view <url>` でタイトルと変更の要点だけ拾い、本文は PR へのリンクと 1〜2 行にする。
+**issue を作らず、PR そのものをボードに載せる**（GitHub Project は PR を item にできる）。
+`gh pr view <url>` は Type を決めるためにタイトルを見る程度でよい。
 
 ## 手順
 
@@ -63,11 +64,13 @@ PR の URL（`https://github.com/<owner or organization>/<repo>/pull/<n>`）を�
    `type(scope): 説明`（Conventional Commits。PR なら PR のタイトルをそのまま使ってよい）。
 4. **Status を読み返す。** 作っただけで Status が空・選択肢名が 1 文字違って入らない、という
    失敗が実際に起きる。期待した値でなければ直してから終える。
-5. 作った issue / ページの URL を返す。
+5. 作った issue / ページ（PR ならボードに載せた PR）の URL を返す。
 
 ## GitHub Project
 
-1. 起票先 repo を決め（PR ならその PR の repo）、issue template を見る（下の「issue template」）。
+PR の URL を渡されたときは 1・2 を飛ばし、PR の URL をそのまま 3 に渡す。
+
+1. 起票先 repo を決め、issue template を見る（下の「issue template」）。
    repo に `.claude/rules/` があれば本文の書き方はそれに従う。
 2. `gh issue create` で起票する。表の label がその repo に無ければ付けずに起票する（label は作らない）。
 3. `~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh` でボードに載せる。item-add・Status
