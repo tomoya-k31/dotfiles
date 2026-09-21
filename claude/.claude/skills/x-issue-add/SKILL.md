@@ -1,7 +1,6 @@
 ---
 name: x-issue-add
 description: "アイデア・不具合・やるべき作業、または既にある PR（renovate など）を、GitHub Project か Notion のタスクとして書き留める。/x-issue-add <ボード> <内容 or PR URL>。ボードは private / personal / light / etc。"
-disable-model-invocation: true
 arguments: [board]
 ---
 
