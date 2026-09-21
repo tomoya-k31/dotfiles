@@ -58,7 +58,8 @@ PR の URL（`https://github.com/<owner or organization>/<repo>/pull/<n>`）を�
 ## 手順
 
 1. **`references/$board.md` を読む。** GitHub か Notion か、Type / Case 表はそこにある。
-2. **Type と Case を決め、Status・label・assignee を表から引く。**
+2. **Type と Case を決め、Status・label・assignee を表から引く。** assignee は Case 表に値があれば
+   それ、空なら Type 表の値。**どちらも空ならアサインしない**（`--assignee` も `gh pr edit` も付けない）。
 3. **ボードの種類に応じて起票する**（下の「GitHub Project」「Notion」）。タイトルは
    `type(scope): 説明`（Conventional Commits。PR なら PR のタイトルをそのまま使ってよい）。
 4. **Status を読み返す。** 作っただけで Status が空・選択肢名が 1 文字違って入らない、という
@@ -67,7 +68,8 @@ PR の URL（`https://github.com/<owner or organization>/<repo>/pull/<n>`）を�
 
 ## GitHub Project
 
-PR の URL を渡されたときは 1・2 を飛ばし、PR の URL をそのまま 3 に渡す。
+PR の URL を渡されたときは 1・2 を飛ばし、表に assignee があれば `gh pr edit <url> --add-assignee <assignee>`
+で PR に付けてから、PR の URL をそのまま 3 に渡す（issue を作らないので `--assignee` の付け場所が無い）。
 
 1. 起票先 repo を決め、issue template を見る（下の「issue template」）。
    repo に `.claude/rules/` があれば本文の書き方はそれに従う。

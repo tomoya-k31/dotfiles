@@ -39,7 +39,8 @@ Type 表より優先する。
 ```bash
 url=$(gh issue create --repo <owner>/<repo> --title "<title>" [--label <label>] [--assignee @me] --body-file <file>)
 ~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh <owner> <番号> "$url" "<Status>" [<Status 欄の名前>]
-# existing-pr は issue を作らず "<PR URL>" をそのまま渡す
+# existing-pr は issue を作らず "<PR URL>" をそのまま渡す。assignee は PR 側に付ける
+gh pr edit "<PR URL>" [--add-assignee @me]   # assignee が空なら実行しない
 ```
 
 Status 欄の名前が `Status` でなければ 5 つ目の引数で渡す。選択肢名は emoji と空白まで一致させる

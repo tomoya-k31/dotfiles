@@ -32,7 +32,8 @@ Type 表より優先する。
 url=$(gh issue create --repo tomoya-k31/<repo> --title "<title>" [--label <label>] [--assignee @me] --body-file <file>)
 ~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh tomoya-k31 6 "$url" "<Status>"
 
-# existing-pr: issue は作らず PR を直接載せる
+# existing-pr: issue は作らず PR を直接載せる。assignee は PR 側に付ける
+gh pr edit "<PR URL>" [--add-assignee @me]   # assignee が空なら実行しない
 ~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh tomoya-k31 6 "<PR URL>" "🤖 Spec"
 ```
 
