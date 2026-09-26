@@ -1,0 +1,255 @@
+version = 1
+max_concurrency = 5
+
+# tool ピンの無いワークフロー / リポジトリの既定。未設定だと builtin の "claude"
+# に落ち、[tools.claude-opus].env_file が tool_env のキーと一致せず env が届かない。
+default_tool = "claude-opus"
+
+# ---------------------------------------------------------------------------
+# AI ツールレジストリ
+# ---------------------------------------------------------------------------
+[tools.claude-opus]
+kind = "claude"
+command = "claude --model opus"
+env_file = "~/.claude/.env.tpl"
+
+# builtin の "opencode" を上書きし、明示 deny 以外の権限を自動承認させる。
+[tools.opencode]
+kind = "opencode"
+command = "opencode"
+env_file = "~/.config/opencode/.env.tpl"
+
+# ---------------------------------------------------------------------------
+# リポジトリ
+# ---------------------------------------------------------------------------
+[[repositories]]
+name = "docs"
+path = "/Users/tomoya-k31/Workspace/code/github/tomoya-k31/docs"
+summary = "Obsidian の知識 vault。読んだ記事のクリップ、用語集、日次ログ、学習メモ"
+project = "dev-board"
+
+[[repositories]]
+name = "totsuka"
+path = "/Users/tomoya-k31/Workspace/code/github/tomoya-k31/totsuka"
+summary = "totsuka 本体。タスク指示を検知して AI エージェントに流す Rust ワークスペース（Orchestrator + task_source / agent_ide プラグイン）と、ai-docs の知識バンドル"
+project = "dev-board"
+
+[[repositories]]
+name = "zenn-blog"
+path = "/Users/tomoya-k31/Workspace/code/github/tomoya-k31/zenn-blog"
+summary = "Zenn の記事と本の原稿。articles / books 配下の Markdown と、記事に貼る images。pnpm + zenn-cli で執筆・プレビューする"
+project = "dev-board"
+
+[[repositories]]
+name = "dotfiles"
+path = "/Users/tomoya-k31/Workspace/code/github/tomoya-k31/dotfiles"
+summary = "GNU Stow で管理する dotfiles。zsh / bash の設定、~/.config 配下、claude・opencode の設定、Makefile と scripts。XDG Base Directory 準拠"
+project = "dev-board"
+
+[[repositories]]
+name = "Infra.mac"
+path = "/Users/tomoya-k31/Workspace/code/github/tomoya-k31/Infra.mac"
+summary = "macOS 本体のセットアップを Ansible で管理する playbook（localhost-mac.yml と tasks / scripts）。Homebrew やシステム設定の構成管理"
+project = "dev-board"
+
+# ---------------------------------------------------------------------------
+# リポジトリ分類
+# ---------------------------------------------------------------------------
+
+# 判定専用モデル TypeSafe Jev を OpenRouter の Decisions API 経由で使う（#723）。
+# endpoint の既定は https://openrouter.ai/api/alpha/decisions（alpha）。
+# 今ある workflow はどれも分類器に到達しない。discord は trigger.repo で固定し、
+# github は issue のリポジトリを repo_hint として載せてくるので、どちらも
+# select_repo の手前で解決される。実際に呼ばれるのは、repo_hint を持たない
+# ソース（slack 等）を足したときだけ。
+# それまでは run 起動時の鍵の解決と 10 分おきの疎通確認だけが走る。
+[llm]
+api = "decisions"
+model = "~typesafe/jev-latest"
+api_key_ref = "op://Dev/Openrouter/api_key"
+
+# ---------------------------------------------------------------------------
+# プラグインのロスター（どれを動かすか。設定そのものは下のトップレベル表）
+# ---------------------------------------------------------------------------
+
+[plugins.discord]
+enabled = true
+kind = "task_source"
+
+[plugins.github]
+enabled = true
+kind = "task_source"
+
+[plugins.herdr]
+enabled = true
+kind = "agent_ide"
+
+# orca も agent_ide として常駐させる。ロスターに載せた時点で run 起動時に
+# 起動されるので、orca CLI が引けることが前提。
+[plugins.orca]
+enabled = true
+kind = "agent_ide"
+
+# ---------------------------------------------------------------------------
+# プラグイン設定
+# ---------------------------------------------------------------------------
+
+# チャンネル監視ソース。必須は bot_token / operator_user_id の 2 つだけで、
+# 残りは既定（api_url、source_name = "discord"、起動時バックフィル 100 件 / 24 時間）。
+[discord]
+bot_token = "op://Dev/Totsuka - private/discord_bot_token"
+# 誰の投稿がタスクを起こすかを決める値。全桁が数字（snowflake）であることが
+# 起動時に検査される。
+operator_user_id = "461570343862140948"
+
+# GitHub Projects (v2) の Status 列をタスクの入口にする。ボード自体はここでは
+# なくトップレベルの [[projects]] に書く（#554）。
+# token は gh の既存ログインから取る。スコープは 'project'（Projects v2 の
+# 読み書き）と 'repo'（issue 本文の取得）が要る。
+# status_field は既定の "Status" のままでよい（ボード側の列名と一致）。
+# in_progress_statuses は空のまま。"🤖 Spec" は design の on_start 先だが
+# どの trigger とも一致しないので除外指定は要らず、"🤖 Building" をここに
+# 書くと implement の trigger 自体が沈黙するので書いてはいけない。
+[github]
+token = "cmd:gh auth token"
+github_login = "tomoya-k31"
+
+# herdr のソケットは既定の解決先（~/.config/herdr/herdr.sock）にあるので、
+# socket_path も session も書かなくてよい。
+
+# orca_bin 以外は既定で足りる（request_timeout_secs、layout.shell = false、
+# identity.enabled = true）。
+# orca_bin: /usr/local/bin/orca は root 所有の 700 symlink で readlink できず、
+# orca 自身が "Unable to determine Orca.app path from symlink" で exit 1 になる。
+# アプリバンドル内の実体を直接指せば通る（アプリ更新はバンドル内更新なのでパスは不変）。
+[orca]
+orca_bin = "/Applications/Orca.app/Contents/Resources/bin/orca"
+
+# ---------------------------------------------------------------------------
+# worktree
+# ---------------------------------------------------------------------------
+
+# location は既定（~/.local/state/totsuka/worktrees/{repo_name}/{worktree_name}）の
+# ままにする。vault の中に worktree を作らないため、ここは動かさない。
+# cleanup の既定は "manual" で、worktree も pane もタスクごとに増え続けるので
+# 明示的に 7 日保持にしておく。未コミットの変更がある worktree は消えない。
+[worktree]
+cleanup = "keep_7d"
+plan_cleanup = "immediate"
+
+# ---------------------------------------------------------------------------
+# 完了検知（フック）
+# ---------------------------------------------------------------------------
+
+# 0.10.0 で [hooks].auth_token_ref は廃止された（書くと run が exit 4）。
+# Bearer トークンは run が生成して ${XDG_STATE_HOME}/totsuka/hook-token (0600) に
+# 保存するので、ここには何も書かなくてよい。
+
+# ---------------------------------------------------------------------------
+# ワークフロー
+# ---------------------------------------------------------------------------
+
+# 監視チャンネルへのトップレベル投稿がそのままタスクになる。
+# profile = "implement" は使わず mode / output / verification を書き下している。
+# profile と verification の併記は validate が拒否するので、完了確認を切るには
+# profile を捨てるしかない（これで LLM 判定と #440 の人間承認が両方消える）。
+# 代償: permissions ブロックを書くのは profile だけなので、defaultMode = "auto"
+# のピンも失う。implement は deny ルールを持たないので、失うのはモードだけ。
+[[projects]]
+name = "discord"
+source = "discord"
+
+# https://github.com/users/tomoya-k31/projects/6
+# owner_type は既定の "user"（URL が /users/ なので organization ではない）。
+[[projects]]
+name = "dev-board"
+source = "github"
+owner = "tomoya-k31"
+project_number = 6
+
+[[workflows]]
+name = "discord-clip"
+projects = ["discord"]
+agent = "herdr"
+tool = "opencode"
+mode = "implement"
+output = "source"
+verification = "none"
+timeout_secs = 1800
+# [worktree].cleanup（keep_7d）を上書きし、完了したら worktree と pane をすぐ消す。
+# 未コミット変更 / origin に無いコミットがあれば消さずに残る（作業は失われない）。
+cleanup = "immediate"
+initial_prompt = '''
+/discord-inbox
+
+以下の Discord メッセージを処理して。URL があれば clip、なければ glossary。
+同一ソース / 同一用語の既存ファイルがあれば新規作成せず追記し、差分が無ければ「変更なし」で止めて。
+'''
+# channel_name は改名検知のための照合用で、必須（値そのものの照合には channel を使う）。
+trigger = { channel = "1497870053285040138", channel_name = "clip", repo = "docs" }
+
+# --- dev-board（GitHub Projects）の 2 段構え。どちらも agent = "orca" ---------
+#
+# 人間のレビューを 1 回挟む。成果物はどちらもエージェントが自分で書く
+# （設計は gh issue comment、実装は PR）。github プラグインは publish しない
+# （#398）ので、profile 任せにして output は書かない。
+#
+# assignee = "@me" が無いと既定は ["@me", "@none"] で、未アサインのカードまで
+# 拾ってしまう。@ は必須（me / none / any はどれも実在しうるログイン名のため）。
+# status を併記しているのは github の要件でもある。これが無いと配送に lane
+# identity が付かず、そのカードは 1 回しか実行されない。
+
+# 🤖 Spec → (開始) → (完了) 🚧 Spec Review
+[[workflows]]
+name = "gh-spec"
+projects = ["dev-board"]
+agent = "orca"
+tool = "claude-opus"
+profile = "design"
+trigger = { status = "🤖 Spec", assignee = "@me" }
+on_success = { status = "🚧 Spec Review" }
+# 組み込みの design_instructions（PR のカードなら design_pr_instructions）が
+# 「issue / PR を読む → 設計 → gh issue comment で投稿 → URL を最終メッセージに
+# 含める → 元と同じ言語で書く」まで送ってくるので、ここはその上に重ねる「進め方」
+# だけを書く。initial_prompt は issue と PR で共通なので、どちらでも成り立つ文面にする。
+# initial_prompt では置換が起きず { はリテラルなので、issue 番号は書けない（書く必要もない）。
+initial_prompt = '''
+/mattpocock-skills:grilling
+
+Produce the detailed design for this task. The task is either an issue or an open pull request; the task instructions say which. For a pull request, the design covers only the additional changes it needs before it can be merged. Follow the steps in order.
+Conduct the interview in the language the issue or pull request is written in. A human is attending this pane and will answer your questions.
+
+## 1. Investigate first, on your own
+Read the code in this worktree, related issues and PRs (for a pull request, its diff and comments too), and the repository's conventions (CLAUDE.md / AGENTS.md / ADRs / glossary) until you understand the current state. Finding facts is your job: never ask the human anything you could look up yourself. The only things you put to the human are decisions.
+
+## 2. Grill (do not skip)
+Work the frontier of the design tree with the human, round by round.
+- Each round, ask every question that can be answered now, together
+- Number each question and attach your recommended answer
+- Wait for the human's answers before starting the next round
+- Repeat until the frontier is empty
+Do not finalize the design until the human explicitly confirms you have reached a shared understanding. Filling in an open question yourself and moving on counts as a failure.
+
+## 3. Turn what was agreed into the design comment
+Use these headings: Problem Statement / Solution / User Stories / Implementation Decisions / Testing Decisions / Out of Scope / Further Notes
+
+- User Stories: an extensive numbered list in the form "As a <actor>, I want <feature>, so that <benefit>". For a pull request, list only the stories the additional changes serve
+- Implementation Decisions: the modules to build or change and their boundaries, schema / API contracts, and architectural decisions. Do not include file paths or code snippets; they go stale quickly
+- Testing Decisions: which seams to test at, and which existing tests are prior art
+- For every decision made during the grilling, record not only the conclusion but why it was decided that way
+
+## Constraints
+- Do not modify any files. Edit / Write are denied in this session; the comment body is the entire deliverable.
+- `gh api` is denied. Post with `gh issue comment`.
+- Do not create branches, commit, or push.
+'''
+
+# 🤖 Building → (完了) 🚧 Code Review
+[[workflows]]
+name = "gh-build"
+projects = ["dev-board"]
+agent = "orca"
+tool = "claude-opus"
+profile = "implement"
+trigger = { status = "🤖 Building", assignee = "@me" }
+on_success = { status = "🚧 Code Review" }
