@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // OpenCode Go 契約。Go 対応モデルのうち最上位のもの
+  "model": "opencode-go/kimi-k3",
+
+  "update": "auto",
+
+  // Claude Code の PostToolUse (shfmt.sh) 相当。実行ファイルがあるものだけ動く
+  "formatter": true,
+
+  // ~/.claude/settings.json の permissions を移植。
+  // ベースポリシーはすでに「すべて許可」なので、allow リストは移さない。後に書いたルールが優先される
+  "permissions": [
+    // deny
+    { "action": "shell", "resource": "env", "effect": "deny" },
+    { "action": "shell", "resource": "rm -rf /*", "effect": "deny" },
+    { "action": "shell", "resource": "gh repo delete *", "effect": "deny" },
+    { "action": "shell", "resource": "chmod 777 *", "effect": "deny" },
+    { "action": "edit", "resource": "*.env", "effect": "deny" },
+    { "action": "edit", "resource": "*.env.local", "effect": "deny" },
+    { "action": "read", "resource": "~/.ssh/*", "effect": "deny" },
+    { "action": "read", "resource": "~/.aws/*", "effect": "deny" },
+    { "action": "read", "resource": "*.env", "effect": "deny" },
+    { "action": "read", "resource": "*.env.*", "effect": "deny" },
+    { "action": "read", "resource": "*.env.example", "effect": "allow" },
+    { "action": "read", "resource": "*.envrc", "effect": "deny" },
+    { "action": "read", "resource": "*/secrets/*", "effect": "deny" },
+    { "action": "read", "resource": "*/config/credentials.json", "effect": "deny" },
+
+    // ask
+    { "action": "shell", "resource": "brew install *", "effect": "ask" },
+    { "action": "shell", "resource": "git config *", "effect": "ask" },
+    { "action": "shell", "resource": "git push --force *", "effect": "ask" },
+    { "action": "shell", "resource": "git push -f *", "effect": "ask" }
+  ]
+}
