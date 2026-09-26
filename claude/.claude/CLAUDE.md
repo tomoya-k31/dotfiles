@@ -1,10 +1,12 @@
 # Interaction logging
 
-When presenting the user with a choice (yes/no, A/B, multi-option) — **always** use the `AskUserQuestion` tool instead of writing options as plain markdown text (e.g. "1. ... / 2. ...").
+When presenting the user with a choice (yes/no, A/B, multi-option) — **always** use the structured question tool instead of writing options as plain markdown text (e.g. "1. ... / 2. ..."):
+- Claude Code: `AskUserQuestion`
+- opencode: `question`
 
-**Why**: The `interaction-logger` plugin's hooks log `AskUserQuestion` questions and answers as structured JSONL (`ai_offered_options` + `user_selected_option`). Plain-text choices answered with a short reply ("2", "yes") leave the log with no context about what was chosen, making the audit trail unrecoverable.
+**Why**: In Claude Code, the `interaction-logger` plugin's hooks log `AskUserQuestion` questions and answers as structured JSONL (`ai_offered_options` + `user_selected_option`). Plain-text choices answered with a short reply ("2", "yes") leave the log with no context about what was chosen, making the audit trail unrecoverable. In opencode the same rule keeps the offered options and the answer explicit in the session.
 
-**How to apply**: Any time the response would contain enumerated options the user is expected to pick from, route it through `AskUserQuestion`. Free-form explanations and recommendations stay as text — only the *selection* itself must be structured.
+**How to apply**: Any time the response would contain enumerated options the user is expected to pick from, route it through the question tool above. Free-form explanations and recommendations stay as text — only the *selection* itself must be structured.
 
 
 # Shell / 環境前提（XDG・mise・Stow）
