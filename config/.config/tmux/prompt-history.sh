@@ -109,12 +109,88 @@ fzf_common_opts=(
   --color=preview-label:#b4befe
 )
 
+# Stage 1 の行を出力する。引数 $1 = fzf のクエリ。空白区切りの各語について
+# 「完全 cwd に含まれる」または「その cwd の user_prompt 本文に含まれる」
+# cwd だけに絞る（AND・大小無視）。fzf の change:reload から呼ばれる。
+stage1_lines() {
+  local where="" term t stage1_sql terms=()
+  read -ra terms <<<"${1:-}"
+  for term in ${terms[@]+"${terms[@]}"}; do
+    t=$(sql_esc "$term")
+    where+="
+  AND (contains(lower(cwd), lower('${t}'))
+       OR cwd IN (SELECT cwd FROM events WHERE event = 'user_prompt'
+                  AND contains(lower(prompt), lower('${t}'))))"
+  done
+  stage1_sql=$(
+    cat <<SQL
+SELECT
+    cwd,
+    COUNT(*) FILTER (WHERE event = 'user_prompt') AS prompts,
+    COUNT(DISTINCT session_id) AS sessions,
+    MAX(ts) AS last_active
+FROM events
+WHERE cwd IS NOT NULL${where}
+GROUP BY cwd
+ORDER BY last_active ASC;
+SQL
+  )
+  # 表示行は「整形済み1列 ＋ TAB ＋ 完全cwd」に。fzf は1列目のみ表示し、
+  # 選択時は2列目（隠し列）から完全 cwd を取り出す。
+  # 短縮ルール: $HOME を "~" に置換 → セグメント数 ≤ 2 はそのまま、それ以外は
+  # 末尾2セグメントだけ残して中間を "..." に圧縮（例: ~/a/b/c/d → ~/.../c/d）。
+  printf '%s\n' "$stage1_sql" | duck_json | jq -r --arg home "$HOME" '
+    def abbrev_cwd:
+      (if ($home | length) > 0 and (. == $home or startswith($home + "/"))
+         then "~" + .[$home | length :]
+         else . end) as $h
+      | ($h | split("/")) as $parts
+      | (if ($parts[0] // "") == "~" then "~" else "" end) as $prefix
+      | ($parts[1:]) as $segs
+      | if ($segs | length) <= 2 then $h
+        else $prefix + "/.../" + ($segs[-2:] | join("/"))
+        end;
+    .[] | [(.cwd | abbrev_cwd), (.prompts|tostring), (.sessions|tostring), .last_active, .cwd] | @tsv
+  ' | awk -F'\t' '
+    BEGIN {
+      hdr[1] = "cwd"; hdr[2] = "prompts"; hdr[3] = "sessions"; hdr[4] = "last_active"
+      for (i = 1; i <= 4; i++) w[i] = length(hdr[i])
+    }
+    # pass 1: 全行を保持しつつ列幅を測る（ヘッダ文字列も対象）
+    { rows[NR] = $0
+      for (i = 1; i <= 4; i++) {
+        L = length($i); if (L > w[i]) w[i] = L
+      }
+    }
+    END {
+      # ヘッダ行（fzf 側で --header-lines=1 として扱う）
+      printf "%-*s  %*s  %*s  %-*s\n", \
+        w[1], hdr[1], w[2], hdr[2], w[3], hdr[3], w[4], hdr[4]
+      # データ行: 1〜4列目を整形、5列目（完全cwd）は TAB 区切りで隠し保持
+      for (n = 1; n <= NR; n++) {
+        split(rows[n], f, "\t")
+        printf "%-*s  %*s  %*s  %-*s\t%s\n", \
+          w[1], f[1], w[2], f[2], w[3], f[3], w[4], f[4], f[5]
+      }
+    }'
+}
+
 # ────────────────────────────────────────────────────────────
 # fzf preview callbacks
 # ────────────────────────────────────────────────────────────
 case "${1:-}" in
+__stage1)
+  stage1_lines "${2:-}"
+  exit 0
+  ;;
 __preview_cwd)
   cwd_esc=$(sql_esc "${2:-}")
+  # クエリ ($3) があれば、各語を含むプロンプトだけを「最新5件」に出す。
+  kw_where=""
+  read -ra terms <<<"${3:-}"
+  for term in ${terms[@]+"${terms[@]}"}; do
+    kw_where+=" AND contains(lower(prompt), lower('$(sql_esc "$term")'))"
+  done
   sql=$(
     cat <<SQL
 SELECT
@@ -127,7 +203,7 @@ SELECT
         '• ' || regexp_replace(prompt, chr(10) || '|' || chr(13), ' ⏎ ', 'g'),
         chr(10) || chr(10))
      FROM (SELECT prompt FROM events
-           WHERE cwd = '${cwd_esc}' AND event = 'user_prompt'
+           WHERE cwd = '${cwd_esc}' AND event = 'user_prompt'${kw_where}
            ORDER BY ts DESC LIMIT 5)) AS recent
 FROM events
 WHERE cwd = '${cwd_esc}'
@@ -141,7 +217,7 @@ SQL
 **first:**    \(.first_ts)
 **last:**     \(.last_ts)
 
-### latest 5 prompts
+### latest 5 prompts'"$([[ -n $kw_where ]] && printf ' matching: %s' "$3")"'
 
 \(.recent // "_(none)_")"' | md_highlight
   exit 0
@@ -303,65 +379,17 @@ SQL
 fi
 
 # ────── Stage 1: cwd ──────
-stage1_sql=$(
-  cat <<'SQL'
-SELECT
-    cwd,
-    COUNT(*) FILTER (WHERE event = 'user_prompt') AS prompts,
-    COUNT(DISTINCT session_id) AS sessions,
-    MAX(ts) AS last_active
-FROM events
-WHERE cwd IS NOT NULL
-GROUP BY cwd
-ORDER BY last_active ASC;
-SQL
-)
-# 表示行は「整形済み1列 ＋ TAB ＋ 完全cwd」に。fzf は1列目のみ表示し、
-# 選択時は2列目（隠し列）から完全 cwd を取り出す。
-# 短縮ルール: $HOME を "~" に置換 → セグメント数 ≤ 2 はそのまま、それ以外は
-# 末尾2セグメントだけ残して中間を "..." に圧縮（例: ~/a/b/c/d → ~/.../c/d）。
-stage1_lines=$(printf '%s\n' "$stage1_sql" | duck_json | jq -r --arg home "$HOME" '
-  def abbrev_cwd:
-    (if ($home | length) > 0 and (. == $home or startswith($home + "/"))
-       then "~" + .[$home | length :]
-       else . end) as $h
-    | ($h | split("/")) as $parts
-    | (if ($parts[0] // "") == "~" then "~" else "" end) as $prefix
-    | ($parts[1:]) as $segs
-    | if ($segs | length) <= 2 then $h
-      else $prefix + "/.../" + ($segs[-2:] | join("/"))
-      end;
-  .[] | [(.cwd | abbrev_cwd), (.prompts|tostring), (.sessions|tostring), .last_active, .cwd] | @tsv
-' | awk -F'\t' '
-  BEGIN {
-    hdr[1] = "cwd"; hdr[2] = "prompts"; hdr[3] = "sessions"; hdr[4] = "last_active"
-    for (i = 1; i <= 4; i++) w[i] = length(hdr[i])
-  }
-  # pass 1: 全行を保持しつつ列幅を測る（ヘッダ文字列も対象）
-  { rows[NR] = $0
-    for (i = 1; i <= 4; i++) {
-      L = length($i); if (L > w[i]) w[i] = L
-    }
-  }
-  END {
-    # ヘッダ行（fzf 側で --header-lines=1 として扱う）
-    printf "%-*s  %*s  %*s  %-*s\n", \
-      w[1], hdr[1], w[2], hdr[2], w[3], hdr[3], w[4], hdr[4]
-    # データ行: 1〜4列目を整形、5列目（完全cwd）は TAB 区切りで隠し保持
-    for (n = 1; n <= NR; n++) {
-      split(rows[n], f, "\t")
-      printf "%-*s  %*s  %*s  %-*s\t%s\n", \
-        w[1], f[1], w[2], f[2], w[3], f[3], w[4], f[4], f[5]
-    }
-  }')
-sel=$(printf '%s\n' "$stage1_lines" | fzf \
+# クエリは fzf の fuzzy ではなく SQL で絞り込む（完全 cwd ＋ プロンプト本文が対象）。
+sel=$(stage1_lines "" | fzf \
   "${fzf_common_opts[@]}" \
   --border-label=' ✨ Prompt History · 1/3 cwd ' \
   --delimiter="$TAB" \
   --with-nth=1 \
   --header-lines=1 \
-  --header='Esc to abort' \
-  --preview="\"$PHIST_SCRIPT\" __preview_cwd {2}" || true)
+  --header='type = filter by repo path / prompt keyword · Esc to abort' \
+  --disabled \
+  --bind="change:reload(\"$PHIST_SCRIPT\" __stage1 {q})" \
+  --preview="\"$PHIST_SCRIPT\" __preview_cwd {2} {q}" || true)
 [[ -z "$sel" ]] && exit 0
 CWD=$(printf '%s' "$sel" | awk -F"$TAB" '{print $2}')
 cwd_esc=$(sql_esc "$CWD")
