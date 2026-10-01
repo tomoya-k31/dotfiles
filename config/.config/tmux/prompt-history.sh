@@ -13,14 +13,15 @@
 # or from a tmux popup (see tmux.conf bind-key H).
 #
 # Pass "search" as the first arg to skip the cwd/session drill-down and
-# instead fuzzy-search every user_prompt across all cwd/session at once
+# instead keyword-search every user_prompt across all cwd/session at once
 # (see tmux.conf bind-key K):
 #   $ ~/.config/tmux/prompt-history.sh search
 #
 # Requirements: duckdb, fzf, jq, pbcopy (all available on the user's mac).
 #
 # Internal subcommands (used by fzf --preview):
-#   __preview_cwd <cwd>
+#   __stage1 <query> / __search <query>         (used by fzf change:reload)
+#   __preview_cwd <cwd> [query]
 #   __preview_session <session_id>
 #   __preview_prompt <ts>                       (reads PHIST_SEL_SESSION from env)
 #   __preview_prompt_global <session_id> <ts>   (used by the "search" mode)
@@ -175,12 +176,55 @@ SQL
     }'
 }
 
+# Search モードの行を出力する。引数 $1 = fzf のクエリ。空白区切りの各語が
+# プロンプト本文または完全 cwd に含まれる user_prompt だけに絞る（AND・大小無視）。
+# fzf は非表示列を検索しないため、全文検索は SQL 側で行う。
+search_lines() {
+  local where="" term t search_sql terms=()
+  read -ra terms <<<"${1:-}"
+  for term in ${terms[@]+"${terms[@]}"}; do
+    t=$(sql_esc "$term")
+    where+="
+  AND (contains(lower(prompt), lower('${t}'))
+       OR contains(lower(coalesce(cwd, '')), lower('${t}')))"
+  done
+  search_sql=$(
+    cat <<SQL
+SELECT
+    ts,
+    cwd,
+    session_id,
+    LEFT(regexp_replace(prompt, chr(10) || '|' || chr(13), ' ⏎ ', 'g'), 200) AS preview
+FROM events
+WHERE event = 'user_prompt'${where}
+ORDER BY ts DESC;
+SQL
+  )
+  printf '%s\n' "$search_sql" | duck_json | jq -r --arg home "$HOME" '
+    def abbrev_cwd:
+      (if ($home | length) > 0 and (. == $home or startswith($home + "/"))
+         then "~" + .[$home | length :]
+         else . end) as $h
+      | ($h | split("/")) as $parts
+      | (if ($parts[0] // "") == "~" then "~" else "" end) as $prefix
+      | ($parts[1:]) as $segs
+      | if ($segs | length) <= 2 then $h
+        else $prefix + "/.../" + ($segs[-2:] | join("/"))
+        end;
+    .[] | [.ts, ((.cwd // "") | abbrev_cwd), (.session_id[0:8]), .preview, .session_id] | @tsv
+  '
+}
+
 # ────────────────────────────────────────────────────────────
 # fzf preview callbacks
 # ────────────────────────────────────────────────────────────
 case "${1:-}" in
 __stage1)
   stage1_lines "${2:-}"
+  exit 0
+  ;;
+__search)
+  search_lines "${2:-}"
   exit 0
   ;;
 __preview_cwd)
@@ -334,46 +378,21 @@ TAB=$'\t'
 
 # ────── Search mode: keyword search across all cwd/session ──────
 # `prompt-history.sh search` skips the cwd/session drill-down entirely and
-# lists every user_prompt at once (newest first). fzf's fuzzy filter matches
-# against the whole delimited line, so it searches the full untruncated
-# prompt text (hidden column) even though only a 200-char preview is shown.
+# lists every user_prompt at once (newest first). The query is matched as
+# substrings against the full prompt text / cwd in SQL (see search_lines).
 if [[ "${1:-}" == "search" ]]; then
-  search_sql=$(
-    cat <<'SQL'
-SELECT
-    ts,
-    cwd,
-    session_id,
-    LEFT(regexp_replace(prompt, chr(10) || '|' || chr(13), ' ⏎ ', 'g'), 200) AS preview,
-    regexp_replace(prompt, chr(10) || '|' || chr(13), ' ⏎ ', 'g') AS full_line
-FROM events
-WHERE event = 'user_prompt'
-ORDER BY ts DESC;
-SQL
-  )
-  search_lines=$(printf '%s\n' "$search_sql" | duck_json | jq -r --arg home "$HOME" '
-    def abbrev_cwd:
-      (if ($home | length) > 0 and (. == $home or startswith($home + "/"))
-         then "~" + .[$home | length :]
-         else . end) as $h
-      | ($h | split("/")) as $parts
-      | (if ($parts[0] // "") == "~" then "~" else "" end) as $prefix
-      | ($parts[1:]) as $segs
-      | if ($segs | length) <= 2 then $h
-        else $prefix + "/.../" + ($segs[-2:] | join("/"))
-        end;
-    .[] | [.ts, ((.cwd // "") | abbrev_cwd), (.session_id[0:8]), .preview, .full_line, .session_id] | @tsv
-  ')
-  sel=$(printf '%s\n' "$search_lines" | fzf \
+  sel=$(search_lines "" | fzf \
     "${fzf_common_opts[@]}" \
     --border-label=' ✨ Prompt History · keyword search (all cwd / session) ' \
     --delimiter="$TAB" \
     --with-nth=1,2,3,4 \
-    --header='started │ cwd │ session │ preview — fuzzy-matches full prompt text · Enter = copy' \
-    --preview="\"$PHIST_SCRIPT\" __preview_prompt_global {6} {1}" || true)
+    --header='started │ cwd │ session │ preview — type = filter by prompt keyword / repo path · Enter = copy' \
+    --disabled \
+    --bind="change:reload(\"$PHIST_SCRIPT\" __search {q})" \
+    --preview="\"$PHIST_SCRIPT\" __preview_prompt_global {5} {1}" || true)
   [[ -z "$sel" ]] && exit 0
   TS=$(printf '%s' "$sel" | awk -F"$TAB" '{print $1}')
-  SESSION=$(printf '%s' "$sel" | awk -F"$TAB" '{print $6}')
+  SESSION=$(printf '%s' "$sel" | awk -F"$TAB" '{print $5}')
   copy_prompt_by_session_ts "$SESSION" "$TS"
   exit 0
 fi
