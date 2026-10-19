@@ -12,9 +12,11 @@ arguments: [board]
 ボードは `$board`（最初の引数）。残りが内容。内容が空なら直前の会話から拾う。
 
 ボードの定義（GitHub Project か Notion データベースか、起票先 repo、Status と label）は
-`~/.claude/skills/x-issue-add/references/$board.md` にある。ボードの指定が無い、またはファイルが
-無いときは `references/` のファイル名を見せて聞く。**勝手に別のボードへ起票しない** — 他チームの
-ボードに入った issue は、消す手間も気まずさも大きい。
+`~/.claude/skills/x-issue-add/references/$board.md` にある。ボードの指定が無い、または最初の引数に
+対応するファイルが無い（ボード名ではなく内容から書き始めた場合も含む）ときは、`references/*.md`
+（`_template.md` を除く）のファイル名を選択肢にして `AskUserQuestion` で聞く。各選択肢の説明には
+そのファイルの 1 行目の見出しを使う。そのとき最初の引数は内容の一部として扱う。
+**勝手に別のボードへ起票しない** — 他チームのボードに入った issue は、消す手間も気まずさも大きい。
 
 ボードの候補: `private`（個人用、GitHub）、`personal`（仕事用・個人）、`light`（仕事用・チーム、Notion）
 など。ファイルが無いボードはこの PC では未設定。
@@ -73,7 +75,9 @@ PR の URL を渡されたときは 1・2 を飛ばし、表に assignee があ�
 
 1. 起票先 repo を決め、issue template を見る（下の「issue template」）。
    repo に `.claude/rules/` があれば本文の書き方はそれに従う。
-2. `gh issue create` で起票する。表の label がその repo に無ければ付けずに起票する（label は作らない）。
+2. `gh issue create` で起票する。表の label がその repo に無ければ（`gh label list --repo <repo> --limit 1000 --json name --jq '.[].name' | grep -qx <label>`
+   で完全一致を確認。`--search` は部分一致なので使わない）、作るかを `AskUserQuestion` で聞く。yes なら `gh label create <label> --repo <repo>` で作って
+   付ける。no なら付けずに起票する。聞かずに作らない — 他人の repo に label が増える。
 3. `~/.claude/skills/x-issue-add/scripts/add-to-gh-project.sh` でボードに載せる。item-add・Status
    設定・読み返しをまとめてやり、期待した Status が読めなければ非 0 で終わる。
 

@@ -1,8 +1,8 @@
 # <ボード名> — <用途>
 
 <!-- このファイルを references/<ボード名>.md に写して埋める。private.md が記入例。
-     private.md と _template.md 以外は .gitignore 済み（dotfiles は public）。
-     足したら dotfiles で stow を掛け直す（--no-folding なのでファイル単位の symlink が要る）。 -->
+     private.md と _template.md 以外は会社のボードなので dotfiles（public）には置かない。
+     ~/.claude/skills/x-issue-add/references/<ボード名>.md に実ファイルで直接作る（stow しない）。 -->
 
 ## GitHub Project の場合
 
