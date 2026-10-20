@@ -1,6 +1,6 @@
 ---
 name: x-issue-add
-description: "アイデア・不具合・やるべき作業、または既にある PR（renovate など）を、GitHub Project か Notion のタスクとして書き留める。/x-issue-add <ボード> <内容 or PR URL>。ボードは private / personal / light / etc。"
+description: "アイデア・不具合・やるべき作業、または既にある PR（renovate など）を、GitHub Project か Notion のタスクとして書き留める。/x-issue-add <ボード> <内容 or PR URL>。ボードは private / personal / mikasa-light / etc。"
 arguments: [board]
 ---
 
@@ -18,7 +18,7 @@ arguments: [board]
 そのファイルの 1 行目の見出しを使う。そのとき最初の引数は内容の一部として扱う。
 **勝手に別のボードへ起票しない** — 他チームのボードに入った issue は、消す手間も気まずさも大きい。
 
-ボードの候補: `private`（個人用、GitHub）、`personal`（仕事用・個人）、`light`（仕事用・チーム、Notion）
+ボードの候補: `private`（個人用、GitHub）、`personal`（仕事用・個人、GitHub）、`mikasa-light`（仕事用・チーム、GitHub）
 など。ファイルが無いボードはこの PC では未設定。
 
 ## 気軽さを守る
