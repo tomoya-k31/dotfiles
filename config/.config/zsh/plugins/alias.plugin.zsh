@@ -29,6 +29,7 @@ alias cc='op run --no-masking --env-file=$HOME/.claude/.env.tpl -- claude'
 alias cc-yolo='cc --enable-auto-mode'
 alias cc-discord='cc --channels plugin:discord@claude-plugins-official --dangerously-skip-permissions'
 alias claude-yolo='claude --enable-auto-mode'
+alias cc-alt='CLAUDE_CONFIG_DIR="$HOME/.claude-alt" claude --enable-auto-mode'
 
 # oc-go-cc
 cc-go() {
