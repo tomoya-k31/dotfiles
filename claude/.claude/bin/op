@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# op wrapper for AI agents (put on PATH only when CLAUDECODE is set, see ~/.zshenv).
+# Agent shells have no TTY, so the 1Password app integration asks for a new
+# authorization on almost every call. Use the read-only service account token
+# from Keychain instead. It goes only into op's own env, never the agent shell.
+# If the Keychain item is missing, this falls back to the normal app prompt.
+if [[ -z "${OP_SERVICE_ACCOUNT_TOKEN:-}" ]] &&
+	tok=$(security find-generic-password -s op-sa-agent -w 2>/dev/null); then
+	export OP_SERVICE_ACCOUNT_TOKEN="$tok"
+fi
+exec /opt/homebrew/bin/op "$@"
