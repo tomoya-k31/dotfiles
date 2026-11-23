@@ -42,7 +42,7 @@ Encrypted files (`.encrypted` suffix) and decrypted sources are both in `.gitign
 - **Locale**: `en_US.UTF-8` (Japanese input supported)
 - **Plugin manager**: Sheldon (`config/.config/sheldon/plugins.toml`). Most plugins use deferred loading via `zsh-defer`.
 - **Custom plugins**: `config/.config/zsh/plugins/` — loaded via Sheldon's `local` plugin entry.
-- **Key bindings**: `Ctrl+F,Ctrl+F` = fzf cd widget, `Option+W` = git worktree manager (requires `git-gtr` + `gum`).
+- **Key bindings**: `Ctrl+F,Ctrl+F` = fzf cd widget.
 - **Aliases**: `cc`/`cc-yolo`/`cc-discord` (Claude CLI), `claude-yolo`, `vi`/`vim` → `nvim`, `ls`/`la`/`ll` → `eza`.
 
 ## Tool versions
@@ -58,7 +58,6 @@ Managed by mise (`config/.config/mise/config.toml`): Go, Java, Node, Python, Rub
 | `config/.config/` | All XDG config files (zshrc, git, tmux, starship, sheldon, mise, editors, etc.) |
 | `claude/.claude/` | Claude Code settings (encrypted) |
 | `scripts/` | Encryption, sync, and utility scripts |
-| `.worktrees/` | Git worktree runner directory (configured in git config) |
 
 ## Adding new tools or config
 
