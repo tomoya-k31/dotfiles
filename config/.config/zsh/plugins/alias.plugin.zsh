@@ -25,7 +25,9 @@ export BAT_STYLE="numbers,changes,header"
 alias https='http --default-scheme=https'
 
 # ai tools
-alias cc='op run --no-masking --env-file=$HOME/.claude/.env.tpl -- claude'
+# Read .env.tpl (Dev vault only) via the agent op wrapper (service account token from
+# Keychain, falls back to the app prompt if missing); the token is not passed to claude.
+alias cc='~/.claude/bin/op run --no-masking --env-file=$HOME/.claude/.env.tpl -- env -u OP_SERVICE_ACCOUNT_TOKEN claude'
 alias cc-yolo='cc --enable-auto-mode'
 alias cc-discord='cc --channels plugin:discord@claude-plugins-official --dangerously-skip-permissions'
 alias claude-yolo='claude --enable-auto-mode'

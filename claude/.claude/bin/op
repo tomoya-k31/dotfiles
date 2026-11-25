@@ -5,7 +5,7 @@
 # from Keychain instead. It goes only into op's own env, never the agent shell.
 # If the Keychain item is missing, this falls back to the normal app prompt.
 if [[ -z "${OP_SERVICE_ACCOUNT_TOKEN:-}" ]] &&
-	tok=$(security find-generic-password -s op-sa-agent -w 2>/dev/null); then
+	tok=$(security find-generic-password -s op-sa-agent -w 2>/dev/null) && [[ -n "$tok" ]]; then
 	export OP_SERVICE_ACCOUNT_TOKEN="$tok"
 fi
 exec /opt/homebrew/bin/op "$@"
